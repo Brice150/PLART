@@ -3,9 +3,12 @@
     --valid: #0fff00;
     --primary: #003785;
     --secondary:#1779ff;
-    --nav: #11101d;
-    --background: #000000;
-    --scrollbar: #ffffff;
+    --primarybis: #11101d;
+    --secondarybis: #1d1b31;
+    --nav: #003785;
+    --background: #ffffff;
+    --scrollbar: #1779ff;
+    --header: #003785;
 }
 
 body { 

@@ -1,7 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { ConnectService } from 'src/app/services/connect.service';
@@ -13,14 +12,10 @@ import { ConnectService } from 'src/app/services/connect.service';
 })
 export class AppComponentLogin implements OnInit{
   loginForm!: FormGroup;
-  errorMessage: string="Invalid Credentials";
-  invalidLogin: boolean = false;
-  loginSuccess: boolean = false;
   
   constructor(
     private fb: FormBuilder, 
     private connectService: ConnectService,
-    private snackBar: MatSnackBar,
     private router: Router) {}
 
     ngOnInit() {
@@ -33,7 +28,7 @@ export class AppComponentLogin implements OnInit{
     loginUser(user: User) {
       this.connectService.login(user).subscribe(
         (response: any) => {
-          this.router.navigate(["/home"]);
+          this.router.navigate(["/user"]);
         },
         (error: HttpErrorResponse) => {
           alert(error.message);

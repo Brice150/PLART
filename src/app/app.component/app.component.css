@@ -32,6 +32,7 @@
   
   .sidebar {
     position: fixed;
+    z-index: 10;
     top: 0;
     left: 0;
     height: 100%;
@@ -110,7 +111,7 @@
   
   .sidebar ul li .active_link {
     background: white;
-    color: #1d1b31;
+    color: black;
   }
   
   .sidebar ul li a {
@@ -124,7 +125,7 @@
   }
   
   .sidebar ul li a:hover {
-    color: var(--nav);
+    color: black;
     background: white;
   }
   
@@ -164,7 +165,7 @@
   }
   
   .sidebar.active .profile_content .profile {
-    background: #1d1b31;
+    background: var(--secondary);
   }
   
   .profile_content .profile .profile_details {
@@ -201,7 +202,7 @@
   }
   
   .profile .profile_details .job span{
-    color: var(--secondary);
+    color: black;
   }
   
   .contents {
@@ -210,9 +211,4 @@
     width: calc(100% - 78px);
     left: 78px;
     transition: all 0.5s ease;
-  }
-  
-  .sidebar.active ~ .contents {
-    width: calc(100% - 240px);
-    left: 240px;
   }

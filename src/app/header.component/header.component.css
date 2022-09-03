@@ -1,6 +1,6 @@
 header {
     display: flex;
-    background-color: #003785;
+    background-color: var(--header);
     align-items: center;
     justify-content: space-between;
     height: 50px;
@@ -15,7 +15,7 @@ header .title-section {
 
 header .title-section span {
     color: white;
-    font-size: 2vw;
+    font-size: 20px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
 }
