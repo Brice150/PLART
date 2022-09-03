@@ -1,5 +1,5 @@
 <div align="center">
-<img height="130px" width="130px" src="./src/assets/images/home/Logo.png">
+<img height="130px" width="130px" src="./src/assets/images/Logo.png">
 </div>
   
 # PLART, a 3D printing web application
