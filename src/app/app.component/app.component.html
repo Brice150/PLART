@@ -50,7 +50,7 @@
           <span class="links_name">Messages</span>
         </a>
       </li>
-      <li *ngIf="isConnected">
+      <li *ngIf="isConnected && isAdmin">
         <a id="admin" title="admin" routerLink="/admin" routerLinkActive="active_link">
           <i class='bx bxs-cog'></i>
           <span class="links_name">Admin</span>

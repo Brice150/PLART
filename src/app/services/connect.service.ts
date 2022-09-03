@@ -10,13 +10,15 @@ export class ConnectService {
     constructor(private http: HttpClient) {}
 
     public register(user: User): any {
-        return this.http.post(`${this.apiServerUrl}/registration`, user, {responseType: 'text'});
+        return this.http.post(`${this.apiServerUrl}/registration`, user, 
+        { withCredentials: true, responseType: 'text' });
     }
 
     public login(user: User){
         const headers = new HttpHeaders({ Authorization: 'Basic ' 
         + window.btoa(user.email + ":" + user.password)});
-        return this.http.get(`${this.apiServerUrl}/login`, {headers, responseType: 'text'});
+        return this.http.get(`${this.apiServerUrl}/login`,
+        { withCredentials: true, headers, responseType: 'text' });
     }
 
 }
