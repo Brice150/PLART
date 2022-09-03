@@ -2,4 +2,5 @@
     <div class="title-section">
         <span>{{title}}</span>
     </div>
+    <a *ngIf="isConnected" class="logout" title="logout" (click)="logout()"><i class='bx bx-log-out'></i></a>
 </header>

@@ -28,7 +28,11 @@ export class AppComponentLogin implements OnInit{
     loginUser(user: User) {
       this.connectService.login(user).subscribe(
         (response: any) => {
-          this.router.navigate(["/user"]);
+          localStorage.setItem('loggedInUserEmail', JSON.stringify(user.email));
+          this.router.navigate(['/user'])
+          .then(() => {
+            window.location.reload();
+          });
         },
         (error: HttpErrorResponse) => {
           alert(error.message);

@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AppComponentConnect {
   imagePath: string = environment.imagePath;
-  isRegistering: boolean = true; 
+  isRegistering: boolean = false; 
 
   onRegister() {
     this.isRegistering = true;

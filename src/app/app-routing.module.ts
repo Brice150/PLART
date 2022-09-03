@@ -18,6 +18,7 @@ const routes: Routes = [
   {path: 'messages', component: AppComponentMessages},
   {path: 'admin', component: AppComponentAdmin},
   {path: 'connect', component: AppComponentConnect},
+  {path: 'logout', component: AppComponentConnect},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
 ];
 
