@@ -1,0 +1,21 @@
+header {
+    display: flex;
+    background-color: #003785;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+header .title-section {
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+}
+
+header .title-section span {
+    color: white;
+    font-size: 2vw;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Boxicons CDN Link -->
+  <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>Main Page</title>
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="logo_content">
+      <div class="logo">
+        <span class="img" style="background: url({{imagePath}}/Logo.png) center/cover;"></span>
+        <div class="logo_name">PLART</div>
+      </div>
+      <i class='bx bx-menu' title="menu" id="btn"></i>
+    </div>
+    <ul class="nav_list">
+      <li>
+        <a id="home" title="home" routerLink="/home" routerLinkActive="active_link">
+          <i class='bx bx-home'></i>
+          <span class="links_name">Home</span>
+        </a>
+      </li>
+      <li>
+        <a id="objects" title="objects" routerLink="/objects" routerLinkActive="active_link">
+          <i class='bx bx-cube-alt'></i>
+          <span class="links_name">Objects</span>
+        </a>
+      </li>
+      <li>
+        <a id="user" title="user" routerLink="/user" routerLinkActive="active_link">
+          <i class='bx bxs-user' ></i>
+          <span class="links_name">User</span>
+        </a>
+      </li>
+      <li>
+        <a id="messages" title="messages" routerLink="/messages" routerLinkActive="active_link">
+          <i class='bx bxs-chat'></i>
+          <span class="links_name">Messages</span>
+        </a>
+      </li>
+      <li>
+        <a id="admin" title="admin" routerLink="/admin" routerLinkActive="active_link">
+          <i class='bx bxs-cog'></i>
+          <span class="links_name">Admin</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="profile_content">
+      <div class="profile">
+        <div class="profile_details">
+          <span class="img" style="background: url({{imagePath}}Photo_CV.jpg) center/cover;"></span>
+          <div class="name_job">
+            <div class="name">Brice Lecomte</div>
+            <div class="job">Web Developer <span>& 3D Printer</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <span class="contents">
+    <router-outlet></router-outlet>
+  </span>
+
+</body>
+</html>

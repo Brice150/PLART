@@ -1,0 +1,87 @@
+.user-form {
+    width: 80%;
+    margin: auto;
+    padding: 0 10px;
+    overflow: hidden;
+}
+
+.user-form span {
+    color: var(--invalid);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.user-form-text {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 16px 0;
+    border: 0;
+    padding: 20px 40px;
+    background-color: aliceblue;
+    outline: none;
+    border-radius: 10px;
+    transition: 0.5s;
+}
+
+::placeholder {
+    color: black;
+    font-size: 1em;
+}
+
+.user-form-text:focus.ng-valid {
+    box-shadow: 0 0 10px 4px var(--valid);
+}
+
+.user-form-text:focus.ng-invalid {
+    box-shadow: 0 0 10px 4px var(--invalid);
+}
+
+textarea.user-form-text {
+    resize: none;
+    height: 100px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.user-form .button-container .validButton {
+    text-decoration: none;
+    background: aliceblue;
+    color: var(--secondary);
+    padding: 15px 30px;
+    border: 2px solid var(--valid);
+    margin-top: 30px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 0.4em;
+    transition: 0.5s;
+}
+
+.user-form .button-container .invalidButton {
+    text-decoration: none;
+    background: aliceblue;
+    color: var(--secondary);
+    padding: 15px 30px;
+    border: 2px solid var(--invalid);
+    margin-top: 30px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 0.4em;
+    transition: 0.5s;
+}
+
+.user-form .button-container .validButton:hover {
+    background-color: var(--valid);
+    box-shadow: 0 0 5px var(--valid),
+    0 0 25px var(--valid),
+    0 0 50px var(--valid),
+    0 0 100px var(--valid);
+    cursor: pointer;
+}

@@ -1,0 +1,18 @@
+<div class="main-container">
+    <div class="title">
+        <img [src]="imagePath+'logo.png'" alt="Logo">
+        <h1>Music And <span>Me</span></h1>
+    </div>
+    <div class="container">
+        <div class="content">
+            <div class="btn-container">
+                <a *ngIf="isRegistering" (click)="onRegister()" title="register" class="active">Register</a>
+                <a *ngIf="!isRegistering" (click)="onRegister()" title="register" class="unactive">Register</a>
+                <a *ngIf="isRegistering" (click)="onLogin()" title="login" class="unactive">Login</a>
+                <a *ngIf="!isRegistering" (click)="onLogin()" title="login" class="active">Login</a>
+            </div>
+            <app-login *ngIf="!isRegistering"></app-login>
+            <app-register *ngIf="isRegistering"></app-register>
+        </div>
+    </div>
+</div>

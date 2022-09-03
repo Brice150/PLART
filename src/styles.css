@@ -1,0 +1,16 @@
+:root {
+    --invalid: #ff0000;
+    --valid: #0fff00;
+    --primary: #003785;
+    --secondary:#1779ff;
+    --nav: #11101d;
+    --background: #000000;
+    --scrollbar: #ffffff;
+}
+
+body { 
+    margin: 0; 
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
