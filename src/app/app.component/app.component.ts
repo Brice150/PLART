@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   }
 
   getUserRole(email: string) {
-    this.userService.findUser(email).subscribe(
+    this.userService.findUserByEmail(email).subscribe(
       (response: User) => {
         if (response.userRole === "ROLE_ADMIN") {
           this.isAdmin = true;

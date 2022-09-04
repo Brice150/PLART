@@ -15,7 +15,8 @@ import java.util.UUID;
 @Service
 public class UserService implements UserDetailsService {
 
-    private final static String USER_NOT_FOUND_MSG = "user with email %s not found";
+    private final static String USER_EMAIL_NOT_FOUND_MSG = "user with email %s not found";
+  private final static String USER_ID_NOT_FOUND_MSG = "user with id %s not found";
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
@@ -30,7 +31,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
+                        new UsernameNotFoundException(String.format(USER_EMAIL_NOT_FOUND_MSG, email)));
     }
 
     public String signUpUser(User user) {
@@ -76,7 +77,12 @@ public class UserService implements UserDetailsService {
 
     public User findUserByEmail(String email) {
       return userRepository.findByEmail(email)
-        .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
+        .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_EMAIL_NOT_FOUND_MSG, email)));
+    }
+
+    public User findUserById(Long id) {
+      return userRepository.findById(id)
+        .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_ID_NOT_FOUND_MSG, id)));
     }
 
     public void deleteUserByEmail(String email) {

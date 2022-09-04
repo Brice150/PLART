@@ -5,8 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping()
 public class UserController {
@@ -23,17 +21,17 @@ public class UserController {
     return "logged in successfully";
   }
 
-  @GetMapping("/user/all")
-  @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-  public ResponseEntity<List<User>> getAllUsers() {
-    List<User> users = userService.findAllUsers();
-    return new ResponseEntity<>(users, HttpStatus.OK);
-  }
-
-  @GetMapping("/user/find/{email}")
+  @GetMapping("/user/find/email/{email}")
   @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
   public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email) {
     User user = userService.findUserByEmail(email);
+    return new ResponseEntity<>(user, HttpStatus.OK);
+  }
+
+  @GetMapping("/user/find/id/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+  public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
+    User user = userService.findUserById(id);
     return new ResponseEntity<>(user, HttpStatus.OK);
   }
 
@@ -44,10 +42,10 @@ public class UserController {
     return new ResponseEntity<>(updateUser, HttpStatus.OK);
   }
 
-  @DeleteMapping("/user/delete/{email}")
+  @DeleteMapping("/user/delete")
   @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-  public ResponseEntity<?> deleteUser(@PathVariable("email") String email) {
-    userService.deleteUserByEmail(email);
+  public ResponseEntity<?> deleteUser(@RequestBody User user) {
+    userService.deleteUserByEmail(user.getEmail());
     return new ResponseEntity<>(HttpStatus.OK);
   }
 }

@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule }from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     ReactiveFormsModule,
     HttpClientModule,
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    NgxUsefulSwiperModule
   ],
   declarations: [AppComponent, routingComponents],
   bootstrap: [AppComponent]

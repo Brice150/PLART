@@ -9,7 +9,9 @@ import { AppComponentHeader } from './header.component/header.component';
 import { AppComponentHome } from './home.component/home.component';
 import { AppComponentMessages } from './messages.component/messages.component';
 import { AppComponentObjects } from './objects.component/objects.component';
+import { AppComponentSlider } from './home.component/slider.component/slider.component';
 import { AppComponentUser } from './user.component/user.component';
+import { AppComponentCards } from './objects.component/cards.component/cards.component';
 
 const routes: Routes = [
   {path: 'home', component: AppComponentHome},
@@ -42,4 +44,6 @@ export const routingComponents = [
   AppComponentObjects,
   AppComponentUser,
   AppComponentMessages,
-  AppComponentAdmin]
+  AppComponentAdmin,
+  AppComponentSlider,
+  AppComponentCards]

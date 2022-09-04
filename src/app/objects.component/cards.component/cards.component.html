@@ -1,0 +1,14 @@
+<div class="container">
+    <div *ngFor="let object of objects" class="card-container">
+        <div class="card">
+            <div class="front-content">
+                <img [src]="imagePath+object?.image" [alt]="object?.name">
+                <h3>{{object?.name}}</h3>
+            </div>
+            <div class="back-content">
+                <h3>{{object?.nickname}}</h3>
+                <p class="text-back">{{object?.description}}</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -34,8 +34,7 @@ public class RegistrationService {
 
         String token = userService.signUpUser(
                 new User(
-                        request.getFirstName(),
-                        request.getLastName(),
+                        request.getNickname(),
                         request.getEmail(),
                         request.getPassword(),
                         UserRole.ROLE_USER
@@ -46,7 +45,7 @@ public class RegistrationService {
         String link = "http://localhost:5000/registration/confirm?token=" + token;
         emailSender.send(
                 request.getEmail(),
-                buildEmail(request.getFirstName(), link));
+                buildEmail(request.getNickname(), link));
 
         return token;
     }
@@ -70,7 +69,7 @@ public class RegistrationService {
 
         confirmationTokenService.setConfirmedAt(token);
         userService.enableUser(
-                confirmationToken.getUser().getEmail());
+                confirmationToken.getFkUserToken().getEmail());
         return "Email successfully confirmed !";
     }
 

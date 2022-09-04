@@ -1,24 +1,18 @@
 package com.packages.backend.registration;
 
 public class RegistrationRequest {
-    private final String firstName;
-    private final String lastName;
+    private final String nickname;
     private final String email;
     private final String password;
 
-    public RegistrationRequest(String firstName, String lastName, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public RegistrationRequest(String nickname, String email, String password) {
+        this.nickname = nickname;
         this.email = email;
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
+    public String getNickname() {
+        return nickname;
     }
 
     public String getEmail() {
@@ -32,8 +26,7 @@ public class RegistrationRequest {
     @Override
     public String toString() {
         return "RegistrationRequest{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                "nickname='" + nickname + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';

@@ -1,12 +1,8 @@
 <form *ngIf="!onConfirmEmail" class="user-form" [formGroup]="registerForm" (ngSubmit)="registerUser(registerForm.value)">
-  <input class="user-form-text" placeholder="First Name" formControlName="firstName">
-  <span *ngIf="registerForm.get('firstName')!.hasError('required') && registerForm.get('firstName')!.touched">First Name is required</span>
-  <span *ngIf="registerForm.get('firstName')!.hasError('maxlength')">First Name is too long</span>
-  <span *ngIf="registerForm.get('firstName')!.hasError('minlength')">First Name is too short</span>
-  <input class="user-form-text" placeholder="Last Name" formControlName="lastName">
-  <span *ngIf="registerForm.get('lastName')!.hasError('required') && registerForm.get('lastName')!.touched">Name is required</span>
-  <span *ngIf="registerForm.get('lastName')!.hasError('maxlength')">Last Name is too long</span>
-  <span *ngIf="registerForm.get('lastName')!.hasError('minlength')">Last Name is too short</span>
+  <input class="user-form-text" placeholder="Nickname" formControlName="nickname">
+  <span *ngIf="registerForm.get('nickname')!.hasError('required') && registerForm.get('nickname')!.touched">Nickname is required</span>
+  <span *ngIf="registerForm.get('nickname')!.hasError('maxlength')">Nickname is too long</span>
+  <span *ngIf="registerForm.get('nickname')!.hasError('minlength')">Nickname is too short</span>
   <input class="user-form-text" placeholder="Email" formControlName="email">
   <span *ngIf="registerForm.get('email')!.hasError('required') && registerForm.get('email')!.touched">Email is required</span>
   <span *ngIf="registerForm.get('email')!.hasError('email')">Email is invalid</span>

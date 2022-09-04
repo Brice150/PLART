@@ -1,5 +1,9 @@
 package com.packages.backend.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.packages.backend.messages.Message;
+import com.packages.backend.objects.Object;
+import com.packages.backend.registration.token.ConfirmationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -15,21 +20,31 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
-    private String firstName;
-    private String lastName;
+    private String nickname;
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
     private Boolean locked = false;
     private Boolean enabled = false;
+    @OneToMany(mappedBy = "fkUserToken", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "tokens")
+    private List<ConfirmationToken> tokens;
+    @OneToMany(mappedBy = "fkUser", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "objects")
+    private List<Object> objects;
+    @OneToMany(mappedBy = "fkSender", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "messagesSended")
+    private List<Message> messagesSended;
+    @OneToMany(mappedBy = "fkReceiver", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "messagesReceived")
+    private List<Message> messagesReceived;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String password, UserRole userRole) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String nickname, String email, String password, UserRole userRole) {
+        this.nickname = nickname;
         this.email = email;
         this.password = password;
         this.userRole = userRole;
@@ -43,23 +58,15 @@ public class User implements UserDetails {
     this.id = id;
   }
 
-  public String getFirstName() {
-        return firstName;
-    }
+  public String getNickname() {
+    return nickname;
+  }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+  public void setNickname(String nickname) {
+    this.nickname = nickname;
+  }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
+  public String getEmail() {
         return email;
     }
 
@@ -114,4 +121,45 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+  public List<Object> getObjects() {
+    return objects;
+  }
+
+  public void setObjects(List<Object> objects) {
+    this.objects = objects;
+  }
+
+  public List<Message> getMessagesSended() {
+    return messagesSended;
+  }
+
+  public void setMessagesSended(List<Message> messagesSended) {
+    this.messagesSended = messagesSended;
+  }
+
+  public List<Message> getMessagesReceived() {
+    return messagesReceived;
+  }
+
+  public void setMessagesReceived(List<Message> messagesReceived) {
+    this.messagesReceived = messagesReceived;
+  }
+
+  @Override
+  public String toString() {
+    return "User{" +
+      "id=" + id +
+      ", nickname='" + nickname + '\'' +
+      ", email='" + email + '\'' +
+      ", password='" + password + '\'' +
+      ", userRole=" + userRole +
+      ", locked=" + locked +
+      ", enabled=" + enabled +
+      ", tokens=" + tokens +
+      ", objects=" + objects +
+      ", messagesSended=" + messagesSended +
+      ", messagesReceived=" + messagesReceived +
+      '}';
+  }
 }
