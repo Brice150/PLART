@@ -35,16 +35,16 @@ export class ObjectService {
         { withCredentials: true });
     }
 
-    public uploadWork(formData: FormData): Observable<HttpEvent<string[]>> {
-        return this.http.post<string[]>(`${this.apiServerUrl}/work/file/upload`, formData, {
+    public uploadObject(formData: FormData): Observable<HttpEvent<string[]>> {
+        return this.http.post<string[]>(`${this.apiServerUrl}/object/file/upload`, formData, {
             reportProgress: true,
             observe: 'events',
             withCredentials: true
         })
     }
 
-    public downloadWork(filename: string): Observable<HttpEvent<Blob>> {
-        return this.http.get(`${this.apiServerUrl}/work/file/download/${filename}`, {
+    public downloadObject(filename: string): Observable<HttpEvent<Blob>> {
+        return this.http.get(`${this.apiServerUrl}/object/file/download/${filename}`, {
             reportProgress: true,
             observe: 'events',
             responseType: 'blob',
@@ -53,7 +53,7 @@ export class ObjectService {
     }
 
     public deleteFile(filename: string): Observable<void> {
-        return this.http.delete<void>(`${this.apiServerUrl}/work/file/delete/${filename}`,
+        return this.http.delete<void>(`${this.apiServerUrl}/object/file/delete/${filename}`,
         { withCredentials: true });
     }
 

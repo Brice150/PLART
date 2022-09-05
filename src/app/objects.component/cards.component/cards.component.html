@@ -1,3 +1,6 @@
+<div class="research">
+    <input type="search" (ngModelChange)="search(key.value)" #key="ngModel" ngModel name="key" class="text-research" placeholder="Search Objects/Creaters">
+</div>
 <div class="container">
     <div *ngFor="let object of objects" class="card-container">
         <div class="card">
@@ -8,6 +11,7 @@
             <div class="back-content">
                 <h3>{{object?.nickname}}</h3>
                 <p class="text-back">{{object?.description}}</p>
+                <a class="download" title="download" (click)="download(object)"><i class='bx bxs-download'></i></a>
             </div>
         </div>
     </div>

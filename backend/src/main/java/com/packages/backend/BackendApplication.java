@@ -30,8 +30,8 @@ public class BackendApplication {
 
     private static UrlBasedCorsConfigurationSource configurationSource() {
       CorsConfiguration corsConfig = new CorsConfiguration();
-      List<String> allowedHeaders = Arrays.asList("X-Auth-Token", "Content-Type", "X-Requested-With", "XMLHttpRequest", "Access-Control-Allow-Origin", "Authorization");
-      List<String> exposedHeaders = Arrays.asList("X-Auth-Token", "Content-Type", "X-Requested-With", "XMLHttpRequest");
+      List<String> allowedHeaders = Arrays.asList("X-Auth-Token", "Content-Type", "X-Requested-With", "XMLHttpRequest", "Access-Control-Allow-Origin", "Authorization", "File-Name");
+      List<String> exposedHeaders = Arrays.asList("X-Auth-Token", "Content-Type", "X-Requested-With", "XMLHttpRequest", "File-Name");
       List<String> allowedMethods = Arrays.asList("POST", "GET", "DELETE", "PUT", "OPTIONS", "PATCH");
       List<String> allowedOrigins = Arrays.asList("http://localhost:4200","https://brice150.github.io/Music-And-Me");
       corsConfig.setAllowedHeaders(allowedHeaders);
