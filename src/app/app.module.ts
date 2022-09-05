@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule }from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
     HttpClientModule,
     MatSnackBarModule,
     MatDialogModule,
-    NgxUsefulSwiperModule
+    NgxUsefulSwiperModule,
+    MatChipsModule
   ],
   declarations: [AppComponent, routingComponents],
   bootstrap: [AppComponent]

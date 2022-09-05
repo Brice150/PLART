@@ -11,26 +11,42 @@
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
 .text-research {
+    margin: 0 10px;
     min-width: 170px;
     width: 30%;
     box-sizing: border-box;
-    margin: 0 auto;
     border: 0;
     background: var(--secondarybis);
     padding: 10px 20px;
     outline: none;
     color: white;
-    border-radius: 10px;
+    border-radius: 50px;
     transition: 0.5s;
 }
 
 .text-research::placeholder {
     color: white;
     font-size: 15px;
+}
+
+.research mat-chip-list mat-chip {
+    color: black;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.research mat-chip-list mat-chip:hover {
+    color: white;
+    background-color: var(--secondary);
+    box-shadow: 0 0 5px var(--secondary),
+    0 0 25px var(--secondary),
+    0 0 50px var(--secondary),
+    0 0 100px var(--secondary);
 }
 
 .container .card-container {
