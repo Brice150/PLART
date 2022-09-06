@@ -1,8 +1,7 @@
 <div class="research">
     <input type="search" (ngModelChange)="search(key.value)" #key="ngModel" ngModel name="key" class="text-research" placeholder="Search Objects/Creaters">
     <mat-chip-list>
-        <mat-chip>Desk Accessories</mat-chip>
-        <mat-chip>Toys</mat-chip>
+        <mat-chip *ngFor="let category of categories" (click)="activateCategory(category)">{{category}}</mat-chip>
     </mat-chip-list>
 </div>
 <div class="container">

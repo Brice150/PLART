@@ -16,6 +16,7 @@ import { environment } from 'src/environments/environment';
 export class AppComponentCards implements OnInit {
   imagePath: string = environment.imagePath+"objects/";
   objects: Object[]=[];
+  categories: string[]=[];
 
   constructor(
     private objectService: ObjectService) {}
@@ -28,6 +29,14 @@ export class AppComponentCards implements OnInit {
     this.objectService.getObjects().subscribe(
       (response: Object[]) => {
         this.objects=response;
+        for (let object of this.objects) {
+          if (!this.categories.includes(object.category)) {
+            this.categories.push(object?.category);
+          }
+        }
+        if (!this.categories.includes("X")) {
+          this.categories.push("X");
+        }
       },
       (error: HttpErrorResponse) => {
         alert(error);
@@ -71,4 +80,18 @@ export class AppComponentCards implements OnInit {
     }
   }
   
+  activateCategory(category: string) {
+    const results: Object[] = [];
+    for (const object of this.objects) {
+      if (object?.category === category) {
+        results.push(object);
+      }
+    }
+    if (results.length !== 0) {
+      this.objects = results;
+    }
+    else {
+      this.getObjects();
+    }
+  }
 }
