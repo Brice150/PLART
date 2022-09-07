@@ -1,0 +1,20 @@
+<div class="container">
+    <table>
+        <thead>
+            <tr>
+                <th>Content</th>
+                <th>Date</th>
+                <th>Read</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let message of messages">
+                <td data-label="Content">{{message?.content}}</td>
+                <td data-label="Date">{{message?.date | date:"short"}}</td>
+                <td data-label="Read">{{message?.isRead}}</td>
+                <td data-label="Delete" class="delete-cell"><a class="delete" title="delete" (click)="openDialog(message.id)"><i class='bx bx-message-square-x'></i></a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

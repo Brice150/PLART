@@ -8,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponentAdmin implements OnInit{
   loggedInUserEmail!: string | null;
   isConnected!: boolean;
+  activeObjects: boolean = false;
+  activeUsers: boolean = true;
+  activeMessages: boolean = false;
 
   ngOnInit() {
     if (localStorage.getItem('loggedInUserEmail')===null) {
@@ -18,5 +21,23 @@ export class AppComponentAdmin implements OnInit{
       this.loggedInUserEmail = JSON.parse(localStorage.getItem('loggedInUserEmail') || '{}');
       this.isConnected = true;
     }
+  }
+
+  onObjects() {
+    this.activeObjects = true;
+    this.activeUsers = false;
+    this.activeMessages = false;
+  }
+  
+  onUsers() {
+    this.activeObjects = false;
+    this.activeUsers = true;
+    this.activeMessages = false;
+  }
+
+  onMessages() {
+    this.activeObjects = false;
+    this.activeUsers = false;
+    this.activeMessages = true;
   }
 }

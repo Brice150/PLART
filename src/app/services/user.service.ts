@@ -31,7 +31,7 @@ export class UserService {
     }
 
     public deleteUser(email: string): Observable<void> {
-        return this.http.delete<void>(`${this.apiServerUrl}/user/delete/${email}`,
+        return this.http.delete<void>(`${this.apiServerUrl}/admin/user/delete/${email}`,
         { withCredentials: true });
     }
 

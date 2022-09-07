@@ -11,7 +11,7 @@ export class MessageService {
     constructor(private http: HttpClient) {}
 
     public getMessages(): Observable<Message[]> {
-        return this.http.get<any>(`${this.apiServerUrl}/message/all`,
+        return this.http.get<any>(`${this.apiServerUrl}/admin/message/all`,
         { withCredentials: true });
     }
 

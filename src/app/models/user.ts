@@ -6,4 +6,6 @@ export interface User {
     locked: boolean;
     password: string;
     userRole: string;
+    objects: Object[];
+    messages: Object[];
 }

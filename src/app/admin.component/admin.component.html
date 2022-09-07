@@ -1,1 +1,13 @@
 <app-header [title]="'Admin'" [isConnected]="isConnected"></app-header>
+
+<div class="btn-container">
+    <a *ngIf="activeObjects" (click)="onObjects()" title="objects" class="active">Objects</a>
+    <a *ngIf="!activeObjects" (click)="onObjects()" title="objects" class="unactive">Objects</a>
+    <a *ngIf="activeUsers" (click)="onUsers()" title="users" class="active">Users</a>
+    <a *ngIf="!activeUsers" (click)="onUsers()" title="users" class="unactive">Users</a>
+    <a *ngIf="activeMessages" (click)="onMessages()" title="messages" class="active">Messages</a>
+    <a *ngIf="!activeMessages" (click)="onMessages()" title="messages" class="unactive">Messages</a>
+</div>
+<app-admin-objects *ngIf="activeObjects"></app-admin-objects>
+<app-admin-users *ngIf="activeUsers"></app-admin-users>
+<app-admin-messages *ngIf="activeMessages"></app-admin-messages>

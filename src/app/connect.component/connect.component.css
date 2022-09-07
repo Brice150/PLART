@@ -18,14 +18,14 @@
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
-    background-color: var(--secondarybis);
+    background-color: var(--primarybis);
     border-radius: 20px 20px 0 0;
 }
 
 .container .content{
     max-width: 600px;
     width: 80%;
-    background-color: var(--primarybis);
+    background-color: var(--secondarybis);
     border-radius: 20px;
     padding-bottom: 20px;
 }
@@ -54,5 +54,6 @@
 }
 
 .container .btn-container .active {
-    background-color: var(--secondarybis);
+    background-color: white;
+    color: var(--secondary);
 }

@@ -12,6 +12,10 @@ import { AppComponentObjects } from './objects.component/objects.component';
 import { AppComponentSlider } from './home.component/slider.component/slider.component';
 import { AppComponentUser } from './user.component/user.component';
 import { AppComponentCards } from './objects.component/cards.component/cards.component';
+import { AppComponentAdminUsers } from './admin.component/admin.users.component/admin.users.component';
+import { AppComponentAdminObjects } from './admin.component/admin.objects.component/admin.objects.component';
+import { AppComponentAdminMessages } from './admin.component/admin.messages.component/admin.messages.component';
+import { AppComponentDialog } from './dialog.component/dialog.component';
 
 const routes: Routes = [
   {path: 'home', component: AppComponentHome},
@@ -46,4 +50,7 @@ export const routingComponents = [
   AppComponentMessages,
   AppComponentAdmin,
   AppComponentSlider,
-  AppComponentCards]
+  AppComponentCards,
+  AppComponentAdminUsers,
+  AppComponentAdminObjects,
+  AppComponentAdminMessages]
