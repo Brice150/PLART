@@ -55,4 +55,17 @@ export class AppComponentAdminMessages implements OnInit{
       }
     });
   }
+
+  search(key: string){
+    const results: Message[] = [];
+    for (const message of this.messages) {
+      if (message.content?.toLowerCase().indexOf(key.toLowerCase())!== -1) {
+        results.push(message);
+      }
+    }
+    this.messages = results;
+    if (results.length === 0 ||!key) {
+      this.getMessages();
+    }
+  }
 }

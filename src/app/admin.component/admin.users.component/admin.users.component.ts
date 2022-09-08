@@ -55,4 +55,19 @@ export class AppComponentAdminUsers implements OnInit{
       }
     });
   }
+
+  search(key: string){
+    const results: User[] = [];
+    for (const user of this.users) {
+      if (user.nickname?.toLowerCase().indexOf(key.toLowerCase())!== -1
+      || user.email?.toLowerCase().indexOf(key.toLowerCase())!== -1
+      || user.userRole?.toLowerCase().indexOf(key.toLowerCase())!== -1) {
+        results.push(user);
+      }
+    }
+    this.users = results;
+    if (results.length === 0 ||!key) {
+      this.getUsers();
+    }
+  }
 }

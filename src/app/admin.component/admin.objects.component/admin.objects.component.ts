@@ -34,25 +34,45 @@ export class AppComponentAdminObjects implements OnInit{
     )
   }
   
-  deleteObject(id: number) {
-    this.objectService.deleteObject(id).subscribe(
+  deleteObject(object: Object) {
+    this.objectService.deleteFile(object?.fileToDownload!).subscribe(
       (response: void) => {
-        this.getObjects();
-        this.snackBar.open("Content deleted", "Dismiss", {duration: 2000});
+        this.objectService.deleteObject(object.id).subscribe(
+          (response: void) => {
+            this.getObjects();
+            this.snackBar.open("Content deleted", "Dismiss", {duration: 2000});
+          },
+          (error: HttpErrorResponse) => {
+            alert(error.message);
+          });
       },
       (error: HttpErrorResponse) => {
-        alert(error);
-      }
-    )
+        alert(error.message);
+    });
   }
-  
-  openDialog(id: number) {
+
+  openDialog(object: Object) {
     const dialogRef = this.dialog.open(AppComponentDialog);
   
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.deleteObject(id);
+        this.deleteObject(object);
       }
     });
+  }
+
+  search(key: string){
+    const results: Object[] = [];
+    for (const object of this.objects) {
+      if (object.nickname?.toLowerCase().indexOf(key.toLowerCase())!== -1
+      || object.name?.toLowerCase().indexOf(key.toLowerCase())!== -1
+      || object.category?.toLowerCase().indexOf(key.toLowerCase())!== -1) {
+        results.push(object);
+      }
+    }
+    this.objects = results;
+    if (results.length === 0 ||!key) {
+      this.getObjects();
+    }
   }
 }

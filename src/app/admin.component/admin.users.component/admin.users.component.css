@@ -2,7 +2,27 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
+    margin: 0 10px;
+    flex-direction: column;
+}
+
+.text-research {
+    margin-bottom: 10px;
+    min-width: 170px;
+    width: 30%;
+    border: 0;
+    background: var(--secondarybis);
+    padding: 10px 20px;
+    outline: none;
+    color: white;
+    border-radius: 50px;
+    transition: 0.5s;
+}
+
+.text-research::placeholder {
+    color: white;
+    text-align: center;
+    font-size: 15px;
 }
 
 .container h2 {
