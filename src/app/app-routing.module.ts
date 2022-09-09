@@ -16,6 +16,8 @@ import { AppComponentAdminUsers } from './admin.component/admin.users.component/
 import { AppComponentAdminObjects } from './admin.component/admin.objects.component/admin.objects.component';
 import { AppComponentAdminMessages } from './admin.component/admin.messages.component/admin.messages.component';
 import { AppComponentDialog } from './dialog.component/dialog.component';
+import { AppComponentUserObjects } from './user.component/user.objects.component/user.objects.component';
+import { AppComponentAccount } from './user.component/account.component/account.component';
 
 const routes: Routes = [
   {path: 'home', component: AppComponentHome},
@@ -53,4 +55,6 @@ export const routingComponents = [
   AppComponentCards,
   AppComponentAdminUsers,
   AppComponentAdminObjects,
-  AppComponentAdminMessages]
+  AppComponentAdminMessages,
+  AppComponentUserObjects,
+  AppComponentAccount]
