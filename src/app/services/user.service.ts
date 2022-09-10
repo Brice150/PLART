@@ -10,11 +10,6 @@ export class UserService {
 
     constructor(private http: HttpClient) {}
 
-    public getUsers(): Observable<User[]> {
-        return this.http.get<any>(`${this.apiServerUrl}/admin/user/all`,
-        { withCredentials: true });
-    }
-
     public findUserByEmail(email: string): Observable<User> {
         return this.http.get<User>(`${this.apiServerUrl}/user/find/email/${email}`,
         { withCredentials: true });
@@ -31,7 +26,7 @@ export class UserService {
     }
 
     public deleteUser(email: string): Observable<void> {
-        return this.http.delete<void>(`${this.apiServerUrl}/admin/user/delete/${email}`,
+        return this.http.delete<void>(`${this.apiServerUrl}/user/delete/${email}`,
         { withCredentials: true });
     }
 

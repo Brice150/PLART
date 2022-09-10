@@ -8,7 +8,7 @@
   <span *ngIf="registerForm.get('email')!.hasError('email')">Email is invalid</span>
   <span *ngIf="registerForm.get('email')!.hasError('maxlength')">Email is too long</span>
   <input type="password" class="user-form-text" placeholder="Password" formControlName="password">
-  <span *ngIf="registerForm.get('password')!.hasError('required') && registerForm.get('password')!.touched">A password is required</span>
+  <span *ngIf="registerForm.get('password')!.hasError('required') && registerForm.get('password')!.touched">Password is required</span>
   <span *ngIf="registerForm.get('password')!.hasError('minlength')">Password is too short</span>
   <span *ngIf="registerForm.get('password')!.hasError('maxlength')">Password is too long</span>
   <div class="button-container">

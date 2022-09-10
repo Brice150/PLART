@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export interface Object {
     id: number;
     name: string;
@@ -6,4 +8,5 @@ export interface Object {
     fileToDownload: string;
     image: string;
     nickname: string;
+    fkUser: User;
 }

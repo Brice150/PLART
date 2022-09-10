@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponentDialog } from 'src/app/dialog.component/dialog.component';
 import { User } from 'src/app/models/user';
-import { UserService } from 'src/app/services/user.service';
+import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
   selector: 'app-admin-users',
@@ -15,7 +15,7 @@ export class AppComponentAdminUsers implements OnInit{
   users: User[]=[];
 
   constructor(
-    private userService: UserService,
+    private adminService: AdminService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog) {}
   
@@ -24,7 +24,7 @@ export class AppComponentAdminUsers implements OnInit{
   }
 
   getUsers() {
-    this.userService.getUsers().subscribe(
+    this.adminService.getUsers().subscribe(
       (response: User[]) => {
         this.users = response;
       },
@@ -35,7 +35,7 @@ export class AppComponentAdminUsers implements OnInit{
   }
 
   deleteUser(email: string) {
-    this.userService.deleteUser(email).subscribe(
+    this.adminService.deleteUser(email).subscribe(
       (response: void) => {
         this.getUsers();
         this.snackBar.open("Content deleted", "Dismiss", {duration: 2000});

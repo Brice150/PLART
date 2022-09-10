@@ -11,8 +11,6 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./cards.component.css']
 })
 
-
-
 export class AppComponentCards implements OnInit {
   imagePath: string = environment.imagePath+"objects/";
   objects: Object[]=[];

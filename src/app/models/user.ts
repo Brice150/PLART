@@ -1,3 +1,5 @@
+import { Object } from "./object";
+
 export interface User {
     id: number;
     email: string;

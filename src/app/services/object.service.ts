@@ -52,9 +52,4 @@ export class ObjectService {
         })
     }
 
-    public deleteFile(filename: string): Observable<void> {
-        return this.http.delete<void>(`${this.apiServerUrl}/object/file/delete/${filename}`,
-        { withCredentials: true });
-    }
-
 }

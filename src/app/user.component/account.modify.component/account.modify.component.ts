@@ -6,11 +6,11 @@ import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-account',
-  templateUrl: './account.component.html',
-  styleUrls: ['./account.component.css']
+  selector: 'app-account-modify',
+  templateUrl: './account.modify.component.html',
+  styleUrls: ['./account.modify.component.css']
 })
-export class AppComponentAccount implements OnInit{
+export class AppComponentAccountModify implements OnInit{
   @Input() loggedInUserEmail!: string | null;
   loggedInUser!: User | null;
   updateForm!: FormGroup;

@@ -1,0 +1,22 @@
+<div class="container">
+    <form class="object-form" [formGroup]="addForm" (ngSubmit)="addObject(addForm.value)">
+        <input class="object-form-text" placeholder="Name" formControlName="name">
+        <span *ngIf="addForm.get('name')!.hasError('required') && addForm.get('name')!.touched">Name is required</span>
+        <span *ngIf="addForm.get('name')!.hasError('maxlength')">Name is too long</span>
+        <span *ngIf="addForm.get('name')!.hasError('minlength')">Name is too short</span>
+        <input class="object-form-text" placeholder="Category" formControlName="category">
+        <span *ngIf="addForm.get('category')!.hasError('required') && addForm.get('category')!.touched">Category is required</span>
+        <span *ngIf="addForm.get('category')!.hasError('category')">Category is invalid</span>
+        <span *ngIf="addForm.get('category')!.hasError('maxlength')">Category is too long</span>
+        <input class="object-form-text" placeholder="Description" formControlName="description">
+        <span *ngIf="addForm.get('description')!.hasError('required') && addForm.get('description')!.touched">Description is required</span>
+        <span *ngIf="addForm.get('description')!.hasError('minlength')">Description is too short</span>
+        <span *ngIf="addForm.get('description')!.hasError('maxlength')">Description is too long</span>
+        <input class="object-form-text" placeholder="Image" formControlName="image">
+        <input class="object-form-text" placeholder="File">
+        <div class="button-container">
+            <button class="invalidButton" title="invalid form" *ngIf="addForm.invalid" [disabled]="addForm.invalid" type="submit">Add</button>
+            <button class="validButton" title="add" *ngIf="addForm.valid" [disabled]="addForm.invalid" type="submit">Add</button>
+        </div>
+    </form>
+</div>

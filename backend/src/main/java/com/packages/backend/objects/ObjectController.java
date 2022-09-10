@@ -61,48 +61,43 @@ public class ObjectController {
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<?> deleteObjectById(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteObjectById(@PathVariable("id") Long id) throws IOException {
+      String filename = objectService.findObjectById(id).getFileToDownload();
+      Path filePath = get(DIRECTORY).normalize().resolve(filename);
+      if (Files.exists(filePath)) {
+        Files.delete(filePath);
+      }
+      else {
+        throw new FileNotFoundException(filename + " was not found on the server");
+      }
         objectService.deleteObjectById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-  @PostMapping("/file/upload")
-  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-  public ResponseEntity<List<String>> uploadFiles(@RequestParam("files")List<MultipartFile> multipartFiles) throws IOException {
-    List<String> filenames = new ArrayList<>();
-    for (MultipartFile file : multipartFiles) {
-      String filename = StringUtils.cleanPath(file.getOriginalFilename());
-      Path fileStorage = get(DIRECTORY, filename).normalize();
-      copy(file.getInputStream(), fileStorage, REPLACE_EXISTING);
-      filenames.add(filename);
+    @PostMapping("/file/upload")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    public ResponseEntity<List<String>> uploadFiles(@RequestParam("files")List<MultipartFile> multipartFiles) throws IOException {
+      List<String> filenames = new ArrayList<>();
+      for (MultipartFile file : multipartFiles) {
+        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        Path fileStorage = get(DIRECTORY, filename).normalize();
+        copy(file.getInputStream(), fileStorage, REPLACE_EXISTING);
+        filenames.add(filename);
+      }
+      return ResponseEntity.ok().body(filenames);
     }
-    return ResponseEntity.ok().body(filenames);
-  }
 
-  @GetMapping("/file/download/{filename}")
-  public ResponseEntity<Resource> downloadFiles(@PathVariable("filename") String filename) throws IOException {
-    Path filePath = get(DIRECTORY).normalize().resolve(filename);
-    if (!Files.exists(filePath)) {
-      throw new FileNotFoundException(filename + " was not found on the server");
+    @GetMapping("/file/download/{filename}")
+    public ResponseEntity<Resource> downloadFiles(@PathVariable("filename") String filename) throws IOException {
+      Path filePath = get(DIRECTORY).normalize().resolve(filename);
+      if (!Files.exists(filePath)) {
+        throw new FileNotFoundException(filename + " was not found on the server");
+      }
+      Resource resource = new UrlResource(filePath.toUri());
+      HttpHeaders httpHeaders = new HttpHeaders();
+      httpHeaders.add("File-Name", filename);
+      httpHeaders.add(CONTENT_DISPOSITION, "attachment;File-Name=" + resource.getFilename());
+      return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(filePath)))
+        .headers(httpHeaders).body(resource);
     }
-    Resource resource = new UrlResource(filePath.toUri());
-    HttpHeaders httpHeaders = new HttpHeaders();
-    httpHeaders.add("File-Name", filename);
-    httpHeaders.add(CONTENT_DISPOSITION, "attachment;File-Name=" + resource.getFilename());
-    return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(filePath)))
-      .headers(httpHeaders).body(resource);
-  }
-
-  @DeleteMapping("/file/delete/{filename}")
-  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-  public ResponseEntity<?> deleteFile(@PathVariable("filename")  String filename) throws IOException {
-    Path filePath = get(DIRECTORY).normalize().resolve(filename);
-    if (Files.exists(filePath)) {
-      Files.delete(filePath);
-    }
-    else {
-      throw new FileNotFoundException(filename + " was not found on the server");
-    }
-    return new ResponseEntity<>(HttpStatus.OK);
-  }
 }

@@ -1,43 +1,47 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponentDialog } from 'src/app/dialog.component/dialog.component';
 import { Object } from 'src/app/models/object';
-import { AdminService } from 'src/app/services/admin.service';
+import { User } from 'src/app/models/user';
 import { ObjectService } from 'src/app/services/object.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-admin-objects',
-  templateUrl: './admin.objects.component.html',
-  styleUrls: ['./admin.objects.component.css']
+  selector: 'app-user-objects-modify',
+  templateUrl: './user.objects.modify.component.html',
+  styleUrls: ['./user.objects.modify.component.css']
 })
-export class AppComponentAdminObjects implements OnInit{
+export class AppComponentUserObjectsModify {
+  @Input() loggedInUserEmail!: string | null;
   objects: Object[]=[];
 
   constructor(
     private objectService: ObjectService,
-    private adminService: AdminService,
+    private userService: UserService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog) {}
 
   ngOnInit() {
     this.getObjects();
   }
-  
+
   getObjects() {
-    this.objectService.getObjects().subscribe(
-      (response: Object[]) => {
-        this.objects = response;
+    this.userService.findUserByEmail(this.loggedInUserEmail!).subscribe(
+      (response: User) => {
+        if (response.objects) {
+          this.objects=response.objects!;
+        }
       },
       (error: HttpErrorResponse) => {
         alert(error);
       }
     )
   }
-  
+
   deleteObject(object: Object) {
-    this.adminService.deleteObject(object.id).subscribe(
+    this.objectService.deleteObject(object.id).subscribe(
     (response: void) => {
       this.getObjects();
       this.snackBar.open("Content deleted", "Dismiss", {duration: 2000});
@@ -55,20 +59,5 @@ export class AppComponentAdminObjects implements OnInit{
         this.deleteObject(object);
       }
     });
-  }
-
-  search(key: string){
-    const results: Object[] = [];
-    for (const object of this.objects) {
-      if (object.nickname?.toLowerCase().indexOf(key.toLowerCase())!== -1
-      || object.name?.toLowerCase().indexOf(key.toLowerCase())!== -1
-      || object.category?.toLowerCase().indexOf(key.toLowerCase())!== -1) {
-        results.push(object);
-      }
-    }
-    this.objects = results;
-    if (results.length === 0 ||!key) {
-      this.getObjects();
-    }
   }
 }
