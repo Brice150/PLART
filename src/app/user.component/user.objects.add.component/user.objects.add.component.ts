@@ -16,6 +16,8 @@ export class AppComponentUserObjectsAdd implements OnInit{
     @Input() loggedInUserEmail!: string | null;
     loggedInUser!: User | null;
     addForm!: FormGroup;
+    formData!: FormData;
+    filename!: string;
 
     constructor (
       private fb: FormBuilder,
@@ -29,26 +31,55 @@ export class AppComponentUserObjectsAdd implements OnInit{
         name: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(2)]],
         category: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(2)]],
         description: ['', [Validators.required, Validators.maxLength(250), Validators.minLength(5)]],
-        image: ['']
+        image: ['', [Validators.pattern('(^.*.png$)|(^.*.jpg$)|(^.*.jpeg$)')]]
       })
 
       this.getLoggedInUser();
     }
 
+    addFile(files: File[]) {
+      this.formData = new FormData();
+      this.filename = "";
+      for (const file of files) {
+        this.formData.append('files', file, file.name);
+        if (this.filename === "") {
+          this.filename = file.name;
+        }
+      }
+    }
+
     addObject(object: Object) {
       object.nickname=this.loggedInUser?.nickname!;
-      object.fkUser=this.loggedInUser!;
-      this.objectService.addObject(object).subscribe(
-        (response: Object) => {
-          this.snackBar.open("Content updated", "Dismiss", {duration: 2000})
-          .afterDismissed().subscribe(() => {
-            window.location.reload();
-          });
-        },
-        (error: HttpErrorResponse) => {
-          alert(error.message);
-        }
-      )
+      object.fkUser={"id":this.loggedInUser?.id};
+      if (!object.image) {
+        object.image = "No-Image.jpg";
+      }
+      if (this.formData !== undefined) {
+        object.fileToDownload = this.filename;
+        console.log(object);
+        this.objectService.uploadObject(this.formData).subscribe(
+          event => {
+            console.log(event);
+          },
+          (error: HttpErrorResponse) => {
+            alert(error);
+          }
+        );
+        this.objectService.addObject(object).subscribe(
+          (response: Object) => {
+            this.snackBar.open("Content added", "Dismiss", {duration: 1000})
+            .afterDismissed().subscribe(() => {
+              window.location.reload();
+            });
+          },
+          (error: HttpErrorResponse) => {
+            alert(error.message);
+          }
+        )
+      }
+      else {
+        alert("File must be added !");
+      }
     }
 
     getLoggedInUser() {

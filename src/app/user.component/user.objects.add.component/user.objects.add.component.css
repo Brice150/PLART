@@ -17,7 +17,7 @@
     overflow: hidden;
 }
 
-.object-form span {
+.object-form .error {
     color: var(--invalid);
     font-size: 14px;
     font-weight: 600;
@@ -115,4 +115,42 @@ textarea.object-form-text {
     font-size: 20px;
     font-weight: 600;
     color: white;
+}
+
+.file-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.file-container .add {
+    cursor: pointer;
+    background-color: var(--primarybis);
+    color: white;
+    margin: 0 10px;
+    padding: 10px 15px 10px 15px;
+    font-size: 30px;
+    border-radius: 0.4em;
+    transition: 0.5s;
+} 
+
+.file-container .add:hover {
+    background-color: white;
+    color: var(--secondary);
+    box-shadow: 0 0 5px white,
+    0 0 25px white,
+    0 0 50px white,
+    0 0 100px white;
+}
+
+.file-container .filename {
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+input[type="file"] {
+    display: none;
 }

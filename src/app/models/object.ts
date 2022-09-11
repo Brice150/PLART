@@ -8,5 +8,5 @@ export interface Object {
     fileToDownload: string;
     image: string;
     nickname: string;
-    fkUser: User;
+    fkUser: any;
 }

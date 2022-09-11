@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponentDialog } from 'src/app/dialog.component/dialog.component';
@@ -15,16 +16,39 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class AppComponentUserObjectsModify {
   @Input() loggedInUserEmail!: string | null;
+  loggedInUser!: User | null;
   objects: Object[]=[];
+  object!: Object;
+  updateForm!: FormGroup;
 
   constructor(
     private objectService: ObjectService,
     private userService: UserService,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog) {}
+    public dialog: MatDialog,
+    private fb: FormBuilder) {}
 
   ngOnInit() {
+    this.updateForm = this.fb.group({
+      name: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(2)]],
+      category: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(2)]],
+      description: ['', [Validators.required, Validators.maxLength(250), Validators.minLength(5)]],
+      image: ['', [Validators.pattern('(^.*.png$)|(^.*.jpg$)|(^.*.jpeg$)')]]
+    })
+
+    this.getLoggedInUser();
     this.getObjects();
+  }
+
+  getLoggedInUser() {
+    this.userService.findUserByEmail(this.loggedInUserEmail!).subscribe(
+      (response: User) => {
+        this.loggedInUser = response;
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
   }
 
   getObjects() {
@@ -38,6 +62,25 @@ export class AppComponentUserObjectsModify {
         alert(error);
       }
     )
+  }
+
+  modify(object: Object) {
+    this.object=object;
+  }
+
+  updateObject(object: Object) {
+    object.id = this.object.id;
+    object.fileToDownload = this.object.fileToDownload;
+    object.nickname = this.object.nickname;
+    object.fkUser = {"id": this.loggedInUser!.id};
+    this.objectService.updateObject(object).subscribe(
+      (response: Object) => {
+        this.getObjects();
+        this.snackBar.open("Content updated", "Dismiss", {duration: 2000});
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      });
   }
 
   deleteObject(object: Object) {

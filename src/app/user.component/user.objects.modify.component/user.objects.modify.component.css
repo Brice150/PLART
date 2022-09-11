@@ -4,6 +4,7 @@
     align-items: center;
     margin: 0 10px;
     margin-top: 20px;
+    margin-bottom: 30px;
     flex-direction: column;
 }
 
@@ -104,4 +105,126 @@ td .delete:hover {
     tr {
         margin-bottom: 1rem;
     }
+}
+
+.modify {
+    transition: 0.5s;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.modify:hover {
+    color: var(--secondary);
+    background-color: white;
+    box-shadow: 0 0 5px white,
+    0 0 25px white,
+    0 0 50px white,
+    0 0 100px white;
+}
+
+.modify-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    max-width: 600px;
+    width: 80%;
+    background-color: var(--secondarybis);
+    border-radius: 20px;
+    padding-bottom: 20px;
+}
+
+.object-form {
+    width: 80%;
+    margin: auto;
+    padding: 0 10px;
+    overflow: hidden;
+}
+
+.object-form .error {
+    color: var(--invalid);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.object-form-text {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 16px 0;
+    border: 0;
+    padding: 20px 40px;
+    background-color: aliceblue;
+    outline: none;
+    border-radius: 10px;
+    transition: 0.5s;
+}
+
+input {
+    color: var(--secondary);
+    font-size: 1em;
+}
+
+::placeholder {
+    color: var(--secondary);
+    font-size: 1em;
+}
+
+.object-form-text:focus.ng-valid {
+    box-shadow: 0 0 10px 4px var(--valid);
+}
+
+.object-form-text:focus.ng-invalid {
+    box-shadow: 0 0 10px 4px var(--invalid);
+}
+
+textarea.object-form-text {
+    resize: none;
+    height: 100px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.object-form .button-container .validButton {
+    text-decoration: none;
+    background: aliceblue;
+    color: var(--secondary);
+    padding: 15px 30px;
+    border: 2px solid var(--valid);
+    margin-top: 30px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 0.4em;
+    transition: 0.5s;
+}
+
+.object-form .button-container .invalidButton {
+    text-decoration: none;
+    background: aliceblue;
+    color: var(--secondary);
+    padding: 15px 30px;
+    border: 2px solid var(--invalid);
+    margin-top: 30px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 0.4em;
+    transition: 0.5s;
+}
+
+.object-form .button-container .validButton:hover {
+    background-color: var(--valid);
+    box-shadow: 0 0 5px var(--valid),
+    0 0 25px var(--valid),
+    0 0 50px var(--valid),
+    0 0 100px var(--valid);
+    color: black;
+    cursor: pointer;
 }
