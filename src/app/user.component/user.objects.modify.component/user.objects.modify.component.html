@@ -1,4 +1,4 @@
-<div class="container">
+<div *ngIf="objects.length !== 0" class="container">
     <table>
         <thead>
             <tr>
@@ -11,10 +11,10 @@
         </thead>
         <tbody>
             <tr *ngFor="let object of objects">
-                <td data-label="Name / Modify"><a class="modify" title="modify" (click)="modify(object)">{{object?.name}}</a></td>
-                <td data-label="Category">{{object?.category}}</td>
-                <td data-label="Image">{{object?.image}}</td>
-                <td data-label="Description">{{object?.description}}</td>
+                <td data-label="Name / Modify"><a class="modify" title="modify" (click)="modify(object)">{{object.name}}</a></td>
+                <td data-label="Category">{{object.category}}</td>
+                <td data-label="Image">{{object.image}}</td>
+                <td data-label="Description">{{object.description}}</td>
                 <td data-label="Delete" class="delete-cell"><a class="delete" title="delete" (click)="openDialog(object)"><i class='bx bx-message-square-x'></i></a></td>
             </tr>
         </tbody>
@@ -22,19 +22,19 @@
 </div>
 <div *ngIf="object" class="modify-container">
     <form class="object-form" [formGroup]="updateForm" (ngSubmit)="updateObject(updateForm.value)">
-        <input class="object-form-text" placeholder="Name" formControlName="name" ngModel="{{object?.name}}">
+        <input class="object-form-text" placeholder="Name" formControlName="name" ngModel="{{object.name}}">
         <span class="error" *ngIf="updateForm.get('name')!.hasError('required') && updateForm.get('name')!.touched">Name is required</span>
         <span class="error" *ngIf="updateForm.get('name')!.hasError('maxlength')">Name is too long</span>
         <span class="error" *ngIf="updateForm.get('name')!.hasError('minlength')">Name is too short</span>
-        <input class="object-form-text" placeholder="Category" formControlName="category" ngModel="{{object?.category}}">
+        <input class="object-form-text" placeholder="Category" formControlName="category" ngModel="{{object.category}}">
         <span class="error" *ngIf="updateForm.get('category')!.hasError('required') && updateForm.get('category')!.touched">Category is required</span>
         <span class="error" *ngIf="updateForm.get('category')!.hasError('category')">Category is invalid</span>
         <span class="error" *ngIf="updateForm.get('category')!.hasError('maxlength')">Category is too long</span>
-        <input class="object-form-text" placeholder="Description" formControlName="description" ngModel="{{object?.description}}">
+        <input class="object-form-text" placeholder="Description" formControlName="description" ngModel="{{object.description}}">
         <span class="error" *ngIf="updateForm.get('description')!.hasError('required') && updateForm.get('description')!.touched">Description is required</span>
         <span class="error" *ngIf="updateForm.get('description')!.hasError('minlength')">Description is too short</span>
         <span class="error" *ngIf="updateForm.get('description')!.hasError('maxlength')">Description is too long</span>
-        <input class="object-form-text" placeholder="Image" formControlName="image" ngModel="{{object?.image}}">
+        <input class="object-form-text" placeholder="Image" formControlName="image" ngModel="{{object.image}}">
         <span class="error" *ngIf="updateForm.get('image')!.hasError('pattern')">Image must finish by .png, .jpg or .jpeg</span>
         <div class="button-container">
             <button class="invalidButton" title="invalid form" *ngIf="updateForm.invalid" [disabled]="updateForm.invalid" type="submit">Update</button>

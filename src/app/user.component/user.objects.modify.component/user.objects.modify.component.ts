@@ -54,7 +54,7 @@ export class AppComponentUserObjectsModify {
   getObjects() {
     this.userService.findUserByEmail(this.loggedInUserEmail!).subscribe(
       (response: User) => {
-        if (response.objects) {
+        if (response.objects.length !== 0) {
           this.objects=response.objects!;
         }
       },

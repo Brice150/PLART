@@ -1,1 +1,19 @@
 <app-header [title]="'Messages'" [isConnected]="isConnected"></app-header>
+
+<div class="container">
+    <div class="selection-container">
+        <div class="user-container" (click)="activeUser(user)" *ngFor="let user of users">
+            <a *ngIf="user === selectedUser" class="user selected">
+                {{user.nickname}}
+            </a>
+            <a *ngIf="user !== selectedUser" class="user">
+                {{user.nickname}}
+            </a>
+        </div>
+    </div>
+    <div *ngIf="messages.length !== 0" class="messages-container">
+        <div class="message" *ngFor="let message of messages">
+            {{message?.content}}
+        </div>
+    </div>
+</div>

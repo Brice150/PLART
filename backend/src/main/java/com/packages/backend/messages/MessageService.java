@@ -17,7 +17,7 @@ public class MessageService {
   }
 
   public Message addMessage(Message message) {
-    message.setIsRead(false);
+    message.setRead(false);
     message.setDate(new Date());
     return messageRepository.save(message);
   }

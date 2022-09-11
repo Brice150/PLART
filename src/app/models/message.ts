@@ -5,6 +5,8 @@ export interface Message {
     content: string;
     date: Date;
     isRead: boolean;
+    fromUser: string;
+    toUser: string;
     fkReader: User;
     fkSender: User;
 }

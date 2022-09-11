@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping()
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
@@ -19,6 +21,12 @@ public class UserController {
   @GetMapping("/login")
   public String login() {
     return "logged in successfully";
+  }
+
+  @GetMapping("/user/all")
+  public ResponseEntity<List<User>> getAllUsers() {
+    List<User> users = userService.findAllUsers();
+    return new ResponseEntity<>(users, HttpStatus.OK);
   }
 
   @GetMapping("/user/find/email/{email}")

@@ -10,6 +10,11 @@ export class UserService {
 
     constructor(private http: HttpClient) {}
 
+    public getUsers(): Observable<User[]> {
+        return this.http.get<any>(`${this.apiServerUrl}/user/all`,
+        { withCredentials: true });
+    }
+
     public findUserByEmail(email: string): Observable<User> {
         return this.http.get<User>(`${this.apiServerUrl}/user/find/email/${email}`,
         { withCredentials: true });
