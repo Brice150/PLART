@@ -1,24 +1,19 @@
 .container {
     display: flex;
-    align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
     margin: 0 20px;
 }
 
 .selection-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
     background-color: var(--secondarybis);
     width: 200px;
     padding: 10px 0;
+    margin-bottom: 20px;
 }
 
 .user-container {
     display: flex;
-    align-items: center;
     justify-content: center;
     width: 100%;
 }
@@ -57,8 +52,56 @@
 
 .messages-container {
     display: flex;
-    align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-color: red;
+    margin: auto;
+    background-color: var(--secondarybis);
+    width: 700px;
+    border-radius: 20px;
+}
+
+.messages-container .message-container {
+    margin: auto;
+    padding: 10px 0;
+    width: 95%;
+}
+
+.messages-container .message-container .contenu.left {
+    display: flex;
+    justify-content: left;
+}
+
+.messages-container .message-container .contenu.right {
+    display: flex;
+    justify-content: right;
+}
+
+.messages-container .message-container .contenu .message {
+    max-width: 300px;
+    width: 95%;
+    border-radius: 0.4em;
+    font-size: 15px;
+    font-weight: 450;
+    padding-top: 15px;
+    resize: none;
+    border: none;
+    height: auto;
+    white-space: normal;
+    text-align: justify;
+    -moz-text-align-last: center; /* Firefox 12+ */
+    text-align-last: center;
+}
+
+textarea::-webkit-scrollbar {
+    width: 0px;
+}
+
+.messages-container .message-container .contenu.left .message {
+    color: var(--secondary);
+    background-color: white;
+}
+
+.messages-container .message-container .contenu.right .message {
+    color: white;
+    background-color: var(--primarybis);
 }

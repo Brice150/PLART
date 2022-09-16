@@ -12,8 +12,17 @@
         </div>
     </div>
     <div *ngIf="messages.length !== 0" class="messages-container">
-        <div class="message" *ngFor="let message of messages">
-            {{message?.content}}
+        <div class="message-container" *ngFor="let message of messages">
+            <div class="contenu left" *ngIf="message?.fromUser === selectedUser?.nickname">
+                <textarea class="message" disabled>
+                    {{message?.content}}
+                </textarea>
+            </div>
+            <div class="contenu right" *ngIf="message?.fromUser === loggedInUser?.nickname">
+                <textarea class="message" disabled>
+                    {{message?.content}}
+                </textarea>
+            </div>
         </div>
     </div>
 </div>

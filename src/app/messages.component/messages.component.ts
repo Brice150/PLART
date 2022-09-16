@@ -83,5 +83,6 @@ export class AppComponentMessages implements OnInit{
         }
       }
     }
+    this.messages.sort((a, b) => a.date.toString().localeCompare(b.date.toString()));
   }
 }
