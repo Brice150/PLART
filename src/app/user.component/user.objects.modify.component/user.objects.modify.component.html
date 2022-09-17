@@ -39,6 +39,7 @@
         <div class="button-container">
             <button class="invalidButton" title="invalid form" *ngIf="updateForm.invalid" [disabled]="updateForm.invalid" type="submit">Update</button>
             <button class="validButton" title="update" *ngIf="updateForm.valid" [disabled]="updateForm.invalid" type="submit">Update</button>
+            <a class="cancel" title="cancel" (click)="unmodify()">Cancel</a>
         </div>
     </form>
 </div>

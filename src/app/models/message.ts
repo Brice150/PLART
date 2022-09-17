@@ -1,5 +1,3 @@
-import { User } from "./user";
-
 export interface Message {
     id: number;
     content: string;
@@ -7,6 +5,6 @@ export interface Message {
     isRead: boolean;
     fromUser: string;
     toUser: string;
-    fkReader: User;
-    fkSender: User;
+    fkReceiver: any;
+    fkSender: any;
 }

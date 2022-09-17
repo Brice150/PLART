@@ -1,7 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AppComponentDialog } from '../dialog.component/dialog.component';
 import { Message } from '../models/message';
 import { User } from '../models/user';
+import { MessageService } from '../services/message.service';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -16,12 +21,23 @@ export class AppComponentMessages implements OnInit{
   users: User[]=[];
   messages: Message[] = [];
   selectedUser!: User | null;
+  messageForm!: FormGroup;
+  isModifying: boolean = false;
+  updatedMessage!: Message | null;
 
   constructor(
-    private userService: UserService
+    private fb: FormBuilder,
+    private userService: UserService,
+    private messageService: MessageService,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
+    this.messageForm = this.fb.group({
+      content: ['', [Validators.required, Validators.maxLength(500), Validators.minLength(5)]]
+    })
+
     if (localStorage.getItem('loggedInUserEmail')===null) {
       this.loggedInUserEmail = null;
       this.isConnected = false;
@@ -47,7 +63,13 @@ export class AppComponentMessages implements OnInit{
         for (let user of response) {
           if (user.email !== this.loggedInUserEmail) {
               this.users.push(user);
+              if (this.selectedUser != null && this.selectedUser.email === user.email) {
+                this.activeUser(user);
+              }
           }
+        }
+        if (!this.selectedUser) {
+          this.activeUser(this.users[0]);
         }
       },
       (error: HttpErrorResponse) => {
@@ -71,18 +93,118 @@ export class AppComponentMessages implements OnInit{
     this.messages = [];
     if (user.messagesReceived.length !== 0) {
       for (let message of user.messagesReceived) {
-        if (message.toUser === user?.nickname) {
+        if (message.fromUser === this.loggedInUser?.nickname) {
           this.messages.push(message);
         }
       }
     }
-    if (user.messagesReceived.length !== 0) {
+    if (user.messagesSended.length !== 0) {
       for (let message of user.messagesSended) {
-        if (message.fromUser === user?.nickname) {
+        if (message.toUser === this.loggedInUser?.nickname) {
           this.messages.push(message);
         }
       }
     }
     this.messages.sort((a, b) => a.date.toString().localeCompare(b.date.toString()));
+  }
+
+  getMessagesNumber(user: User): number {
+    let count: number = 0;
+    if (user.messagesReceived.length !== 0) {
+      for (let message of user.messagesReceived) {
+        if (message.fromUser === this.loggedInUser?.nickname && !message.isRead) {
+          count++;
+        }
+      }
+    }
+    if (user.messagesSended.length !== 0) {
+      for (let message of user.messagesSended) {
+        if (message.toUser === this.loggedInUser?.nickname && !message.isRead) {
+          count++;
+        }
+      }
+    }
+    return count;
+  }
+
+  sendMessage(message: Message) {
+    message.fkReceiver={"id":this.selectedUser?.id};
+    message.fkSender={"id":this.loggedInUser?.id};
+    message.fromUser=this.loggedInUser?.nickname!;
+    message.toUser=this.selectedUser?.nickname!;    
+    this.messageService.addMessage(message).subscribe(
+      (response: Message) => {
+        this.messageForm.get("content")?.reset();
+        this.getUsers();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
+  }
+
+  modifyMessage(message: Message) {
+    this.updatedMessage = message;
+    this.isModifying = true;
+  }
+
+  unmodifyMessage() {
+    this.messageForm.get("content")?.reset();
+    this.updatedMessage = null;
+    this.isModifying = false;
+  }
+
+  updateMessage(message: Message) {
+    message.id=this.updatedMessage?.id!;
+    message.fkReceiver={"id":this.selectedUser?.id};
+    message.fkSender={"id":this.loggedInUser?.id};
+    message.fromUser=this.loggedInUser?.nickname!;
+    message.toUser=this.selectedUser?.nickname!;
+    message.date=this.updatedMessage?.date!;   
+    this.messageService.updateMessage(message).subscribe(
+      (response: Message) => {
+        this.unmodifyMessage();
+        this.getUsers();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
+  }
+
+  deleteMessage(message: Message) {
+    this.messageService.deleteMessage(message.id).subscribe(
+      (response: void) => {
+        this.getUsers();
+        this.snackBar.open("Content deleted", "Dismiss", {duration: 2000});
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      });
+  }
+
+  openDialog(message: Message) {
+    const dialogRef = this.dialog.open(AppComponentDialog);
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteMessage(message);
+      }
+    });
+  }
+
+  search(key: string){
+    const results: User[] = [];
+    for (const user of this.users) {
+      if (user.nickname?.toLowerCase().indexOf(key.toLowerCase())!== -1
+      || user.email?.toLowerCase().indexOf(key.toLowerCase())!== -1
+      || user.userRole?.toLowerCase().indexOf(key.toLowerCase())!== -1) {
+        results.push(user);
+      }
+    }
+    this.users = results;
+    if (results.length === 0 ||!key) {
+      this.getUsers();
+    }
   }
 }

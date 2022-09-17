@@ -18,7 +18,7 @@ export class AppComponentUserObjectsModify {
   @Input() loggedInUserEmail!: string | null;
   loggedInUser!: User | null;
   objects: Object[]=[];
-  object!: Object;
+  object!: Object | null;
   updateForm!: FormGroup;
 
   constructor(
@@ -68,10 +68,14 @@ export class AppComponentUserObjectsModify {
     this.object=object;
   }
 
+  unmodify() {
+    this.object = null;
+  }
+
   updateObject(object: Object) {
-    object.id = this.object.id;
-    object.fileToDownload = this.object.fileToDownload;
-    object.nickname = this.object.nickname;
+    object.id = this.object?.id!;
+    object.fileToDownload = this.object?.fileToDownload!;
+    object.nickname = this.object?.nickname!;
     object.fkUser = {"id": this.loggedInUser!.id};
     this.objectService.updateObject(object).subscribe(
       (response: Object) => {

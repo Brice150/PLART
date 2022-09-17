@@ -18,7 +18,6 @@ public class Message implements Serializable {
   private Date date;
   private String fromUser;
   private String toUser;
-  private Boolean isRead;
   @ManyToOne(optional = false)
   @JsonBackReference(value = "messagesSended")
   private User fkSender;
@@ -29,12 +28,11 @@ public class Message implements Serializable {
   public Message() {
   }
 
-  public Message(String content, Date date, String fromUser, String toUser, Boolean isRead, User fkSender, User fkReceiver) {
+  public Message(String content, Date date, String fromUser, String toUser, User fkSender, User fkReceiver) {
     this.content = content;
     this.date = date;
     this.fromUser = fromUser;
     this.toUser = toUser;
-    this.isRead = isRead;
     this.fkSender = fkSender;
     this.fkReceiver = fkReceiver;
   }
@@ -79,14 +77,6 @@ public class Message implements Serializable {
     this.toUser = toUser;
   }
 
-  public Boolean getRead() {
-    return isRead;
-  }
-
-  public void setRead(Boolean read) {
-    isRead = read;
-  }
-
   public User getFkSender() {
     return fkSender;
   }
@@ -111,7 +101,6 @@ public class Message implements Serializable {
       ", date=" + date +
       ", fromUser='" + fromUser + '\'' +
       ", toUser='" + toUser + '\'' +
-      ", isRead=" + isRead +
       ", fkSender=" + fkSender +
       ", fkReceiver=" + fkReceiver +
       '}';
