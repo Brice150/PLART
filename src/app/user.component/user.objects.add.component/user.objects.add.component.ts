@@ -6,6 +6,7 @@ import { Object } from 'src/app/models/object';
 import { User } from 'src/app/models/user';
 import { ObjectService } from 'src/app/services/object.service';
 import { UserService } from 'src/app/services/user.service';
+import * as saveAs from 'file-saver';
 
 @Component({
   selector: 'app-user-objects-add',
@@ -16,8 +17,9 @@ export class AppComponentUserObjectsAdd implements OnInit{
     @Input() loggedInUserEmail!: string | null;
     loggedInUser!: User | null;
     addForm!: FormGroup;
-    formData!: FormData;
+    filesData!: FormData;
     filename!: string;
+    imagename!: string;
 
     constructor (
       private fb: FormBuilder,
@@ -30,20 +32,28 @@ export class AppComponentUserObjectsAdd implements OnInit{
       this.addForm = this.fb.group({
         name: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(2)]],
         category: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(2)]],
-        description: ['', [Validators.required, Validators.maxLength(250), Validators.minLength(5)]],
-        image: ['', [Validators.pattern('(^.*.png$)|(^.*.jpg$)|(^.*.jpeg$)')]]
+        description: ['', [Validators.required, Validators.maxLength(250), Validators.minLength(5)]]
       })
 
       this.getLoggedInUser();
     }
 
     addFile(files: File[]) {
-      this.formData = new FormData();
+      this.filesData = new FormData();
       this.filename = "";
       for (const file of files) {
-        this.formData.append('files', file, file.name);
+        this.filesData.append('files', file, file.name);
         if (this.filename === "") {
           this.filename = file.name;
+        }
+      }
+    }
+
+    addImage(files: File[]) {
+      this.imagename = "";
+      for (const file of files) {
+        if (this.imagename === "") {
+          this.imagename = file.name;
         }
       }
     }
@@ -51,13 +61,16 @@ export class AppComponentUserObjectsAdd implements OnInit{
     addObject(object: Object) {
       object.nickname=this.loggedInUser?.nickname!;
       object.fkUser={"id":this.loggedInUser?.id};
-      if (!object.image) {
+      if (!this.imagename) {
         object.image = "No-Image.jpg";
       }
-      if (this.formData !== undefined) {
+      else {
+        object.image = this.imagename;
+        //save the image in frontend
+      }
+      if (this.filesData !== undefined) {
         object.fileToDownload = this.filename;
-        console.log(object);
-        this.objectService.uploadObject(this.formData).subscribe(
+        this.objectService.uploadObject(this.filesData).subscribe(
           event => {
             console.log(event);
           },
