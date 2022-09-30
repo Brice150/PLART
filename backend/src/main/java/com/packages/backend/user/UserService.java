@@ -16,7 +16,7 @@ import java.util.UUID;
 public class UserService implements UserDetailsService {
 
     private final static String USER_EMAIL_NOT_FOUND_MSG = "user with email %s not found";
-  private final static String USER_ID_NOT_FOUND_MSG = "user with id %s not found";
+    private final static String USER_ID_NOT_FOUND_MSG = "user with id %s not found";
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;

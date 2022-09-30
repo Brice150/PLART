@@ -2,7 +2,7 @@
     <div *ngFor="let object of objects" class="card-container">
         <div class="card">
             <div class="front-content">
-                <img [src]="imagePath+object?.image" [alt]="object?.name">
+                <img [src]="object?.image" [alt]="object?.name">
                 <h3>{{object?.name}}</h3>
             </div>
             <div class="back-content">

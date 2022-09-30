@@ -1,5 +1,7 @@
 package com.packages.backend.objects;
 
+import com.packages.backend.user.User;
+import com.packages.backend.user.UserService;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -7,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,10 +31,13 @@ import static org.springframework.http.HttpHeaders.*;
 @RequestMapping("/object")
 public class ObjectController {
     private final ObjectService objectService;
-    public static final String DIRECTORY = "src/main/resources/objectFiles";
+    private final UserService userService;
+    public static final String FILEDIRECTORY = "src/main/resources/objectFiles";
+    public static final String IMAGEDIRECTORY = "src/main/resources/objectImages";
 
-    public ObjectController(ObjectService objectService) {
+    public ObjectController(ObjectService objectService, UserService userService) {
         this.objectService = objectService;
+        this.userService = userService;
     }
 
     @GetMapping("/all")
@@ -55,23 +62,48 @@ public class ObjectController {
     @PutMapping("/update")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Object> updateObject(@RequestBody Object object) {
-      Object updateObject = objectService.updateObject(object);
+      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+      String currentUserEmail = authentication.getName();
+      User connectedUser = userService.findUserByEmail(currentUserEmail);
+      if (connectedUser.getNickname().equals(object.getNickname())) {
+        Object updateObject = objectService.updateObject(object);
         return new ResponseEntity<>(updateObject, HttpStatus.OK);
+      }
+      else {
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+      }
     }
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<?> deleteObjectById(@PathVariable("id") Long id) throws IOException {
       String filename = objectService.findObjectById(id).getFileToDownload();
-      Path filePath = get(DIRECTORY).normalize().resolve(filename);
-      if (Files.exists(filePath)) {
-        Files.delete(filePath);
-      }
-      else {
-        throw new FileNotFoundException(filename + " was not found on the server");
-      }
+      String imagename = objectService.findObjectById(id).getImage();
+      Path filePath = get(FILEDIRECTORY).normalize().resolve(filename);
+
+      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+      String currentUserEmail = authentication.getName();
+      User connectedUser = userService.findUserByEmail(currentUserEmail);
+      Object object = objectService.findObjectById(id);
+      if (connectedUser.getNickname().equals(object.getNickname())) {
+        if (imagename != null) {
+          Path imagePath = get(IMAGEDIRECTORY).normalize().resolve(imagename);
+          if (Files.exists(imagePath)) {
+            Files.delete(imagePath);
+          }
+        }
+        if (Files.exists(filePath)) {
+          Files.delete(filePath);
+        }
+        else {
+          throw new FileNotFoundException(filename + " was not found on the server");
+        }
         objectService.deleteObjectById(id);
         return new ResponseEntity<>(HttpStatus.OK);
+      }
+      else {
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+      }
     }
 
     @PostMapping("/file/upload")
@@ -80,16 +112,29 @@ public class ObjectController {
       List<String> filenames = new ArrayList<>();
       for (MultipartFile file : multipartFiles) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
-        Path fileStorage = get(DIRECTORY, filename).normalize();
+        Path fileStorage = get(FILEDIRECTORY, filename).normalize();
         copy(file.getInputStream(), fileStorage, REPLACE_EXISTING);
         filenames.add(filename);
       }
       return ResponseEntity.ok().body(filenames);
     }
 
+  @PostMapping("/image/upload")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+  public ResponseEntity<List<String>> uploadImages(@RequestParam("images")List<MultipartFile> multipartImages) throws IOException {
+    List<String> imagenames = new ArrayList<>();
+    for (MultipartFile image : multipartImages) {
+      String imagename = StringUtils.cleanPath(image.getOriginalFilename());
+      Path fileStorage = get(IMAGEDIRECTORY, imagename).normalize();
+      copy(image.getInputStream(), fileStorage, REPLACE_EXISTING);
+      imagenames.add(imagename);
+    }
+    return ResponseEntity.ok().body(imagenames);
+  }
+
     @GetMapping("/file/download/{filename}")
     public ResponseEntity<Resource> downloadFiles(@PathVariable("filename") String filename) throws IOException {
-      Path filePath = get(DIRECTORY).normalize().resolve(filename);
+      Path filePath = get(FILEDIRECTORY).normalize().resolve(filename);
       if (!Files.exists(filePath)) {
         throw new FileNotFoundException(filename + " was not found on the server");
       }
@@ -100,4 +145,18 @@ public class ObjectController {
       return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(filePath)))
         .headers(httpHeaders).body(resource);
     }
+
+  @GetMapping("/image/{imagename}")
+  public ResponseEntity<Resource> getImage(@PathVariable("imagename") String imagename) throws IOException {
+    Path imagePath = get(IMAGEDIRECTORY).normalize().resolve(imagename);
+    if (!Files.exists(imagePath)) {
+      throw new FileNotFoundException(imagename + " was not found on the server");
+    }
+    Resource resource = new UrlResource(imagePath.toUri());
+    HttpHeaders httpHeaders = new HttpHeaders();
+    httpHeaders.add("File-Name", imagename);
+    httpHeaders.add(CONTENT_DISPOSITION, "attachment;File-Name=" + resource.getFilename());
+    return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(imagePath)))
+      .headers(httpHeaders).body(resource);
+  }
 }

@@ -18,6 +18,7 @@ export class AppComponentUserObjectsAdd implements OnInit{
     loggedInUser!: User | null;
     addForm!: FormGroup;
     filesData!: FormData;
+    imagesData!: FormData;
     filename!: string;
     imagename!: string;
 
@@ -50,8 +51,10 @@ export class AppComponentUserObjectsAdd implements OnInit{
     }
 
     addImage(files: File[]) {
+      this.imagesData = new FormData();
       this.imagename = "";
       for (const file of files) {
+        this.imagesData.append('images', file, file.name);
         if (this.imagename === "") {
           this.imagename = file.name;
         }
@@ -61,16 +64,20 @@ export class AppComponentUserObjectsAdd implements OnInit{
     addObject(object: Object) {
       object.nickname=this.loggedInUser?.nickname!;
       object.fkUser={"id":this.loggedInUser?.id};
-      if (!this.imagename) {
-        object.image = "No-Image.jpg";
-      }
-      else {
+      if (this.imagename) {
         object.image = this.imagename;
-        //save the image in frontend
+        this.objectService.uploadImage(this.imagesData).subscribe(
+          event => {
+            console.log(event);
+          },
+          (error: HttpErrorResponse) => {
+            alert(error);
+          }
+        );
       }
       if (this.filesData !== undefined) {
         object.fileToDownload = this.filename;
-        this.objectService.uploadObject(this.filesData).subscribe(
+        this.objectService.uploadFile(this.filesData).subscribe(
           event => {
             console.log(event);
           },

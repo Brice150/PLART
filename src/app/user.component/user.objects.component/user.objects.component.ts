@@ -30,12 +30,43 @@ export class AppComponentUserObjects implements OnInit{
       (response: User) => {
         if (response.objects) {
           this.objects=response.objects!;
+          for (let object of this.objects) {
+            this.getImage(object);
+          }
         }
       },
       (error: HttpErrorResponse) => {
         alert(error);
       }
     )
+  }
+
+  getImage(object: Object) {
+    let reader = new FileReader();
+    if (object.image) {
+      this.objectService.getImage(object.image.toString()).subscribe(
+        event => {
+          if (event.type === HttpEventType.Response) {
+            if (event.body instanceof Array) {
+              
+            }
+            else {
+              let image = new File([event.body!], object.image.toString());
+              reader.readAsDataURL(image);
+              reader.onloadend = (loaded) => {
+                object.image = reader.result!;
+              }
+            }
+          }
+        },
+        (error: HttpErrorResponse) => {
+          alert(error);
+        }
+      );
+    }
+    else {
+      object.image = this.imagePath + "No-Image.jpg";
+    }
   }
 
   download(object: Object) {
@@ -54,7 +85,7 @@ export class AppComponentUserObjects implements OnInit{
         }
         },
         (error: HttpErrorResponse) => {
-          console.log(error);
+          alert(error);
         }
       );
     }

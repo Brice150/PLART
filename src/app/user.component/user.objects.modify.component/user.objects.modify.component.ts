@@ -32,8 +32,7 @@ export class AppComponentUserObjectsModify {
     this.updateForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(2)]],
       category: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(2)]],
-      description: ['', [Validators.required, Validators.maxLength(250), Validators.minLength(5)]],
-      image: ['', [Validators.pattern('(^.*.png$)|(^.*.jpg$)|(^.*.jpeg$)')]]
+      description: ['', [Validators.required, Validators.maxLength(250), Validators.minLength(5)]]
     })
 
     this.getLoggedInUser();
@@ -76,6 +75,7 @@ export class AppComponentUserObjectsModify {
     object.id = this.object?.id!;
     object.fileToDownload = this.object?.fileToDownload!;
     object.nickname = this.object?.nickname!;
+    object.image = this.object?.image!;
     object.fkUser = {"id": this.loggedInUser!.id};
     this.objectService.updateObject(object).subscribe(
       (response: Object) => {

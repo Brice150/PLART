@@ -35,10 +35,27 @@ export class ObjectService {
         { withCredentials: true });
     }
 
-    public uploadObject(formData: FormData): Observable<HttpEvent<string[]>> {
+    public uploadFile(formData: FormData): Observable<HttpEvent<string[]>> {
         return this.http.post<string[]>(`${this.apiServerUrl}/object/file/upload`, formData, {
             reportProgress: true,
             observe: 'events',
+            withCredentials: true
+        })
+    }
+
+    public uploadImage(formData: FormData): Observable<HttpEvent<string[]>> {
+        return this.http.post<string[]>(`${this.apiServerUrl}/object/image/upload`, formData, {
+            reportProgress: true,
+            observe: 'events',
+            withCredentials: true
+        })
+    }
+
+    public getImage(imagename: string): Observable<HttpEvent<Blob>> {
+        return this.http.get(`${this.apiServerUrl}/object/image/${imagename}`, {
+            reportProgress: true,
+            observe: 'events',
+            responseType: 'blob',
             withCredentials: true
         })
     }

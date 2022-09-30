@@ -34,8 +34,6 @@
         <span class="error" *ngIf="updateForm.get('description')!.hasError('required') && updateForm.get('description')!.touched">Description is required</span>
         <span class="error" *ngIf="updateForm.get('description')!.hasError('minlength')">Description is too short</span>
         <span class="error" *ngIf="updateForm.get('description')!.hasError('maxlength')">Description is too long</span>
-        <input class="object-form-text" placeholder="Image" formControlName="image" ngModel="{{object.image}}">
-        <span class="error" *ngIf="updateForm.get('image')!.hasError('pattern')">Image must finish by .png, .jpg or .jpeg</span>
         <div class="button-container">
             <button class="invalidButton" title="invalid form" *ngIf="updateForm.invalid" [disabled]="updateForm.invalid" type="submit">Update</button>
             <button class="validButton" title="update" *ngIf="updateForm.valid" [disabled]="updateForm.invalid" type="submit">Update</button>

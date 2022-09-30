@@ -6,7 +6,7 @@ export interface Object {
     category: string;
     description: string;
     fileToDownload: string;
-    image: string;
+    image: string | ArrayBuffer;
     nickname: string;
     fkUser: any;
 }

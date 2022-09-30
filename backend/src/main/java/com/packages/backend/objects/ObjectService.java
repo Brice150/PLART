@@ -24,7 +24,7 @@ public class ObjectService {
     }
 
     public Object updateObject(Object object) {
-        return objectRepository.save(object);
+      return objectRepository.save(object);
     }
 
     public Object findObjectById(Long id) {
