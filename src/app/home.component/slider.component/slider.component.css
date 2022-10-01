@@ -1,6 +1,6 @@
 .slider-container {
     width: 100%;
-    margin-top: 40px;
+    margin-top: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -76,5 +76,11 @@
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .slider-container swiper .swiper-wrapper .swiper-slide p {
+        display: none;
     }
 }

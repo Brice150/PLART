@@ -1,5 +1,9 @@
 package com.packages.backend.user;
 
+import com.packages.backend.messages.Message;
+import com.packages.backend.messages.MessageService;
+import com.packages.backend.objects.Object;
+import com.packages.backend.objects.ObjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,9 +19,13 @@ import java.util.List;
 public class UserController {
 
   private final UserService userService;
+  private final MessageService messageService;
+  private final ObjectService objectService;
 
-  public UserController(UserService userService) {
+  public UserController(UserService userService, MessageService messageService, ObjectService objectService) {
     this.userService = userService;
+    this.messageService = messageService;
+    this.objectService = objectService;
   }
 
   @GetMapping("/login")
@@ -34,14 +42,14 @@ public class UserController {
     for (User user: users) {
       if (user.getMessagesReceived() != null) {
         for (int i=0; i<user.getMessagesReceived().size(); i++) {
-          if (!connectedUser.getId().equals(user.getMessagesReceived().get(i).getFkSender())) {
+          if (!connectedUser.getId().equals(user.getMessagesReceived().get(i).getFkSender().getId())) {
             user.getMessagesReceived().remove(i);
           }
         }
       }
       if (user.getMessagesSended() != null) {
         for (int i=0; i<user.getMessagesSended().size(); i++) {
-          if (!connectedUser.getId().equals(user.getMessagesSended().get(i).getFkReceiver())) {
+          if (!connectedUser.getId().equals(user.getMessagesSended().get(i).getFkReceiver().getId())) {
             user.getMessagesSended().remove(i);
           }
         }
@@ -86,6 +94,26 @@ public class UserController {
     String currentUserEmail = authentication.getName();
     User connectedUser = userService.findUserByEmail(currentUserEmail);
     if (connectedUser.getId().equals(user.getId())) {
+      if (!connectedUser.getNickname().equals(user.getNickname())) {
+        if (connectedUser.getMessagesReceived() != null) {
+          for (Message message : connectedUser.getMessagesReceived()) {
+            message.setToUser(user.getNickname());
+            messageService.updateMessage(message);
+          }
+        }
+        if (connectedUser.getMessagesSended() != null) {
+          for (Message message : connectedUser.getMessagesSended()) {
+            message.setFromUser(user.getNickname());
+            messageService.updateMessage(message);
+          }
+        }
+        if (connectedUser.getObjects() != null) {
+          for (Object object : connectedUser.getObjects()) {
+            object.setNickname(user.getNickname());
+            objectService.updateObject(object);
+          }
+        }
+      }
       user.setEmail(currentUserEmail);
       user.setUserRole(connectedUser.getUserRole());
       User updateUser = userService.updateUser(user);
