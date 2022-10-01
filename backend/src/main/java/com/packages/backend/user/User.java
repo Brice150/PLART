@@ -1,6 +1,8 @@
 package com.packages.backend.user;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.packages.backend.messages.Message;
 import com.packages.backend.objects.Object;
 import com.packages.backend.registration.token.ConfirmationToken;
@@ -144,6 +146,10 @@ public class User implements UserDetails {
 
   public void setMessagesReceived(List<Message> messagesReceived) {
     this.messagesReceived = messagesReceived;
+  }
+
+  public void setTokens(List<ConfirmationToken> tokens) {
+    this.tokens = tokens;
   }
 
   @Override

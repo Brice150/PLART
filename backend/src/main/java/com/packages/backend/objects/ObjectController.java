@@ -36,27 +36,27 @@ public class ObjectController {
     public static final String IMAGEDIRECTORY = "src/main/resources/objectImages";
 
     public ObjectController(ObjectService objectService, UserService userService) {
-        this.objectService = objectService;
-        this.userService = userService;
+      this.objectService = objectService;
+      this.userService = userService;
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<Object>> getAllObjects() {
-        List<Object> objects = objectService.findAllObjects();
-        return new ResponseEntity<>(objects, HttpStatus.OK);
+      List<Object> objects = objectService.findAllObjects();
+      return new ResponseEntity<>(objects, HttpStatus.OK);
     }
 
     @GetMapping("/find/{id}")
     public ResponseEntity<Object> getObjectById(@PathVariable("id") Long id) {
       Object object = objectService.findObjectById(id);
-        return new ResponseEntity<>(object, HttpStatus.OK);
+      return new ResponseEntity<>(object, HttpStatus.OK);
     }
 
     @PostMapping("/add")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Object> addObject(@RequestBody Object object) {
       Object newObject = objectService.addObject(object);
-        return new ResponseEntity<>(newObject, HttpStatus.CREATED);
+      return new ResponseEntity<>(newObject, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
@@ -146,7 +146,7 @@ public class ObjectController {
         .headers(httpHeaders).body(resource);
     }
 
-  @GetMapping("/image/{imagename}")
+  @GetMapping("/image/get/{imagename}")
   public ResponseEntity<Resource> getImage(@PathVariable("imagename") String imagename) throws IOException {
     Path imagePath = get(IMAGEDIRECTORY).normalize().resolve(imagename);
     if (!Files.exists(imagePath)) {

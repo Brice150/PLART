@@ -28,7 +28,6 @@ export class AppComponentAccountModify implements OnInit{
       enabled: [''],
       locked: [''],
       nickname: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
       password: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(5)]]
     })
 

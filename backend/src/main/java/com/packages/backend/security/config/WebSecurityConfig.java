@@ -32,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
           .antMatchers(
             "/registration/**",
             "/logout",
+            "/object/image/get/**",
             "/object/all",
             "/object/find/**",
             "/object/file/download/**")

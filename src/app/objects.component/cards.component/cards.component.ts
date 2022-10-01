@@ -28,6 +28,7 @@ export class AppComponentCards implements OnInit {
       (response: Object[]) => {
         this.objects=response;
         for (let object of this.objects) {
+          this.getImage(object);
           if (!this.categories.includes(object.category)) {
             this.categories.push(object?.category);
           }
@@ -40,6 +41,34 @@ export class AppComponentCards implements OnInit {
         alert(error);
       }
     )
+  }
+
+  getImage(object: Object) {
+    let reader = new FileReader();
+    if (object.image) {
+      this.objectService.getImage(object.image.toString()).subscribe(
+        event => {
+          if (event.type === HttpEventType.Response) {
+            if (event.body instanceof Array) {
+              
+            }
+            else {
+              let image = new File([event.body!], object.image.toString());
+              reader.readAsDataURL(image);
+              reader.onloadend = (loaded) => {
+                object.image = reader.result!;
+              }
+            }
+          }
+        },
+        (error: HttpErrorResponse) => {
+          alert(error);
+        }
+      );
+    }
+    else {
+      object.image = this.imagePath + "No-Image.jpg";
+    }
   }
 
   download(object: Object) {

@@ -52,7 +52,7 @@ export class ObjectService {
     }
 
     public getImage(imagename: string): Observable<HttpEvent<Blob>> {
-        return this.http.get(`${this.apiServerUrl}/object/image/${imagename}`, {
+        return this.http.get(`${this.apiServerUrl}/object/image/get/${imagename}`, {
             reportProgress: true,
             observe: 'events',
             responseType: 'blob',

@@ -91,16 +91,16 @@ export class AppComponentMessages implements OnInit{
 
   getMessages(user: User) {
     this.messages = [];
-    if (user.messagesReceived.length !== 0) {
-      for (let message of user.messagesReceived) {
-        if (message.fromUser === this.loggedInUser?.nickname) {
+    if (this.loggedInUser!.messagesReceived.length !== 0) {
+      for (let message of this.loggedInUser!.messagesReceived) {
+        if (user.nickname === message.fromUser) {
           this.messages.push(message);
         }
       }
     }
-    if (user.messagesSended.length !== 0) {
-      for (let message of user.messagesSended) {
-        if (message.toUser === this.loggedInUser?.nickname) {
+    if (this.loggedInUser!.messagesSended.length !== 0) {
+      for (let message of this.loggedInUser!.messagesSended) {
+        if (user.nickname === message.toUser) {
           this.messages.push(message);
         }
       }
@@ -110,16 +110,16 @@ export class AppComponentMessages implements OnInit{
 
   getMessagesNumber(user: User): number {
     let count: number = 0;
-    if (user.messagesReceived.length !== 0) {
-      for (let message of user.messagesReceived) {
-        if (message.fromUser === this.loggedInUser?.nickname && !message.isRead) {
+    if (this.loggedInUser!.messagesReceived.length !== 0) {
+      for (let message of this.loggedInUser!.messagesReceived) {
+        if (user.nickname === message.fromUser) {
           count++;
         }
       }
     }
-    if (user.messagesSended.length !== 0) {
-      for (let message of user.messagesSended) {
-        if (message.toUser === this.loggedInUser?.nickname && !message.isRead) {
+    if (this.loggedInUser!.messagesSended.length !== 0) {
+      for (let message of this.loggedInUser!.messagesSended) {
+        if (user.nickname === message.toUser) {
           count++;
         }
       }
@@ -136,6 +136,7 @@ export class AppComponentMessages implements OnInit{
       (response: Message) => {
         this.messageForm.get("content")?.reset();
         this.getUsers();
+        this.getLoggedInUser();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -165,6 +166,7 @@ export class AppComponentMessages implements OnInit{
       (response: Message) => {
         this.unmodifyMessage();
         this.getUsers();
+        this.getLoggedInUser();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -176,6 +178,7 @@ export class AppComponentMessages implements OnInit{
     this.messageService.deleteMessage(message.id).subscribe(
       (response: void) => {
         this.getUsers();
+        this.getLoggedInUser();
         this.snackBar.open("Content deleted", "Dismiss", {duration: 2000});
       },
       (error: HttpErrorResponse) => {
