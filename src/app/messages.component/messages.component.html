@@ -1,6 +1,6 @@
-<app-header [title]="'Messages'" [isConnected]="isConnected"></app-header>
+<app-header [title]="'Messages'" [isConnected]="isConnected" *ngIf="isConnected"></app-header>
 
-<div class="container">
+<div class="container" *ngIf="isConnected">
     <div class="selection-container">
         <input type="search" (ngModelChange)="search(key.value)" #key="ngModel" ngModel name="key" class="text-research" placeholder="Search">
         <div class="user-container" (click)="activeUser(user)" *ngFor="let user of users">

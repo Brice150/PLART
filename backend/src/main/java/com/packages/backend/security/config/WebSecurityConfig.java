@@ -1,6 +1,7 @@
 package com.packages.backend.security.config;
 
 import com.packages.backend.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -17,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
 
     public WebSecurityConfig(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
@@ -32,6 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
           .antMatchers(
             "/registration/**",
             "/logout",
+            "/stats/**",
             "/object/image/get/**",
             "/object/all",
             "/object/find/**",
@@ -41,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
           .authenticated()
           .and()
           .httpBasic()
+          .authenticationEntryPoint(authenticationEntryPoint)
           .and()
           .logout()
           .invalidateHttpSession(true)

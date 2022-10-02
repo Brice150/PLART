@@ -20,6 +20,7 @@ import { AppComponentAccountModify } from './user.component/account.modify.compo
 import { AppComponentAccountDelete } from './user.component/account.delete.component/account.delete.component';
 import { AppComponentUserObjectsModify } from './user.component/user.objects.modify.component/user.objects.modify.component';
 import { AppComponentUserObjectsAdd } from './user.component/user.objects.add.component/user.objects.add.component';
+import { AppComponentStats } from './home.component/stats.component/stats.component';
 
 const routes: Routes = [
   {path: 'home', component: AppComponentHome},
@@ -62,4 +63,5 @@ export const routingComponents = [
   AppComponentAccountModify,
   AppComponentAccountDelete,
   AppComponentUserObjectsModify,
-  AppComponentUserObjectsAdd]
+  AppComponentUserObjectsAdd,
+  AppComponentStats]

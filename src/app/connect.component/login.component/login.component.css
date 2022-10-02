@@ -3,6 +3,23 @@
     margin: auto;
     padding: 0 10px;
     overflow: hidden;
+    animation: none;
+}
+
+.user-form.invalidLogin {
+    animation-name: invalidLogin;
+    animation-duration: 0.1s;
+    animation-direction: alternate;
+    animation-iteration-count: 8;
+}
+
+@keyframes invalidLogin {
+    from {
+        transform: translateX(-5px);
+    }
+    to {
+        transform: translateX(5px);
+    }
 }
 
 .user-form span {

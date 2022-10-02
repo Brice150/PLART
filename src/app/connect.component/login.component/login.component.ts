@@ -12,6 +12,7 @@ import { ConnectService } from 'src/app/services/connect.service';
 })
 export class AppComponentLogin implements OnInit{
   loginForm!: FormGroup;
+  invalidLogin: boolean = false;
   
   constructor(
     private fb: FormBuilder, 
@@ -28,14 +29,17 @@ export class AppComponentLogin implements OnInit{
     loginUser(user: User) {
       this.connectService.login(user).subscribe(
         (response: any) => {
-          localStorage.setItem('loggedInUserEmail', JSON.stringify(user.email));
+          sessionStorage.setItem('loggedInUserEmail', JSON.stringify(user.email));
           this.router.navigate(['/user'])
           .then(() => {
             window.location.reload();
           });
         },
-        (error: HttpErrorResponse) => {
-          alert(error.message);
+        () => {
+          this.invalidLogin = true;
+          setTimeout(() => {
+            this.invalidLogin = false;
+          }, 2000);
         }
       );
     }

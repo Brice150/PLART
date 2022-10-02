@@ -16,7 +16,7 @@ export class AppComponentHeader{
   constructor(private router: Router) {}
   
   logout() {
-    localStorage.removeItem('loggedInUserEmail');
+    sessionStorage.removeItem('loggedInUserEmail');
     this.router.navigate(['/connect'])
     .then(() => {
       window.location.reload();

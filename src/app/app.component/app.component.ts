@@ -25,12 +25,12 @@ export class AppComponent implements OnInit {
       sidebar.classList.toggle("active");
     }
 
-    if (localStorage.getItem('loggedInUserEmail')===null) {
+    if (sessionStorage.getItem('loggedInUserEmail')===null) {
       this.loggedInUserEmail = null;
       this.isConnected = false;
     }
     else {
-      this.loggedInUserEmail = JSON.parse(localStorage.getItem('loggedInUserEmail') || '{}');
+      this.loggedInUserEmail = JSON.parse(sessionStorage.getItem('loggedInUserEmail') || '{}');
       this.isConnected = true;
       this.getUserRole(this.loggedInUserEmail!);
     }

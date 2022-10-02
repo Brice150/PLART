@@ -10,12 +10,12 @@ export class AppComponentHome implements OnInit{
   isConnected!: boolean;
 
   ngOnInit() {
-    if (localStorage.getItem('loggedInUserEmail')===null) {
+    if (sessionStorage.getItem('loggedInUserEmail')===null) {
       this.loggedInUserEmail = null;
       this.isConnected = false;
     }
     else {
-      this.loggedInUserEmail = JSON.parse(localStorage.getItem('loggedInUserEmail') || '{}');
+      this.loggedInUserEmail = JSON.parse(sessionStorage.getItem('loggedInUserEmail') || '{}');
       this.isConnected = true;
     }
   }

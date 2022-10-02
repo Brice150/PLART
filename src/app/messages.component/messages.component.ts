@@ -38,12 +38,12 @@ export class AppComponentMessages implements OnInit{
       content: ['', [Validators.required, Validators.maxLength(500), Validators.minLength(5)]]
     })
 
-    if (localStorage.getItem('loggedInUserEmail')===null) {
+    if (sessionStorage.getItem('loggedInUserEmail')===null) {
       this.loggedInUserEmail = null;
       this.isConnected = false;
     }
     else {
-      this.loggedInUserEmail = JSON.parse(localStorage.getItem('loggedInUserEmail') || '{}');
+      this.loggedInUserEmail = JSON.parse(sessionStorage.getItem('loggedInUserEmail') || '{}');
       this.isConnected = true;
     }
 

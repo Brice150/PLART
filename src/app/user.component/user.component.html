@@ -1,8 +1,8 @@
-<app-header [title]="'User'" [isConnected]="isConnected"></app-header>
-<div class="info">
+<app-header [title]="'User'" [isConnected]="isConnected" *ngIf="isConnected"></app-header>
+<div class="info" *ngIf="isConnected">
     <h2>You are connected !</h2>
 </div>
-<div class="main-container">
+<div class="main-container" *ngIf="isConnected">
     <div class="container">
         <div class="content">
             <div class="btn-container">
@@ -24,6 +24,6 @@
         <a *ngIf="!isAddingObjects" (click)="onObjectAdd()" title="add" class="unactive">Add Mode</a>
     </div>
 </div>
-<app-user-objects-modify *ngIf="isModifyingObjects" [loggedInUserEmail]="loggedInUserEmail"></app-user-objects-modify>
-<app-user-objects *ngIf="isSeeingObjects" [loggedInUserEmail]="loggedInUserEmail"></app-user-objects>
-<app-user-objects-add *ngIf="isAddingObjects" [loggedInUserEmail]="loggedInUserEmail"></app-user-objects-add>
+<app-user-objects-modify *ngIf="isModifyingObjects && isConnected" [loggedInUserEmail]="loggedInUserEmail"></app-user-objects-modify>
+<app-user-objects *ngIf="isSeeingObjects && isConnected" [loggedInUserEmail]="loggedInUserEmail"></app-user-objects>
+<app-user-objects-add *ngIf="isAddingObjects && isConnected" [loggedInUserEmail]="loggedInUserEmail"></app-user-objects-add>
