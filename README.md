@@ -60,8 +60,18 @@ Go to backend directory
 
 Install dependencies
 
+Go to PLART directory and install Angular and Angular Material :
+
 ```bash
   npm install
+```
+
+```bash
+  npm install -g @angular/cli
+```
+
+```bash
+  ng add @angular/material
 ```
 
 Start the server
@@ -72,7 +82,7 @@ Start the server
 
 ## API Reference
 
-### Connection
+### Connect
 
 #### Registration
 

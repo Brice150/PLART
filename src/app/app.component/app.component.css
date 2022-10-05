@@ -84,11 +84,8 @@
     width: 50px;
     text-align: center;
     line-height: 50px;
-    transform: translateX(-50%);
-  }
-  
-  .sidebar #btn:hover {
     cursor: pointer;
+    transform: translateX(-50%);
   }
   
   .sidebar.active #btn {
@@ -97,7 +94,6 @@
   
   .sidebar ul {
     margin-top: 20px;
-  
   }
   
   .sidebar ul li {
