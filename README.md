@@ -10,8 +10,8 @@ This application is a FullStack demo of my skills in Angular and Spring Boot.
 
 ### Home
 
-- images swiper with dynamic descriptions
-- animated website stats with go to connect, user or objects pages when clicked
+- Images swiper with dynamic descriptions
+- Animated website stats with go to connect, user or objects pages when clicked
 
 ### Objects
 
