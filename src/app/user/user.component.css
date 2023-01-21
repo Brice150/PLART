@@ -1,0 +1,109 @@
+.info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.info h2 {
+    font-size: 25px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.container .btn-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: var(--primarybis);
+    border-radius: 20px 20px 0 0;
+}
+
+.container .content{
+    max-width: 600px;
+    width: 80%;
+    background-color: var(--secondarybis);
+    border-radius: 20px;
+    padding-bottom: 20px;
+}
+
+.container .btn-container a {
+    text-decoration: none;
+    background-color: var(--primarybis);
+    color: white;
+    padding: 15px 30px;
+    margin: 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 0.4em;
+    transition: 0.5s;
+}
+
+.container .btn-container .unactive:hover {
+    background-color: white;
+    color: var(--secondary);
+    box-shadow: 0 0 5px white,
+    0 0 25px white,
+    0 0 50px white,
+    0 0 100px white;
+    cursor: pointer;
+}
+
+.container .btn-container .active {
+    background-color: white;
+    color: var(--secondary);
+}
+
+.btn-container-objects {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: var(--primarybis);
+    margin-top: 20px;
+}
+
+.btn-container-objects a {
+    text-decoration: none;
+    cursor: pointer;
+    background-color: var(--primarybis);
+    color: white;
+    padding: 15px 30px;
+    margin: 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 0.4em;
+    transition: 0.5s;
+}
+
+.btn-container-objects .unactive:hover {
+    background-color: white;
+    color: var(--secondary);
+    box-shadow: 0 0 5px white,
+    0 0 25px white,
+    0 0 50px white,
+    0 0 100px white;
+    cursor: pointer;
+}
+
+.btn-container-objects .active {
+    background-color: white;
+    color: var(--secondary);
+}

@@ -1,0 +1,11 @@
+.info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.info h2 {
+    font-size: 25px;
+    font-weight: 700;
+    color: var(--primary);
+}

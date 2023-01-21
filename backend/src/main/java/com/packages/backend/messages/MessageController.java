@@ -22,7 +22,7 @@ public class MessageController {
     this.userService = userService;
   }
 
-  @GetMapping("/find/{id}")
+  @GetMapping("/{id}")
   public ResponseEntity<Message> getMessageById(@PathVariable("id") Long id) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUserEmail = authentication.getName();
@@ -37,7 +37,7 @@ public class MessageController {
     }
   }
 
-  @PostMapping("/add")
+  @PostMapping("")
   public ResponseEntity<Message> addMessage(@RequestBody Message message) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUserEmail = authentication.getName();
@@ -52,7 +52,7 @@ public class MessageController {
     }
   }
 
-  @PutMapping("/update")
+  @PutMapping("")
   public ResponseEntity<Message> updateMessage(@RequestBody Message message) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUserEmail = authentication.getName();
@@ -66,7 +66,7 @@ public class MessageController {
     }
   }
 
-  @DeleteMapping("/delete/{id}")
+  @DeleteMapping("/{id}")
   public ResponseEntity<?> deleteMessage(@PathVariable("id") Long id) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUserEmail = authentication.getName();

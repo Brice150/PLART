@@ -61,20 +61,17 @@ public class UserController {
     return new ResponseEntity<>(users, HttpStatus.OK);
   }
 
-  @GetMapping("/user/find/email/{email}")
-  public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email) {
+  @GetMapping("/user")
+  public ResponseEntity<User> getConnectedUser() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUserEmail = authentication.getName();
-    if (currentUserEmail.equals(email)) {
-      User user = userService.findUserByEmail(email);
-      return new ResponseEntity<>(user, HttpStatus.OK);
-    }
-    else {
-      return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-    }
+    User user = userService.findUserByEmail(currentUserEmail);
+    user.setPassword(null);
+    user.setTokens(null);
+    return new ResponseEntity<>(user, HttpStatus.OK);
   }
 
-  @GetMapping("/user/find/id/{id}")
+  @GetMapping("/user/{id}")
   public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUserEmail = authentication.getName();
@@ -88,7 +85,7 @@ public class UserController {
     }
   }
 
-  @PutMapping("/user/update")
+  @PutMapping("/user")
   public ResponseEntity<User> updateUser(@RequestBody User user) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUserEmail = authentication.getName();
@@ -124,7 +121,7 @@ public class UserController {
     }
   }
 
-  @DeleteMapping("/user/delete/{email}")
+  @DeleteMapping("/user/{email}")
   public ResponseEntity<?> deleteUser(@PathVariable("email") String email) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentUserEmail = authentication.getName();

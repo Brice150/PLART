@@ -46,20 +46,20 @@ public class ObjectController {
       return new ResponseEntity<>(objects, HttpStatus.OK);
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Object> getObjectById(@PathVariable("id") Long id) {
       Object object = objectService.findObjectById(id);
       return new ResponseEntity<>(object, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+    @PostMapping("")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Object> addObject(@RequestBody Object object) {
       Object newObject = objectService.addObject(object);
       return new ResponseEntity<>(newObject, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update")
+    @PutMapping("")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Object> updateObject(@RequestBody Object object) {
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -74,7 +74,7 @@ public class ObjectController {
       }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<?> deleteObjectById(@PathVariable("id") Long id) throws IOException {
       String filename = objectService.findObjectById(id).getFileToDownload();
@@ -106,7 +106,7 @@ public class ObjectController {
       }
     }
 
-    @PostMapping("/file/upload")
+    @PostMapping("/file")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<String>> uploadFiles(@RequestParam("files")List<MultipartFile> multipartFiles) throws IOException {
       List<String> filenames = new ArrayList<>();
@@ -119,7 +119,7 @@ public class ObjectController {
       return ResponseEntity.ok().body(filenames);
     }
 
-  @PostMapping("/image/upload")
+  @PostMapping("/image")
   @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
   public ResponseEntity<List<String>> uploadImages(@RequestParam("images")List<MultipartFile> multipartImages) throws IOException {
     List<String> imagenames = new ArrayList<>();
@@ -132,7 +132,7 @@ public class ObjectController {
     return ResponseEntity.ok().body(imagenames);
   }
 
-    @GetMapping("/file/download/{filename}")
+    @GetMapping("/file/{filename}")
     public ResponseEntity<Resource> downloadFiles(@PathVariable("filename") String filename) throws IOException {
       Path filePath = get(FILEDIRECTORY).normalize().resolve(filename);
       if (!Files.exists(filePath)) {
@@ -146,7 +146,7 @@ public class ObjectController {
         .headers(httpHeaders).body(resource);
     }
 
-  @GetMapping("/image/get/{imagename}")
+  @GetMapping("/image/{imagename}")
   public ResponseEntity<Resource> getImage(@PathVariable("imagename") String imagename) throws IOException {
     Path imagePath = get(IMAGEDIRECTORY).normalize().resolve(imagename);
     if (!Files.exists(imagePath)) {

@@ -48,7 +48,7 @@ public class AdminController {
     return new ResponseEntity<>(users, HttpStatus.OK);
   }
 
-  @DeleteMapping("/user/delete/{email}")
+  @DeleteMapping("/user/{email}")
   public ResponseEntity<?> deleteUser(@PathVariable("email") String email) {
     userService.deleteUserByEmail(email);
     return new ResponseEntity<>(HttpStatus.OK);
@@ -60,13 +60,13 @@ public class AdminController {
     return new ResponseEntity<>(messages, HttpStatus.OK);
   }
 
-  @DeleteMapping("/message/delete/{id}")
+  @DeleteMapping("/message/{id}")
   public ResponseEntity<?> deleteMessage(@PathVariable("id") Long id) {
     messageService.deleteMessageById(id);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  @DeleteMapping("/object/delete/{id}")
+  @DeleteMapping("/object/{id}")
   public ResponseEntity<?> deleteObjectById(@PathVariable("id") Long id) throws IOException {
     String filename = objectService.findObjectById(id).getFileToDownload();
     String imagename = objectService.findObjectById(id).getImage();

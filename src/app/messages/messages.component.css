@@ -1,0 +1,291 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 0 20px;
+    height: 91vh;
+}
+
+.selection-container {
+    background-color: var(--secondarybis);
+    display: flex;
+    flex-direction: column;
+    max-width: 200px;
+    width: 100%;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.user-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.user {
+    background-color: var(--primarybis);
+    margin: 5px;
+    padding: 7px 0;
+    border-radius: 0.4em;
+    width: 80%;
+    transition: 0.5s;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user span {
+    margin: 0 10px;
+}
+
+.selection-container .user {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.selection-container .user:hover{
+    background-color: white;
+    box-shadow: 0 0 5px white,
+    0 0 25px white,
+    0 0 50px white,
+    0 0 100px white;
+    color: var(--secondary);
+}
+
+.selection-container .user.selected {
+    background-color: white;
+    color: var(--secondary);
+}
+
+.messages-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: auto;
+    background-color: var(--secondarybis);
+    width: 700px;
+    border-radius: 20px;
+}
+
+.messages-container .message-container {
+    margin: auto;
+    padding: 10px 0;
+    width: 95%;
+}
+
+.messages-container .message-container .contenu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.messages-container .message-container .contenu .delete {
+    color: var(--invalid);
+    padding: 10px;
+    font-size: 20px;
+    padding: 5px 5px 2px 5px;
+    border-radius: 15px;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.messages-container .message-container .contenu .delete:hover {
+    color: black;
+    background-color: var(--invalid);
+    box-shadow: 0 0 5px var(--invalid),
+    0 0 25px var(--invalid),
+    0 0 50px var(--invalid),
+    0 0 100px var(--invalid);
+}
+
+.messages-container .message-container .contenu.left {
+    display: flex;
+    justify-content: left;
+}
+
+.messages-container .message-container .contenu.right {
+    display: flex;
+    justify-content: right;
+}
+
+.messages-container .message-container .contenu .message {
+    max-width: 300px;
+    width: 95%;
+    border-radius: 0.4em;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+}
+
+.messages-container .message-container .contenu .message .content {
+    font-size: 15px;
+    font-weight: 450;
+    padding: 5px;
+    padding-bottom: 10px;
+}
+
+.messages-container .message-container .contenu .message .header-message {
+    font-size: 12px;
+    font-weight: 450;
+    margin: 0 5px;
+    font-style: italic;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+textarea::-webkit-scrollbar {
+    width: 0px;
+}
+
+.messages-container .message-container .contenu.left .message {
+    color: var(--secondary);
+    background-color: white;
+}
+
+.messages-container .message-container .contenu.right .message {
+    color: white;
+    background-color: var(--primarybis);
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.messages-container .message-container .contenu.right .message:hover {
+    background-color: white;
+    color: var(--secondary);
+}
+
+.messages-container .message-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 10px 0;
+}
+
+.messages-container .message-form .send-message {
+    width: 95%;
+    border-radius: 0.4em;
+    padding-top: 15px;
+    resize: none;
+    outline: none;
+    border: none;
+    height: auto;
+    white-space: normal;
+    text-align: justify;
+    -moz-text-align-last: center; /* Firefox 12+ */
+    text-align-last: center;
+    color: var(--secondary);
+    background-color: aliceblue;
+    font-size: 15px;
+    font-weight: 450;
+}
+
+::placeholder {
+    color: var(--secondary);
+    font-size: 15px;
+    font-weight: 450;
+}
+
+.messages-container .message-form span {
+    color: var(--invalid);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.messages-container .message-form .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.messages-container .message-form .button-container .validButton {
+    text-decoration: none;
+    background: aliceblue;
+    color: var(--secondary);
+    padding: 15px 30px;
+    border: 2px solid var(--valid);
+    margin-top: 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 0.4em;
+    transition: 0.5s;
+}
+
+.messages-container .message-form .button-container .invalidButton {
+    text-decoration: none;
+    background: aliceblue;
+    color: var(--secondary);
+    padding: 15px 30px;
+    border: 2px solid var(--invalid);
+    margin-top: 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 0.4em;
+    transition: 0.5s;
+}
+
+.messages-container .message-form .button-container .validButton:hover {
+    background-color: var(--valid);
+    box-shadow: 0 0 5px var(--valid),
+    0 0 25px var(--valid),
+    0 0 50px var(--valid),
+    0 0 100px var(--valid);
+    color: black;
+    cursor: pointer;
+}
+
+.send-message:focus.ng-valid {
+    box-shadow: 0 0 10px 4px var(--valid);
+}
+
+.send-message:focus.ng-invalid {
+    box-shadow: 0 0 10px 4px var(--invalid);
+}
+
+.messages-container .message-form .button-container .cancel {
+    text-decoration: none;
+    cursor: pointer;
+    background-color: var(--primarybis);
+    color: white;
+    padding: 15px 30px;
+    margin: 10px 0 0 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 0.4em;
+    transition: 0.5s;
+}
+
+.messages-container .message-form .button-container .cancel:hover {
+    background-color: white;
+    color: var(--secondary);
+    box-shadow: 0 0 5px white,
+    0 0 25px white,
+    0 0 50px white,
+    0 0 100px white;
+}
+
+.text-research {
+    margin-bottom: 10px;
+    border: 0;
+    background: var(--primarybis);
+    padding: 10px;
+    outline: none;
+    color: white;
+    transition: 0.5s;
+}
+
+.text-research::placeholder {
+    color: white;
+    text-align: center;
+    font-size: 15px;
+}

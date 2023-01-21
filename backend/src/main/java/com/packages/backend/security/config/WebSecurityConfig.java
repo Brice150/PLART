@@ -36,10 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/registration/**",
             "/logout",
             "/stats/**",
-            "/object/image/get/**",
-            "/object/all",
-            "/object/find/**",
-            "/object/file/download/**")
+            "/object/**")
           .permitAll()
           .anyRequest()
           .authenticated()

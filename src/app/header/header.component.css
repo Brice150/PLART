@@ -1,0 +1,40 @@
+header {
+    display: flex;
+    background-color: var(--header);
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    margin-bottom: 20px;
+    padding: 0 15px;
+}
+
+header .title-section {
+    display: flex;
+    align-items: center;
+}
+
+header .title-section span {
+    color: white;
+    font-size: 20px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.logout {
+    color: white;
+    font-size: 30px;
+    margin-left: 10px;
+    border-radius: 9px;
+    padding: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+} 
+
+.logout:hover {
+    color: black;
+    background-color: white;
+    box-shadow: 0 0 5px white,
+    0 0 25px white,
+    0 0 50px white,
+    0 0 100px white;
+}

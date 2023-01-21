@@ -1,0 +1,23 @@
+<div class="container">
+    <input type="search" (ngModelChange)="search(key.value)" #key="ngModel" ngModel name="key" class="text-research" placeholder="Search">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>File</th>
+                <th>Owner</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let object of objects">
+                <td data-label="Name">{{object?.name}}</td>
+                <td data-label="Category">{{object?.category}}</td>
+                <td data-label="File">{{object?.fileToDownload}}</td>
+                <td data-label="Owner">{{object?.nickname}}</td>
+                <td data-label="Delete" class="delete-cell"><a class="delete" title="delete" (click)="openDialog(object)"><i class='bx bx-message-square-x'></i></a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
