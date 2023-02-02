@@ -4,7 +4,7 @@
   
 # PLART, a 3D printing web application
 
-This application is a FullStack demo of my skills in Angular and Spring Boot.
+This application is a Full-Stack demo of my skills in Angular and Spring Boot.
 
 ## Pages Features
 
