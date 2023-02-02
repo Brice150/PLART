@@ -70,6 +70,4 @@ Start the server
   ng serve -o
 ```
 
-## Color Reference
-
 ## API Reference
