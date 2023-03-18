@@ -4,7 +4,9 @@
   
 # PLART, a 3D printing web application
 
-This application is a Full-Stack demo of my skills in Angular and Spring Boot.
+Frontend : Angular CLI
+<br>
+Backend : Spring Boot
 
 ## Pages Features
 
@@ -71,3 +73,195 @@ Start the server
 ```
 
 ## API Reference
+
+### Connection
+
+#### Register
+
+```http
+  POST /registration
+```
+
+#### Confirm email
+
+```http
+  GET /registration/confirm
+```
+
+#### Login
+
+```http
+  GET /login
+```
+
+#### Logout
+
+```http
+  GET /logout
+```
+
+### Admin
+
+#### Get all users
+
+```http
+  GET /admin/user/all
+```
+
+#### Delete user
+
+```http
+  DELETE /admin/user/${email}
+```
+
+#### Get all messages
+
+```http
+  GET /admin/message/all
+```
+
+#### Delete message
+
+```http
+  DELETE /admin/message/${messageId}
+```
+
+#### Delete object
+
+```http
+  DELETE /admin/object/${messageId}
+```
+
+### User
+
+#### Get all users
+
+```http
+  GET /user/all
+```
+
+#### Get connected user
+
+```http
+  GET /user
+```
+
+#### Get user by id
+
+```http
+  GET /user/${userId}
+```
+
+#### Update user
+
+```http
+  PUT /user
+```
+
+#### Delete user
+
+```http
+  DELETE /user/${email}
+```
+
+### Message
+
+#### Get message by id
+
+```http
+  GET /message/${messageId}
+```
+
+#### Add message
+
+```http
+  POST /message
+```
+
+#### Update message
+
+```http
+  PUT /message
+```
+
+#### Delete message
+
+```http
+  DELETE /message/${messageId}
+```
+
+### Object
+
+#### Get all objects
+
+```http
+  GET /object/all
+```
+
+#### Get object by id
+
+```http
+  GET /object/${objectId}
+```
+
+#### Add object
+
+```http
+  POST /object
+```
+
+#### Update object
+
+```http
+  PUT /object
+```
+
+#### Delete object
+
+```http
+  DELETE /object/${objectId}
+```
+
+#### Upload object image
+
+```http
+  POST /object/image
+```
+
+#### Get object image
+
+```http
+  GET /object/image/${imageName}
+```
+
+#### Upload object file
+
+```http
+  POST /object/file
+```
+
+#### Get object file
+
+```http
+  GET /object/file/${fileName}
+```
+
+### Stats
+
+#### Get users number
+
+```http
+  GET /stats/users
+```
+
+#### Get creaters number
+
+```http
+  GET /stats/creaters
+```
+
+#### Get objects number
+
+```http
+  GET /stats/objects
+```
