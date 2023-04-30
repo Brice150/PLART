@@ -11,8 +11,6 @@ Backend : Spring Boot
 <details>
   <summary>Pages Features</summary>
 
-  <br>
-
   ### Home
 
   - Images swiper with dynamic descriptions
@@ -82,6 +80,8 @@ Backend : Spring Boot
 
 <details>
   <summary>API Reference</summary>
+
+  <br>
 
   <details>
   <summary>Connection</summary>
