@@ -4,264 +4,291 @@
   
 # PLART, a 3D printing web application
 
-Frontend : Angular CLI
+Frontend : Angular
 <br>
 Backend : Spring Boot
 
-## Pages Features
+<details>
+  <summary>Pages Features</summary>
 
-### Home
+  ### Home
 
-- Images swiper with dynamic descriptions
-- Animated website stats with go to connect, user or objects pages when clicked
+  - Images swiper with dynamic descriptions
+  - Animated website stats with go to connect, user or objects pages when clicked
 
-### Objects
+  ### Objects
 
-- Search object or filter objects by category
-- See objects with a rotating card animation
-- Download the 3D printable file of any object 
+  - Search object or filter objects by category
+  - See objects with a rotating card animation
+  - Download the 3D printable file of any object 
 
-### Connect
+  ### Connect
 
-- Register with email confirmation
-- Login with form control and failure animation
-- Logout is available on any page once logged in
+  - Register with email confirmation
+  - Login with form control and failure animation
+  - Logout is available on any page once logged in
 
-### User
+  ### User
 
-- Login needed to view this page
-- Modify or delete your account (delete needs confirmation)
-- See your objects and download them
-- Add an object with a file and optionnal image
-- Modify or delete your objects (delete needs confirmation)
+  - Login needed to view this page
+  - Modify or delete your account (delete needs confirmation)
+  - See your objects and download them
+  - Add an object with a file and optionnal image
+  - Modify or delete your objects (delete needs confirmation)
 
-### Messages
+  ### Messages
 
-- Login needed to view this page
-- Search user
-- See messages and messages number per user
-- Send, modify or delete a message
+  - Login needed to view this page
+  - Search user
+  - See messages and messages number per user
+  - Send, modify or delete a message
 
-### Admin
+  ### Admin
 
-- Admin role needed to view this page
-- Search user, object or message
-- See all users, objects or messages
-- Delete user, object or message
+  - Admin role needed to view this page
+  - Search user, object or message
+  - See all users, objects or messages
+  - Delete user, object or message
 
-## Run Locally
+</details>
 
-Clone the project
+<details>
+  <summary>Run Locally</summary>
 
-```bash
-  git clone https://github.com/Brice150/PLART.git
-```
+  ### Clone the project
 
-Go to backend directory 
---> Run application on Intellij
+  ```bash
+    git clone https://github.com/Brice150/PLART.git
+  ```
 
-Install dependencies
+  ### Go to backend directory 
+    --> Run application on Intellij
 
-```bash
-  npm install
-```
+  ### Install dependencies
 
-Start the server
+  ```bash
+    npm install
+  ```
 
-```bash
-  ng serve -o
-```
+  ### Start the server
 
-## API Reference
+  ```bash
+    ng serve -o
+  ```
 
-### Connection
+</details>  
 
-#### Register
+<details>
+  <summary>API Reference</summary>
 
-```http
-  POST /registration
-```
+  <details>
+  <summary>Connection</summary>
 
-#### Confirm email
+  ### Register
 
-```http
-  GET /registration/confirm
-```
+  ```http
+    POST /registration
+  ```
 
-#### Login
+  ### Confirm email
 
-```http
-  GET /login
-```
+  ```http
+    GET /registration/confirm
+  ```
 
-#### Logout
+  ### Login
 
-```http
-  GET /logout
-```
+  ```http
+    GET /login
+  ```
 
-### Admin
+  ### Logout
 
-#### Get all users
+  ```http
+    GET /logout
+  ```
 
-```http
-  GET /admin/user/all
-```
+  </details> 
 
-#### Delete user
+  <details>
+  <summary>Admin</summary>
 
-```http
-  DELETE /admin/user/${email}
-```
+  ### Get all users
 
-#### Get all messages
+  ```http
+    GET /admin/user/all
+  ```
 
-```http
-  GET /admin/message/all
-```
+  ### Delete user
 
-#### Delete message
+  ```http
+    DELETE /admin/user/${email}
+  ```
 
-```http
-  DELETE /admin/message/${messageId}
-```
+  ### Get all messages
 
-#### Delete object
+  ```http
+    GET /admin/message/all
+  ```
 
-```http
-  DELETE /admin/object/${messageId}
-```
+  ### Delete message
 
-### User
+  ```http
+    DELETE /admin/message/${messageId}
+  ```
 
-#### Get all users
+  ### Delete object
 
-```http
-  GET /user/all
-```
+  ```http
+    DELETE /admin/object/${messageId}
+  ```
 
-#### Get connected user
+  </details> 
 
-```http
-  GET /user
-```
+  <details>
+  <summary>User</summary>
 
-#### Get user by id
+  ### Get all users
 
-```http
-  GET /user/${userId}
-```
+  ```http
+    GET /user/all
+  ```
 
-#### Update user
+  ### Get connected user
 
-```http
-  PUT /user
-```
+  ```http
+    GET /user
+  ```
 
-#### Delete user
+  ### Get user by id
 
-```http
-  DELETE /user/${email}
-```
+  ```http
+    GET /user/${userId}
+  ```
 
-### Message
+  ### Update user
 
-#### Get message by id
+  ```http
+    PUT /user
+  ```
 
-```http
-  GET /message/${messageId}
-```
+  ### Delete user
 
-#### Add message
+  ```http
+    DELETE /user/${email}
+  ```
 
-```http
-  POST /message
-```
+  </details> 
 
-#### Update message
+  <details>
+  <summary>Message</summary>
 
-```http
-  PUT /message
-```
+  ### Get message by id
 
-#### Delete message
+  ```http
+    GET /message/${messageId}
+  ```
 
-```http
-  DELETE /message/${messageId}
-```
+  ### Add message
 
-### Object
+  ```http
+    POST /message
+  ```
 
-#### Get all objects
+  ### Update message
 
-```http
-  GET /object/all
-```
+  ```http
+    PUT /message
+  ```
 
-#### Get object by id
+  ### Delete message
 
-```http
-  GET /object/${objectId}
-```
+  ```http
+    DELETE /message/${messageId}
+  ```
 
-#### Add object
+  </details> 
 
-```http
-  POST /object
-```
+  <details>
+  <summary>Object</summary>
 
-#### Update object
+  ### Get all objects
 
-```http
-  PUT /object
-```
+  ```http
+    GET /object/all
+  ```
 
-#### Delete object
+  ### Get object by id
 
-```http
-  DELETE /object/${objectId}
-```
+  ```http
+    GET /object/${objectId}
+  ```
 
-#### Upload object image
+  ### Add object
 
-```http
-  POST /object/image
-```
+  ```http
+    POST /object
+  ```
 
-#### Get object image
+  ### Update object
 
-```http
-  GET /object/image/${imageName}
-```
+  ```http
+    PUT /object
+  ```
 
-#### Upload object file
+  ### Delete object
 
-```http
-  POST /object/file
-```
+  ```http
+    DELETE /object/${objectId}
+  ```
 
-#### Get object file
+  ### Upload object image
 
-```http
-  GET /object/file/${fileName}
-```
+  ```http
+    POST /object/image
+  ```
 
-### Stats
+  ### Get object image
 
-#### Get users number
+  ```http
+    GET /object/image/${imageName}
+  ```
 
-```http
-  GET /stats/users
-```
+  ### Upload object file
 
-#### Get creaters number
+  ```http
+    POST /object/file
+  ```
 
-```http
-  GET /stats/creaters
-```
+  ### Get object file
 
-#### Get objects number
+  ```http
+    GET /object/file/${fileName}
+  ```
 
-```http
-  GET /stats/objects
-```
+  </details> 
+
+  <details>
+  <summary>Stats</summary>
+
+  ### Get users number
+
+  ```http
+    GET /stats/users
+  ```
+
+  ### Get creaters number
+
+  ```http
+    GET /stats/creaters
+  ```
+
+  ### Get objects number
+
+  ```http
+    GET /stats/objects
+  ```
+
+  </details> 
+
+</details> 
