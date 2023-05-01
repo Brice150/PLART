@@ -1,50 +1,67 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogComponent } from 'src/app/dialog/dialog.component';
 import { Object } from 'src/app/core/interfaces/object';
 import { AdminService } from 'src/app/core/services/admin.service';
 import { ObjectService } from 'src/app/core/services/object.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-admin-objects',
   templateUrl: './admin.objects.component.html',
   styleUrls: ['./admin.objects.component.css']
 })
-export class AdminObjectsComponent implements OnInit{
+export class AdminObjectsComponent implements OnInit, OnDestroy{
   objects: Object[]=[];
+  getObjectSubscription!: Subscription;
+  deleteObjectSubscription!: Subscription;
 
   constructor(
     private objectService: ObjectService,
     private adminService: AdminService,
-    private snackBar: MatSnackBar,
-    public dialog: MatDialog) {}
+    public dialog: MatDialog,
+    private toastr: ToastrService) {}
 
   ngOnInit() {
     this.getObjects();
   }
+
+  ngOnDestroy() {
+    this.getObjectSubscription && this.getObjectSubscription.unsubscribe();
+    this.deleteObjectSubscription && this.deleteObjectSubscription.unsubscribe();
+  }
   
   getObjects() {
-    this.objectService.getObjects().subscribe(
-      (response: Object[]) => {
+    this.getObjectSubscription = this.objectService.getObjects().subscribe({
+      next: (response: Object[]) => {
         this.objects = response;
       },
-      (error: HttpErrorResponse) => {
-        alert(error);
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
       }
-    )
+    })
   }
   
   deleteObject(object: Object) {
-    this.adminService.deleteObject(object.id).subscribe(
-    (response: void) => {
-      this.getObjects();
-      this.snackBar.open("Content deleted", "Dismiss", {duration: 2000});
-    },
-    (error: HttpErrorResponse) => {
-      alert(error.message);
-    });
+    this.deleteObjectSubscription = this.adminService.deleteObject(object.id).subscribe({
+      next: (response: void) => {
+        this.getObjects();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
+      },
+      complete: () => {
+        this.toastr.success("Object deleted", "Object", {
+          positionClass: "toast-bottom-center" 
+        })
+      }
+    })
   }
 
   openDialog(object: Object) {
@@ -54,7 +71,7 @@ export class AdminObjectsComponent implements OnInit{
       if (result) {
         this.deleteObject(object);
       }
-    });
+    })
   }
 
   search(key: string){

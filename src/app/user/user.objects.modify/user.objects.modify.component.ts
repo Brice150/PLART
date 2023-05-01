@@ -1,31 +1,36 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { DialogComponent } from 'src/app/dialog/dialog.component';
 import { Object } from 'src/app/core/interfaces/object';
 import { User } from 'src/app/core/interfaces/user';
 import { ObjectService } from 'src/app/core/services/object.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-user-objects-modify',
   templateUrl: './user.objects.modify.component.html',
   styleUrls: ['./user.objects.modify.component.css']
 })
-export class UserObjectsModifyComponent {
+export class UserObjectsModifyComponent implements OnInit, OnDestroy{
   loggedInUser!: User | null;
   objects: Object[]=[];
   object!: Object | null;
   updateForm!: FormGroup;
+  getLoggedInUserSubscription!: Subscription;
+  getObjectsSubscription!: Subscription;
+  updateObjectSubscription!: Subscription;
+  deleteObjectSubscription!: Subscription;
 
   constructor(
     private objectService: ObjectService,
     private userService: UserService,
-    private snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private fb: FormBuilder) {}
+    private fb: FormBuilder,
+    private toastr:ToastrService) {}
 
   ngOnInit() {
     this.updateForm = this.fb.group({
@@ -38,28 +43,39 @@ export class UserObjectsModifyComponent {
     this.getObjects();
   }
 
+  ngOnDestroy() {
+    this.getLoggedInUserSubscription && this.getLoggedInUserSubscription.unsubscribe();
+    this.getObjectsSubscription && this.getObjectsSubscription.unsubscribe();
+    this.updateObjectSubscription && this. updateObjectSubscription.unsubscribe();
+    this.deleteObjectSubscription && this.deleteObjectSubscription.unsubscribe();
+  }
+
   getLoggedInUser() {
-    this.userService.getConnectedUser().subscribe(
-      (response: User) => {
+    this.getLoggedInUserSubscription = this.userService.getConnectedUser().subscribe({
+      next: (response: User) => {
         this.loggedInUser = response;
       },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
       }
-    )
+    })
   }
 
   getObjects() {
-    this.userService.getConnectedUser().subscribe(
-      (response: User) => {
+    this.getObjectsSubscription = this.userService.getConnectedUser().subscribe({
+      next: (response: User) => {
         if (response.objects.length !== 0) {
           this.objects=response.objects!;
         }
       },
-      (error: HttpErrorResponse) => {
-        alert(error);
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
       }
-    )
+    })
   }
 
   modify(object: Object) {
@@ -76,25 +92,41 @@ export class UserObjectsModifyComponent {
     object.nickname = this.object?.nickname!;
     object.image = this.object?.image!;
     object.fkUser = {"id": this.loggedInUser!.id};
-    this.objectService.updateObject(object).subscribe(
-      (response: Object) => {
+    this.updateObjectSubscription = this.objectService.updateObject(object).subscribe({
+      next: (response: Object) => {
         this.getObjects();
-        this.snackBar.open("Content updated", "Dismiss", {duration: 2000});
+        this.unmodify();
       },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      });
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
+      },
+      complete: () => {
+        this.toastr.success("Object updated", "Object", {
+          positionClass: "toast-bottom-center" 
+        })
+      }
+    })
   }
 
   deleteObject(object: Object) {
-    this.objectService.deleteObject(object.id).subscribe(
-    (response: void) => {
-      this.getObjects();
-      this.snackBar.open("Content deleted", "Dismiss", {duration: 2000});
-    },
-    (error: HttpErrorResponse) => {
-      alert(error.message);
-    });
+    this.deleteObjectSubscription = this.objectService.deleteObject(object.id).subscribe({
+      next: (response: void) => {
+        this.getObjects();
+        this.unmodify();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
+      },
+      complete: () => {
+        this.toastr.success("Object deleted", "Object", {
+          positionClass: "toast-bottom-center" 
+        })
+      }
+    })
   }
 
   openDialog(object: Object) {
@@ -104,6 +136,6 @@ export class UserObjectsModifyComponent {
       if (result) {
         this.deleteObject(object);
       }
-    });
+    })
   }
 }

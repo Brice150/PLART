@@ -1,6 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs/internal/Subscription';
 import { User } from 'src/app/core/interfaces/user';
 import { ConnectService } from 'src/app/core/services/connect.service';
 
@@ -9,13 +11,15 @@ import { ConnectService } from 'src/app/core/services/connect.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   registerForm!: FormGroup;
   onConfirmEmail: boolean = false;
+  registerSubscription!: Subscription;
 
   constructor(
     private fb: FormBuilder, 
-    private connectService: ConnectService) {}
+    private connectService: ConnectService,
+    private toastr: ToastrService) {}
 
   ngOnInit() {
     this.registerForm = this.fb.group({
@@ -25,15 +29,26 @@ export class RegisterComponent implements OnInit {
     })
   }
 
+  ngOnDestroy() {
+    this.registerSubscription && this.registerSubscription.unsubscribe();
+  }
+
   registerUser(user: User) {
-    this.connectService.register(user).subscribe(
-      (response: User) => {
+    this.registerSubscription = this.connectService.register(user).subscribe({
+      next: (response: User) => {
         this.onConfirmEmail=true;
       },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
+      },
+      complete: () => {
+        this.toastr.success("Please confirm your email", "Connection", {
+          positionClass: "toast-bottom-center" 
+        })
       }
-    );
+  })
   }
   
 }

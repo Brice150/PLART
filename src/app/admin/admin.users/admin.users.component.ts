@@ -1,49 +1,65 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogComponent } from 'src/app/dialog/dialog.component';
 import { User } from 'src/app/core/interfaces/user';
 import { AdminService } from 'src/app/core/services/admin.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-admin-users',
   templateUrl: './admin.users.component.html',
   styleUrls: ['./admin.users.component.css']
 })
-export class AdminUsersComponent implements OnInit{
+export class AdminUsersComponent implements OnInit, OnDestroy{
   users: User[]=[];
+  getUserSubscription!: Subscription;
+  deleteUserSubscription!: Subscription;
 
   constructor(
     private adminService: AdminService,
-    private snackBar: MatSnackBar,
-    public dialog: MatDialog) {}
+    public dialog: MatDialog,
+    private toastr: ToastrService) {}
   
   ngOnInit() {
     this.getUsers();
   }
 
+  ngOnDestroy() {
+    this.getUserSubscription && this.getUserSubscription.unsubscribe();
+    this.deleteUserSubscription && this.deleteUserSubscription.unsubscribe();
+  }
+
   getUsers() {
-    this.adminService.getUsers().subscribe(
-      (response: User[]) => {
+    this.getUserSubscription = this.adminService.getUsers().subscribe({
+      next: (response: User[]) => {
         this.users = response;
       },
-      (error: HttpErrorResponse) => {
-        alert(error);
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
       }
-    )
+    })
   }
 
   deleteUser(email: string) {
-    this.adminService.deleteUser(email).subscribe(
-      (response: void) => {
+    this.deleteUserSubscription = this.adminService.deleteUser(email).subscribe({
+      next: (response: void) => {
         this.getUsers();
-        this.snackBar.open("Content deleted", "Dismiss", {duration: 2000});
       },
-      (error: HttpErrorResponse) => {
-        alert(error);
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
+      },
+      complete: () => {
+        this.toastr.success("User deleted", "User", {
+          positionClass: "toast-bottom-center" 
+        })
       }
-    )
+    })
   }
 
   openDialog(email: string) {
@@ -53,7 +69,7 @@ export class AdminUsersComponent implements OnInit{
       if (result) {
         this.deleteUser(email);
       }
-    });
+    })
   }
 
   search(key: string){

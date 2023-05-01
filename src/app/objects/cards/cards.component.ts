@@ -1,6 +1,8 @@
 import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as saveAs from 'file-saver';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs/internal/Subscription';
 import { Object } from 'src/app/core/interfaces/object';
 import { ObjectService } from 'src/app/core/services/object.service';
 import { environment } from 'src/environments/environment';
@@ -11,43 +13,56 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./cards.component.css']
 })
 
-export class CardsComponent implements OnInit {
+export class CardsComponent implements OnInit, OnDestroy {
   imagePath: string = environment.imagePath+"objects/";
   objects: Object[]=[];
   categories: string[]=[];
+  filteredObjects: Object[]=[];
+  selectedChip!: string;
+  getObjectsSubscription!: Subscription;
+  getImageSubscription!: Subscription;
+  downloadSubscription!: Subscription;
 
   constructor(
-    private objectService: ObjectService) {}
+    private objectService: ObjectService,
+    private toastr: ToastrService
+    ) {}
 
   ngOnInit() {
     this.getObjects();
   }
 
+  ngOnDestroy() {
+    this.getObjectsSubscription && this.getObjectsSubscription.unsubscribe();
+    this.getImageSubscription && this.getImageSubscription.unsubscribe();
+    this.downloadSubscription && this.downloadSubscription.unsubscribe();
+  }
+
   getObjects() {
-    this.objectService.getObjects().subscribe(
-      (response: Object[]) => {
+    this.getObjectsSubscription = this.objectService.getObjects().subscribe({
+      next: (response: Object[]) => {
         this.objects=response;
+        this.filteredObjects=response;
         for (let object of this.objects) {
           this.getImage(object);
           if (!this.categories.includes(object.category)) {
             this.categories.push(object?.category);
           }
         }
-        if (!this.categories.includes("X")) {
-          this.categories.push("X");
-        }
       },
-      (error: HttpErrorResponse) => {
-        alert(error);
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
       }
-    )
+    })
   }
 
   getImage(object: Object) {
     let reader = new FileReader();
     if (object.image) {
-      this.objectService.getImage(object.image.toString()).subscribe(
-        event => {
+      this.getImageSubscription = this.objectService.getImage(object.image.toString()).subscribe({
+        next: event => {
           if (event.type === HttpEventType.Response) {
             if (event.body instanceof Array) {
               
@@ -61,10 +76,12 @@ export class CardsComponent implements OnInit {
             }
           }
         },
-        (error: HttpErrorResponse) => {
-          alert(error);
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.message, "Server error", {
+            positionClass: "toast-bottom-center" 
+          })
         }
-      );
+      })
     }
     else {
       object.image = this.imagePath + "No-Image.jpg";
@@ -73,8 +90,8 @@ export class CardsComponent implements OnInit {
 
   download(object: Object) {
     if (object?.fileToDownload) {
-      this.objectService.downloadObject(object?.fileToDownload).subscribe(
-        event => {
+      this.downloadSubscription = this.objectService.downloadObject(object?.fileToDownload).subscribe({
+        next: event => {
           console.log(event);
           if (event.type === HttpEventType.Response) {
             if (event.body instanceof Array) {
@@ -86,39 +103,58 @@ export class CardsComponent implements OnInit {
             }
         }
         },
-        (error: HttpErrorResponse) => {
-          console.log(error);
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.message, "Server error", {
+            positionClass: "toast-bottom-center" 
+          })
         }
-      );
+      })
     }
   }
 
   search(key: string){
-    const results: Object[] = [];
-    for (const object of this.objects) {
-      if (object.name?.toLowerCase().indexOf(key.toLowerCase())!== -1
-      || object.nickname?.toLowerCase().indexOf(key.toLowerCase())!== -1) {
-        results.push(object);
+    let withCategoryCondition: boolean = false;
+    let noCategoryCondition: boolean = false;
+    if (!this.selectedChip) {
+      this.filteredObjects = [];
+      for (const object of this.objects) {
+        noCategoryCondition = (object.name?.toLowerCase().indexOf(key.toLowerCase())!== -1
+                                            || object.nickname?.toLowerCase().indexOf(key.toLowerCase())!== -1);
+        if (noCategoryCondition) {
+          this.filteredObjects.push(object);
+        }
+      }
+      if (this.filteredObjects.length === 0 ||!key) {
+        this.filteredObjects = this.objects;
       }
     }
-    this.objects = results;
-    if (results.length === 0 ||!key) {
-      this.getObjects();
+    else {
+      this.filteredObjects = [];
+      for (const object of this.objects) {
+        withCategoryCondition = ((object.name?.toLowerCase().indexOf(key.toLowerCase())!== -1
+                                            || object.nickname?.toLowerCase().indexOf(key.toLowerCase())!== -1) 
+                                            && object.category === this.selectedChip);
+        if (withCategoryCondition) {
+          this.filteredObjects.push(object);
+        }
+      }
+      if (this.filteredObjects.length === 0 ||!key) {
+        this.activateCategory();
+      }
     }
   }
   
-  activateCategory(category: string) {
-    const results: Object[] = [];
-    for (const object of this.objects) {
-      if (object?.category === category) {
-        results.push(object);
-      }
-    }
-    if (results.length !== 0) {
-      this.objects = results;
+  activateCategory() {
+    if (!this.selectedChip) {
+      this.filteredObjects = this.objects;
     }
     else {
-      this.getObjects();
+      this.filteredObjects = [];
+      for (const object of this.objects) {
+        if (object?.category === this.selectedChip) {
+          this.filteredObjects.push(object);
+        }
+      }
     }
   }
 }

@@ -1,49 +1,65 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogComponent } from 'src/app/dialog/dialog.component';
 import { Message } from 'src/app/core/interfaces/message';
 import { AdminService } from 'src/app/core/services/admin.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-admin-messages',
   templateUrl: './admin.messages.component.html',
   styleUrls: ['./admin.messages.component.css']
 })
-export class AdminMessagesComponent implements OnInit{
+export class AdminMessagesComponent implements OnInit, OnDestroy{
   messages: Message[]=[];
+  getMessageSubscription!: Subscription;
+  deleteMessageSubscription!: Subscription;
 
   constructor(
     private adminService: AdminService,
-    private snackBar: MatSnackBar,
-    public dialog: MatDialog) {}
+    public dialog: MatDialog,
+    private toastr: ToastrService) {}
 
   ngOnInit() {
     this.getMessages();
   }
 
+  ngOnDestroy() {
+    this.getMessageSubscription && this.getMessageSubscription.unsubscribe();
+    this.deleteMessageSubscription && this.deleteMessageSubscription.unsubscribe();
+  }
+
   getMessages() {
-    this.adminService.getMessages().subscribe(
-      (response: Message[]) => {
+    this.getMessageSubscription = this.adminService.getMessages().subscribe({
+      next: (response: Message[]) => {
         this.messages = response;
       },
-      (error: HttpErrorResponse) => {
-        alert(error);
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
       }
-    )
+    })
   }
 
   deleteMessage(id: number) {
-    this.adminService.deleteMessage(id).subscribe(
-      (response: void) => {
+    this.deleteMessageSubscription = this.adminService.deleteMessage(id).subscribe({
+      next: (response: void) => {
         this.getMessages();
-        this.snackBar.open("Content deleted", "Dismiss", {duration: 2000});
       },
-      (error: HttpErrorResponse) => {
-        alert(error);
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
+      },
+      complete: () => {
+        this.toastr.success("Message deleted", "Message", {
+          positionClass: "toast-bottom-center" 
+        })
       }
-    )
+    })
   }
   
   openDialog(id: number) {
@@ -53,7 +69,7 @@ export class AdminMessagesComponent implements OnInit{
       if (result) {
         this.deleteMessage(id);
       }
-    });
+    })
   }
 
   search(key: string){

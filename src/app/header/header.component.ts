@@ -20,6 +20,6 @@ export class HeaderComponent{
     this.router.navigate(['/connect'])
     .then(() => {
       window.location.reload();
-    });
+    })
   }
 }

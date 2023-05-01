@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs/internal/Subscription';
 import { Object } from 'src/app/core/interfaces/object';
 import { User } from 'src/app/core/interfaces/user';
 import { ObjectService } from 'src/app/core/services/object.service';
@@ -12,19 +13,23 @@ import { UserService } from 'src/app/core/services/user.service';
   templateUrl: './user.objects.add.component.html',
   styleUrls: ['./user.objects.add.component.css']
 })
-export class UserObjectsAddComponent implements OnInit{
+export class UserObjectsAddComponent implements OnInit, OnDestroy{
     loggedInUser!: User | null;
     addForm!: FormGroup;
     filesData!: FormData;
     imagesData!: FormData;
     filename!: string;
     imagename!: string;
+    addImageSubscription!: Subscription;
+    addFileSubscription!: Subscription;
+    addObjectSubscription!: Subscription;
+    getLoggedInUserSubscription!: Subscription;
 
     constructor (
       private fb: FormBuilder,
       private objectService: ObjectService,
       private userService: UserService,
-      private snackBar: MatSnackBar
+      private toastr: ToastrService
     ) {}
 
     ngOnInit() {
@@ -35,6 +40,13 @@ export class UserObjectsAddComponent implements OnInit{
       })
 
       this.getLoggedInUser();
+    }
+
+    ngOnDestroy() {
+      this.addImageSubscription && this.addImageSubscription.unsubscribe();
+      this.addFileSubscription && this.addFileSubscription.unsubscribe();
+      this.addObjectSubscription && this.addObjectSubscription.unsubscribe();
+      this.getLoggedInUserSubscription && this.getLoggedInUserSubscription.unsubscribe();
     }
 
     addFile(files: File[]) {
@@ -64,50 +76,66 @@ export class UserObjectsAddComponent implements OnInit{
       object.fkUser={"id":this.loggedInUser?.id};
       if (this.imagename) {
         object.image = this.imagename;
-        this.objectService.uploadImage(this.imagesData).subscribe(
-          event => {
+        this.addImageSubscription = this.objectService.uploadImage(this.imagesData).subscribe({
+          next: event => {
             console.log(event);
           },
-          (error: HttpErrorResponse) => {
-            alert(error);
+          error: (error: HttpErrorResponse) => {
+            this.toastr.error(error.message, "Server error", {
+              positionClass: "toast-bottom-center" 
+            })
           }
-        );
+        })
       }
       if (this.filesData !== undefined) {
         object.fileToDownload = this.filename;
-        this.objectService.uploadFile(this.filesData).subscribe(
-          event => {
+        this.addFileSubscription = this.objectService.uploadFile(this.filesData).subscribe({
+          next: event => {
             console.log(event);
           },
-          (error: HttpErrorResponse) => {
-            alert(error);
+          error: (error: HttpErrorResponse) => {
+            this.toastr.error(error.message, "Server error", {
+              positionClass: "toast-bottom-center" 
+            })
           }
-        );
-        this.objectService.addObject(object).subscribe(
-          (response: Object) => {
-            this.snackBar.open("Content added", "Dismiss", {duration: 1000})
-            .afterDismissed().subscribe(() => {
-              window.location.reload();
-            });
+        })
+        this.addObjectSubscription = this.objectService.addObject(object).subscribe({
+          next: (response: Object) => {
+            this.addForm.reset();
+            this.filesData = new FormData();
+            this.filename = "";
+            this.imagesData = new FormData();
+            this.imagename = "";
+          }, 
+          error: (error: HttpErrorResponse) => {
+            this.toastr.error(error.message, "Server error", {
+              positionClass: "toast-bottom-center" 
+            })
           },
-          (error: HttpErrorResponse) => {
-            alert(error.message);
+          complete: () => {
+            this.toastr.success("Object added", "Object", {
+              positionClass: "toast-bottom-center" 
+            })
           }
-        )
+      })
       }
       else {
-        alert("File must be added !");
+        this.toastr.warning("File must be added", "Object", {
+          positionClass: "toast-bottom-center" 
+        })
       }
     }
 
     getLoggedInUser() {
-      this.userService.getConnectedUser().subscribe(
-        (response: User) => {
+      this.getLoggedInUserSubscription = this.userService.getConnectedUser().subscribe({
+        next: (response: User) => {
           this.loggedInUser = response;
         },
-        (error: HttpErrorResponse) => {
-          alert(error.message);
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.message, "Server error", {
+            positionClass: "toast-bottom-center" 
+          })
         }
-      )
+      })
     }
 }

@@ -1,11 +1,11 @@
 <div class="research">
     <input type="search" (ngModelChange)="search(key.value)" #key="ngModel" ngModel name="key" class="text-research" placeholder="Search Objects/Creaters">
-    <mat-chip-list>
-        <mat-chip *ngFor="let category of categories" (click)="activateCategory(category)">{{category}}</mat-chip>
-    </mat-chip-list>
+    <mat-chip-listbox [(ngModel)]="selectedChip">
+        <mat-chip-option *ngFor="let category of categories" (click)="activateCategory()">{{category}}</mat-chip-option>
+    </mat-chip-listbox>
 </div>
 <div class="container">
-    <div *ngFor="let object of objects" class="card-container">
+    <div *ngFor="let object of filteredObjects" class="card-container">
         <div class="card">
             <div class="front-content">
                 <img [src]="object?.image" [alt]="object?.name">
