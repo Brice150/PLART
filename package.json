@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
     "file-saver": "^2.0.5",
+    "ngx-toastr": "^16.1.1",
     "ngx-useful-swiper": "^10.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
