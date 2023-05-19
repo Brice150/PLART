@@ -1,5 +1,5 @@
 <div class="research">
-    <input type="search" (ngModelChange)="search(key.value)" #key="ngModel" ngModel name="key" class="text-research" placeholder="Search Objects/Creaters">
+    <input type="search" (ngModelChange)="search(key.value)" #key="ngModel" ngModel name="key" class="text-research" placeholder="Search Objects/Creators">
     <mat-chip-listbox [(ngModel)]="selectedChip">
         <mat-chip-option *ngFor="let category of categories" (click)="activateCategory()">{{category}}</mat-chip-option>
     </mat-chip-listbox>

@@ -14,8 +14,8 @@ export class StatsService {
         { withCredentials: true });
     }
 
-    public getCreatersNumber(): Observable<number> {
-        return this.http.get<number>(`${this.apiServerUrl}/stats/creaters`,
+    public getCreatorsNumber(): Observable<number> {
+        return this.http.get<number>(`${this.apiServerUrl}/stats/creators`,
         { withCredentials: true });
     }
 

@@ -3,33 +3,35 @@
 <div class="container" *ngIf="isConnected">
     <div class="selection-container">
         <input type="search" (ngModelChange)="search(key.value)" #key="ngModel" ngModel name="key" class="text-research" placeholder="Search">
-        <div class="user-container" (click)="activeUser(user)" *ngFor="let user of users">
+        <div class="user-container" (click)="getSelectedUserMessages(user)" *ngFor="let user of users">
             <a *ngIf="user === selectedUser" class="user selected">
                 <span>{{user.nickname}}</span>
-                <span *ngIf="getMessagesNumber(user) !== 0">({{getMessagesNumber(user)}})</span>
+                <span *ngIf="user.messagesNumber !== 0">({{user.messagesNumber}})</span>
             </a>
             <a *ngIf="user !== selectedUser" class="user">
                 <span>{{user.nickname}}</span>
-                <span *ngIf="getMessagesNumber(user) !== 0">({{getMessagesNumber(user)}})</span>
+                <span *ngIf="user.messagesNumber !== 0">({{user.messagesNumber}})</span>
             </a>
         </div>
     </div>
     <div class="messages-container">
         <div class="message-container" *ngFor="let message of messages">
-            <div class="contenu left" *ngIf="messages.length !== 0 && message?.fromUser === selectedUser?.nickname">
+            <div class="contenu left" *ngIf="message.sender !== loggedInUser!.nickname">
                 <div class="message">
                     <div class="header-message">
-                        <span class="from">{{message?.fromUser}}</span>
-                        <span class="date">{{message?.date | date:"short"}}</span>
+                        <span class="from">{{message.sender}}</span>
+                        <span *ngIf="isToday(message)">{{message.date | date:"shortTime"}}</span>
+                        <span *ngIf="!isToday(message)">{{message.date | date:"shortDate"}}</span>
                     </div>
                     <span class="content">{{message?.content}}</span>
                 </div>
             </div>
-            <div class="contenu right" *ngIf="messages.length !== 0 && message?.fromUser === loggedInUser?.nickname">
+            <div class="contenu right" *ngIf="message.sender === loggedInUser!.nickname">
                 <div class="message" title="modify" (click)="modifyMessage(message)">
                     <div class="header-message">
-                        <span class="from">{{message?.fromUser}}</span>
-                        <span class="date">{{message?.date | date:"short"}}</span>
+                        <span>{{message.sender}}</span>
+                        <span *ngIf="isToday(message)">{{message.date | date:"shortTime"}}</span>
+                        <span *ngIf="!isToday(message)">{{message.date | date:"shortDate"}}</span>
                     </div>
                     <span class="content">{{message?.content}}</span>
                 </div>

@@ -15,10 +15,10 @@
         <div class="file-container">
             <label for="image" class="add" title="add image"><i class='bx bx-image'></i></label>
             <input type="file" id="image" (change)="addImage($any($event.target).files)" name="files">
-            <span class="filename" *ngIf="imagename !== ''">{{imagename}}</span>
+            <span class="fileName" *ngIf="pictureName !== ''">{{pictureName}}</span>
             <label for="file" class="add" title="add file"><i class='bx bxs-cloud-upload' ></i></label>
             <input type="file" id="file" (change)="addFile($any($event.target).files)" name="files">
-            <span class="filename" *ngIf="filename !== ''">{{filename}}</span>
+            <span class="fileName" *ngIf="fileName !== ''">{{fileName}}</span>
         </div>
         <div class="button-container">
             <button class="invalidButton" title="invalid form" *ngIf="addForm.invalid" [disabled]="addForm.invalid" type="submit">Add</button>

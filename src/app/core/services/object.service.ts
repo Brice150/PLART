@@ -1,8 +1,9 @@
-import { HttpClient, HttpEvent} from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Object } from '../interfaces/object';
+import { User } from '../interfaces/user';
 
 @Injectable({providedIn: 'root'})
 export class ObjectService {
@@ -10,19 +11,27 @@ export class ObjectService {
 
     constructor(private http: HttpClient) {}
 
-    public getObjects(): Observable<Object[]> {
+    public getAllObjects(): Observable<Object[]> {
         return this.http.get<any>(`${this.apiServerUrl}/object/all`,
         { withCredentials: true });
     }
 
-    public findObject(id: number): Observable<Object> {
-        return this.http.get<Object>(`${this.apiServerUrl}/object/${id}`,
+    public getObjectCreator(objectId: number): Observable<User> {
+        return this.http.get<any>(`${this.apiServerUrl}/object/creator/${objectId}`,
         { withCredentials: true });
     }
 
-    public addObject(object: Object): Observable<Object> {
-        return this.http.post<Object>(`${this.apiServerUrl}/object`, object,
-        { withCredentials: true });
+    addObject(object: Object, filesData: FormData, picturesData: FormData): Observable<Object> {
+        const formData = new FormData();
+        formData.append('object', JSON.stringify(object));
+
+        const headers = new HttpHeaders().append('Accept', 'application/json');
+        headers.append('Content-Type', 'multipart/form-data; boundary=--------------------------1234567890');
+
+        formData.append('files', filesData.get('files')!);
+        formData.append('pictures', picturesData.get('pictures')!);
+        
+        return this.http.post<Object>(`${this.apiServerUrl}/object`, formData, { headers, withCredentials: true });
     }
 
     public updateObject(object: Object): Observable<Object> {
@@ -35,24 +44,8 @@ export class ObjectService {
         { withCredentials: true });
     }
 
-    public uploadFile(formData: FormData): Observable<HttpEvent<string[]>> {
-        return this.http.post<string[]>(`${this.apiServerUrl}/object/file`, formData, {
-            reportProgress: true,
-            observe: 'events',
-            withCredentials: true
-        })
-    }
-
-    public uploadImage(formData: FormData): Observable<HttpEvent<string[]>> {
-        return this.http.post<string[]>(`${this.apiServerUrl}/object/image`, formData, {
-            reportProgress: true,
-            observe: 'events',
-            withCredentials: true
-        })
-    }
-
-    public getImage(imagename: string): Observable<HttpEvent<Blob>> {
-        return this.http.get(`${this.apiServerUrl}/object/image/${imagename}`, {
+    public getPicture(pictureName: string): Observable<HttpEvent<Blob>> {
+        return this.http.get(`${this.apiServerUrl}/object/picture/${pictureName}`, {
             reportProgress: true,
             observe: 'events',
             responseType: 'blob',
@@ -60,8 +53,8 @@ export class ObjectService {
         })
     }
 
-    public downloadObject(filename: string): Observable<HttpEvent<Blob>> {
-        return this.http.get(`${this.apiServerUrl}/object/file/${filename}`, {
+    public getFile(fileName: string): Observable<HttpEvent<Blob>> {
+        return this.http.get(`${this.apiServerUrl}/object/file/${fileName}`, {
             reportProgress: true,
             observe: 'events',
             responseType: 'blob',

@@ -32,7 +32,7 @@ export class AdminUsersComponent implements OnInit, OnDestroy{
   }
 
   getUsers() {
-    this.getUserSubscription = this.adminService.getUsers().subscribe({
+    this.getUserSubscription = this.adminService.getAllUsers().subscribe({
       next: (response: User[]) => {
         this.users = response;
       },

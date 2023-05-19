@@ -13,12 +13,12 @@ export interface User {
     tokens: Token[];
     userRole: string;
     objects: Object[];
-    messagesSended: Message[];
+    messagesSent: Message[];
     messagesReceived: Message[];
     credentialsNonExpired: boolean;
     accountNonExpired: boolean;
     username: string;
     accountNonLocked: boolean;
     authorities: Authority[];
-    
+    messagesNumber: number;
 }

@@ -145,7 +145,7 @@ textarea.object-form-text {
     0 0 100px white;
 }
 
-.file-container .filename {
+.file-container .fileName {
     color: white;
     font-size: 16px;
     font-weight: 600;

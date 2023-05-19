@@ -6,6 +6,8 @@ import { AdminService } from 'src/app/core/services/admin.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { MessageService } from 'src/app/core/services/message.service';
+import { User } from 'src/app/core/interfaces/user';
 
 @Component({
   selector: 'app-admin-messages',
@@ -16,11 +18,13 @@ export class AdminMessagesComponent implements OnInit, OnDestroy{
   messages: Message[]=[];
   getMessageSubscription!: Subscription;
   deleteMessageSubscription!: Subscription;
+  getMessageSenderSubscription!: Subscription;
 
   constructor(
     private adminService: AdminService,
     public dialog: MatDialog,
-    private toastr: ToastrService) {}
+    private toastr: ToastrService,
+    private messageService: MessageService) {}
 
   ngOnInit() {
     this.getMessages();
@@ -28,13 +32,30 @@ export class AdminMessagesComponent implements OnInit, OnDestroy{
 
   ngOnDestroy() {
     this.getMessageSubscription && this.getMessageSubscription.unsubscribe();
+    this.getMessageSenderSubscription && this.getMessageSenderSubscription.unsubscribe();
     this.deleteMessageSubscription && this.deleteMessageSubscription.unsubscribe();
   }
 
   getMessages() {
-    this.getMessageSubscription = this.adminService.getMessages().subscribe({
+    this.getMessageSubscription = this.adminService.getAllMessages().subscribe({
       next: (response: Message[]) => {
+        for (let message of response) {
+          this.getMessageSender(message);
+        }
         this.messages = response;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
+      }
+    })
+  }
+
+  getMessageSender(message: Message) {
+    this.getMessageSenderSubscription = this.messageService.getMessageSender(message.id).subscribe({
+      next: (response: User) => {
+        message.sender = response.nickname;
       },
       error: (error: HttpErrorResponse) => {
         this.toastr.error(error.message, "Server error", {

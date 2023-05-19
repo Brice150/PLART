@@ -1,9 +1,6 @@
 package com.packages.backend.stats;
 
-import com.packages.backend.objects.Object;
-import com.packages.backend.objects.ObjectRepository;
 import com.packages.backend.user.User;
-import com.packages.backend.user.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,40 +8,28 @@ import java.util.List;
 @Service
 public class StatsService {
 
-    private final UserRepository userRepository;
-    private final ObjectRepository objectRepository;
+  private final StatsRepository statsRepository;
 
-    public StatsService(UserRepository userRepository, ObjectRepository objectRepository) {
-        this.userRepository = userRepository;
-        this.objectRepository = objectRepository;
-    }
+  public StatsService(StatsRepository statsRepository) {
+    this.statsRepository = statsRepository;
+  }
 
-    public Integer getUsersNumber() {
-      Integer count = 0;
-      List<User> users = userRepository.findAll();
-      for (User user : users) {
+  public Integer getUsersNumber() {
+    return statsRepository.findUsersNumber();
+  }
+
+  public Integer getCreatorsNumber() {
+    Integer count = 0;
+    List<User> users = statsRepository.findAll();
+    for (User user : users) {
+      if (!user.getObjects().isEmpty()) {
         count++;
       }
-      return count;
     }
+    return count;
+  }
 
-    public Integer getCreatersNumber() {
-      Integer count = 0;
-      List<User> users = userRepository.findAll();
-      for (User user : users) {
-        if (user.getObjects() != null && user.getObjects().size() != 0) {
-          count++;
-        }
-      }
-      return count;
-    }
-
-    public Integer getObjectsNumber() {
-      Integer count = 0;
-      List<Object> objects = objectRepository.findAll();
-      for (Object object : objects) {
-        count++;
-      }
-      return count;
-    }
+  public Integer getObjectsNumber() {
+    return statsRepository.findObjectsNumber();
+  }
 }

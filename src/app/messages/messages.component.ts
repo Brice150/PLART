@@ -30,6 +30,9 @@ export class MessagesComponent implements OnInit, OnDestroy{
   sendMessageSubscription!: Subscription;
   updateMessageSubscription!: Subscription;
   deleteMessageSubscription!: Subscription;
+  getUserMessagesNumberSubscription!: Subscription;
+  getSelectedUserMessagesSubscription!: Subscription;
+  getMessageSenderSubscription!: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -63,28 +66,65 @@ export class MessagesComponent implements OnInit, OnDestroy{
     this.sendMessageSubscription && this.sendMessageSubscription.unsubscribe();
     this.updateMessageSubscription && this.updateMessageSubscription.unsubscribe();
     this.deleteMessageSubscription && this.deleteMessageSubscription.unsubscribe();
-  }
-
-  activeUser(user: User) {
-    this.selectedUser = user;
-    this.getMessages(user);
+    this.getUserMessagesNumberSubscription && this.getUserMessagesNumberSubscription.unsubscribe();
+    this.getSelectedUserMessagesSubscription && this.getSelectedUserMessagesSubscription.unsubscribe();
+    this.getMessageSenderSubscription && this.getMessageSenderSubscription.unsubscribe();
   }
 
   getUsers() {
-    this.users = [];
-    this.getUsersSubscription = this.userService.getUsers().subscribe({
+    this.getUsersSubscription = this.userService.getAllUsers().subscribe({
       next: (response: User[]) => {
-        for (let user of response) {
-          if (user.email !== this.loggedInUserEmail) {
-              this.users.push(user);
-              if (this.selectedUser != null && this.selectedUser.email === user.email) {
-                this.activeUser(user);
-              }
-          }
+        this.users=response;
+        if (this.users.length !== 0 && !this.selectedUser) {
+          this.selectedUser = this.users[0];
         }
-        if (!this.selectedUser) {
-          this.activeUser(this.users[0]);
+        this.getSelectedUserMessages(this.selectedUser!);
+        for (let user of this.users) {
+          this.getUserMessagesNumber(user);
         }
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
+      }
+    })
+  }
+
+  getUserMessagesNumber(user: User) {
+    this.getUserMessagesNumberSubscription = this.messageService.getUserMessagesNumber(user.id).subscribe({
+      next: (response: number) => {
+        user.messagesNumber = response;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
+      }
+    })
+  }
+
+  getSelectedUserMessages(user: User) {
+    this.getSelectedUserMessagesSubscription = this.messageService.getAllUserMessages(user.id).subscribe({
+      next: (response: Message[]) => {
+        this.messages = response;
+        for (let message of this.messages) {
+          this.getMessageSender(message);
+        }
+        this.selectedUser = user;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
+      }
+    })
+  }
+
+  getMessageSender(message: Message) {
+    this.getMessageSenderSubscription = this.messageService.getMessageSender(message.id).subscribe({
+      next: (response: User) => {
+        message.sender = response.nickname;
       },
       error: (error: HttpErrorResponse) => {
         this.toastr.error(error.message, "Server error", {
@@ -107,54 +147,24 @@ export class MessagesComponent implements OnInit, OnDestroy{
     })
   }
 
-  getMessages(user: User) {
-    this.messages = [];
-    if (this.loggedInUser!.messagesReceived.length !== 0) {
-      for (let message of this.loggedInUser!.messagesReceived) {
-        if (user.nickname === message.fromUser) {
-          this.messages.push(message);
-        }
-      }
-    }
-    if (this.loggedInUser!.messagesSended.length !== 0) {
-      for (let message of this.loggedInUser!.messagesSended) {
-        if (user.nickname === message.toUser) {
-          this.messages.push(message);
-        }
-      }
-    }
-    this.messages.sort((a, b) => a.date.toString().localeCompare(b.date.toString()));
-  }
-
-  getMessagesNumber(user: User): number {
-    let count: number = 0;
-    if (this.loggedInUser!.messagesReceived.length !== 0) {
-      for (let message of this.loggedInUser!.messagesReceived) {
-        if (user.nickname === message.fromUser) {
-          count++;
-        }
-      }
-    }
-    if (this.loggedInUser!.messagesSended.length !== 0) {
-      for (let message of this.loggedInUser!.messagesSended) {
-        if (user.nickname === message.toUser) {
-          count++;
-        }
-      }
-    }
-    return count;
+  isToday(message: Message): boolean {
+    let today: Date = new Date();
+    let messageDate: Date = new Date(message.date);
+    let isToday: boolean = 
+    messageDate.getFullYear() === today.getFullYear() &&
+    messageDate.getMonth() === today.getMonth() &&
+    messageDate.getDate() === today.getDate()
+    ;
+    return isToday;
   }
 
   sendMessage(message: Message) {
     message.fkReceiver={"id":this.selectedUser?.id};
-    message.fkSender={"id":this.loggedInUser?.id};
-    message.fromUser=this.loggedInUser?.nickname!;
-    message.toUser=this.selectedUser?.nickname!;    
+    message.fkSender={"id":this.loggedInUser?.id};   
     this.sendMessageSubscription = this.messageService.addMessage(message).subscribe({
       next: (response: Message) => {
         this.messageForm.get("content")?.reset();
         this.getUsers();
-        this.getLoggedInUser();
       },
       error: (error: HttpErrorResponse) => {
         this.toastr.error(error.message, "Server error", {
@@ -184,14 +194,11 @@ export class MessagesComponent implements OnInit, OnDestroy{
     message.id=this.updatedMessage?.id!;
     message.fkReceiver={"id":this.selectedUser?.id};
     message.fkSender={"id":this.loggedInUser?.id};
-    message.fromUser=this.loggedInUser?.nickname!;
-    message.toUser=this.selectedUser?.nickname!;
     message.date=this.updatedMessage?.date!;   
     this.updateMessageSubscription = this.messageService.updateMessage(message).subscribe({
       next: (response: Message) => {
         this.unmodifyMessage();
         this.getUsers();
-        this.getLoggedInUser();
       },
       error: (error: HttpErrorResponse) => {
         this.toastr.error(error.message, "Server error", {
@@ -210,7 +217,6 @@ export class MessagesComponent implements OnInit, OnDestroy{
     this.deleteMessageSubscription = this.messageService.deleteMessage(message.id).subscribe({
       next: (response: void) => {
         this.getUsers();
-        this.getLoggedInUser();
       },
       error: (error: HttpErrorResponse) => {
         this.toastr.error(error.message, "Server error", {

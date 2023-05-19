@@ -134,63 +134,6 @@
     pointer-events: auto;
   }
   
-  .sidebar .profile_content {
-    position: absolute;
-    color: white;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-  }
-  
-  .sidebar .profile_content .profile {
-    position: relative;
-    padding: 10px 6px;
-    height: 60px;
-    background: none;
-    transition: all 0.4s ease;
-  }
-  
-  .sidebar.active .profile_content .profile {
-    background: var(--secondary);
-  }
-  
-  .profile_content .profile .profile_details {
-    display: flex;
-    align-items: center;
-    opacity: 0;
-    pointer-events: none;
-    white-space: nowrap;
-  }
-  
-  .sidebar.active .profile .profile_details {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  
-  .profile .profile_details .img {
-    height: 45px;
-    width: 45px;
-    object-fit: cover;
-    border-radius: 12px;
-  }
-  
-  .profile .profile_details .name_job {
-    margin-left: 10px;
-  }
-  
-  .profile .profile_details .name {
-    font-size: 15px;
-    font-weight: 400;
-  }
-  
-  .profile .profile_details .job {
-    font-size: 12px;
-  }
-  
-  .profile .profile_details .job span{
-    color: black;
-  }
-  
   .contents {
     position: absolute;
     height: 100%;

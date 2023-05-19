@@ -57,7 +57,7 @@ export class UserObjectsComponent implements OnInit, OnDestroy{
   getImage(object: Object) {
     let reader = new FileReader();
     if (object.image) {
-      this.getImageSubscription = this.objectService.getImage(object.image.toString()).subscribe({
+      this.getImageSubscription = this.objectService.getPicture(object.image.toString()).subscribe({
         next: event => {
           if (event.type === HttpEventType.Response) {
             if (event.body instanceof Array) {
@@ -86,7 +86,7 @@ export class UserObjectsComponent implements OnInit, OnDestroy{
 
   download(object: Object) {
     if (object?.fileToDownload) {
-      this.downloadSubscription = this.objectService.downloadObject(object?.fileToDownload).subscribe({
+      this.downloadSubscription = this.objectService.getFile(object?.fileToDownload).subscribe({
         next: event => {
           console.log(event);
           if (event.type === HttpEventType.Response) {

@@ -2,7 +2,9 @@ package com.packages.backend.stats;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/stats")
@@ -16,19 +18,16 @@ public class StatsController {
 
   @GetMapping("/users")
   public ResponseEntity<Integer> getUsersNumber() {
-    Integer count = statsService.getUsersNumber();
-    return new ResponseEntity<>(count, HttpStatus.OK);
+    return new ResponseEntity<>(statsService.getUsersNumber(), HttpStatus.OK);
   }
 
-  @GetMapping("/creaters")
-  public ResponseEntity<Integer> getCreatersNumber() {
-    Integer count = statsService.getCreatersNumber();
-    return new ResponseEntity<>(count, HttpStatus.OK);
+  @GetMapping("/creators")
+  public ResponseEntity<Integer> getCreatorsNumber() {
+    return new ResponseEntity<>(statsService.getCreatorsNumber(), HttpStatus.OK);
   }
 
   @GetMapping("/objects")
   public ResponseEntity<Integer> getObjectsNumber() {
-    Integer count = statsService.getObjectsNumber();
-    return new ResponseEntity<>(count, HttpStatus.OK);
+    return new ResponseEntity<>(statsService.getObjectsNumber(), HttpStatus.OK);
   }
 }

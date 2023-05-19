@@ -18,7 +18,6 @@ public class Object implements Serializable {
   private String description;
   private String fileToDownload;
   private String image;
-  private String nickname;
   @ManyToOne(optional = false)
   @JsonBackReference(value = "objects")
   private User fkUser;
@@ -26,13 +25,12 @@ public class Object implements Serializable {
   public Object() {
   }
 
-  public Object(String name, String description, String category, String fileToDownload, String image, String nickname, User fkUser) {
+  public Object(String name, String description, String category, String fileToDownload, String image, User fkUser) {
     this.name = name;
     this.description = description;
     this.category = category;
     this.fileToDownload = fileToDownload;
     this.image = image;
-    this.nickname = nickname;
     this.fkUser = fkUser;
   }
 
@@ -84,34 +82,12 @@ public class Object implements Serializable {
     this.fileToDownload = fileToDownload;
   }
 
-  public String getNickname() {
-    return nickname;
-  }
-
-  public void setNickname(String nickname) {
-    this.nickname = nickname;
-  }
-
   public User getFkUser() {
     return fkUser;
   }
 
   public void setFkUser(User fkUser) {
     this.fkUser = fkUser;
-  }
-
-  @Override
-  public String toString() {
-    return "Object{" +
-      "id=" + id +
-      ", name='" + name + '\'' +
-      ", category='" + category + '\'' +
-      ", description='" + description + '\'' +
-      ", fileToDownload='" + fileToDownload + '\'' +
-      ", image='" + image + '\'' +
-      ", nickname='" + nickname + '\'' +
-      ", fkUser=" + fkUser +
-      '}';
   }
 }
 

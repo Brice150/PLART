@@ -13,7 +13,7 @@ import { ConnectService } from 'src/app/core/services/connect.service';
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   registerForm!: FormGroup;
-  onConfirmEmail: boolean = false;
+  successfulRegistration: boolean = false;
   registerSubscription!: Subscription;
 
   constructor(
@@ -36,19 +36,19 @@ export class RegisterComponent implements OnInit, OnDestroy {
   registerUser(user: User) {
     this.registerSubscription = this.connectService.register(user).subscribe({
       next: (response: User) => {
-        this.onConfirmEmail=true;
+        this.successfulRegistration = true;
       },
-      error: (error: HttpErrorResponse) => {
-        this.toastr.error(error.message, "Server error", {
+      error: (error: HttpErrorResponse) => {        
+        this.toastr.error(error.error, "Connection", {
           positionClass: "toast-bottom-center" 
         })
       },
       complete: () => {
-        this.toastr.success("Please confirm your email", "Connection", {
+        this.toastr.success("Registration successful", "Connection", {
           positionClass: "toast-bottom-center" 
         })
       }
-  })
+    })
   }
   
 }

@@ -7,6 +7,7 @@ import { ObjectService } from 'src/app/core/services/object.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { User } from 'src/app/core/interfaces/user';
 
 @Component({
   selector: 'app-admin-objects',
@@ -17,6 +18,7 @@ export class AdminObjectsComponent implements OnInit, OnDestroy{
   objects: Object[]=[];
   getObjectSubscription!: Subscription;
   deleteObjectSubscription!: Subscription;
+  objectCreatorSubscription!: Subscription;
 
   constructor(
     private objectService: ObjectService,
@@ -31,12 +33,29 @@ export class AdminObjectsComponent implements OnInit, OnDestroy{
   ngOnDestroy() {
     this.getObjectSubscription && this.getObjectSubscription.unsubscribe();
     this.deleteObjectSubscription && this.deleteObjectSubscription.unsubscribe();
+    this.objectCreatorSubscription && this.objectCreatorSubscription.unsubscribe();
   }
   
   getObjects() {
-    this.getObjectSubscription = this.objectService.getObjects().subscribe({
+    this.getObjectSubscription = this.objectService.getAllObjects().subscribe({
       next: (response: Object[]) => {
+        for (let object of response) {
+          this.getObjectCreator(object);
+        }
         this.objects = response;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
+      }
+    })
+  }
+
+  getObjectCreator(object: Object) {
+    this.objectCreatorSubscription = this.objectService.getObjectCreator(object.id).subscribe({
+      next: (response: User) => {
+        object.nickname = response.nickname;
       },
       error: (error: HttpErrorResponse) => {
         this.toastr.error(error.message, "Server error", {

@@ -10,7 +10,7 @@ export class UserService {
 
     constructor(private http: HttpClient) {}
 
-    public getUsers(): Observable<User[]> {
+    public getAllUsers(): Observable<User[]> {
         return this.http.get<any>(`${this.apiServerUrl}/user/all`,
         { withCredentials: true });
     }
@@ -20,7 +20,7 @@ export class UserService {
         { withCredentials: true });
     }
     
-    public findUserById(id: number): Observable<User> {
+    public getUserById(id: number): Observable<User> {
         return this.http.get<User>(`${this.apiServerUrl}/user/${id}`,
         { withCredentials: true });
     }

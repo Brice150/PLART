@@ -13,7 +13,7 @@ import { StatsService } from 'src/app/core/services/stats.service';
 export class StatsComponent implements OnInit, OnDestroy {
   @Input() isConnected!: boolean;
   usersNumber: number = 0;
-  creatersNumber: number = 0;
+  creatorsNumber: number = 0;
   objectsNumber: number = 0;
   getUsersNumberSubscription!: Subscription;
   getCreatersNumberSubscription!: Subscription;
@@ -50,9 +50,9 @@ export class StatsComponent implements OnInit, OnDestroy {
   }
 
   getCreatersNumber() {
-    this.getCreatersNumberSubscription = this.statsService.getCreatersNumber().subscribe({
+    this.getCreatersNumberSubscription = this.statsService.getCreatorsNumber().subscribe({
       next: (response: number) => {
-        this.creatersNumber = response;
+        this.creatorsNumber = response;
       },
       error: (error: HttpErrorResponse) => {
         this.toastr.error(error.message, "Server error", {

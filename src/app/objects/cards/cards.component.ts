@@ -4,6 +4,7 @@ import * as saveAs from 'file-saver';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Object } from 'src/app/core/interfaces/object';
+import { User } from 'src/app/core/interfaces/user';
 import { ObjectService } from 'src/app/core/services/object.service';
 import { environment } from 'src/environments/environment';
 
@@ -22,6 +23,7 @@ export class CardsComponent implements OnInit, OnDestroy {
   getObjectsSubscription!: Subscription;
   getImageSubscription!: Subscription;
   downloadSubscription!: Subscription;
+  objectCreatorSubscription!: Subscription;
 
   constructor(
     private objectService: ObjectService,
@@ -36,15 +38,17 @@ export class CardsComponent implements OnInit, OnDestroy {
     this.getObjectsSubscription && this.getObjectsSubscription.unsubscribe();
     this.getImageSubscription && this.getImageSubscription.unsubscribe();
     this.downloadSubscription && this.downloadSubscription.unsubscribe();
+    this.objectCreatorSubscription && this.objectCreatorSubscription.unsubscribe();
   }
 
   getObjects() {
-    this.getObjectsSubscription = this.objectService.getObjects().subscribe({
+    this.getObjectsSubscription = this.objectService.getAllObjects().subscribe({
       next: (response: Object[]) => {
         this.objects=response;
         this.filteredObjects=response;
         for (let object of this.objects) {
           this.getImage(object);
+          this.getObjectCreator(object);
           if (!this.categories.includes(object.category)) {
             this.categories.push(object?.category);
           }
@@ -58,10 +62,23 @@ export class CardsComponent implements OnInit, OnDestroy {
     })
   }
 
+  getObjectCreator(object: Object) {
+    this.objectCreatorSubscription = this.objectService.getObjectCreator(object.id).subscribe({
+      next: (response: User) => {
+        object.nickname = response.nickname;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, "Server error", {
+          positionClass: "toast-bottom-center" 
+        })
+      }
+    })
+  }
+
   getImage(object: Object) {
     let reader = new FileReader();
     if (object.image) {
-      this.getImageSubscription = this.objectService.getImage(object.image.toString()).subscribe({
+      this.getImageSubscription = this.objectService.getPicture(object.image.toString()).subscribe({
         next: event => {
           if (event.type === HttpEventType.Response) {
             if (event.body instanceof Array) {
@@ -90,7 +107,7 @@ export class CardsComponent implements OnInit, OnDestroy {
 
   download(object: Object) {
     if (object?.fileToDownload) {
-      this.downloadSubscription = this.objectService.downloadObject(object?.fileToDownload).subscribe({
+      this.downloadSubscription = this.objectService.getFile(object?.fileToDownload).subscribe({
         next: event => {
           console.log(event);
           if (event.type === HttpEventType.Response) {

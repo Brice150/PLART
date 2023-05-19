@@ -17,11 +17,9 @@ export class UserObjectsAddComponent implements OnInit, OnDestroy{
     loggedInUser!: User | null;
     addForm!: FormGroup;
     filesData!: FormData;
-    imagesData!: FormData;
-    filename!: string;
-    imagename!: string;
-    addImageSubscription!: Subscription;
-    addFileSubscription!: Subscription;
+    picturesData!: FormData;
+    fileName!: string;
+    pictureName!: string;
     addObjectSubscription!: Subscription;
     getLoggedInUserSubscription!: Subscription;
 
@@ -43,69 +41,44 @@ export class UserObjectsAddComponent implements OnInit, OnDestroy{
     }
 
     ngOnDestroy() {
-      this.addImageSubscription && this.addImageSubscription.unsubscribe();
-      this.addFileSubscription && this.addFileSubscription.unsubscribe();
       this.addObjectSubscription && this.addObjectSubscription.unsubscribe();
       this.getLoggedInUserSubscription && this.getLoggedInUserSubscription.unsubscribe();
     }
 
     addFile(files: File[]) {
       this.filesData = new FormData();
-      this.filename = "";
+      this.fileName = "";
       for (const file of files) {
         this.filesData.append('files', file, file.name);
-        if (this.filename === "") {
-          this.filename = file.name;
+        if (this.fileName === "") {
+          this.fileName = file.name;
         }
       }
     }
 
     addImage(files: File[]) {
-      this.imagesData = new FormData();
-      this.imagename = "";
+      this.picturesData = new FormData();
+      this.pictureName = "";
       for (const file of files) {
-        this.imagesData.append('images', file, file.name);
-        if (this.imagename === "") {
-          this.imagename = file.name;
+        this.picturesData.append('pictures', file, file.name);
+        if (this.pictureName === "") {
+          this.pictureName = file.name;
         }
       }
     }
 
     addObject(object: Object) {
-      object.nickname=this.loggedInUser?.nickname!;
       object.fkUser={"id":this.loggedInUser?.id};
-      if (this.imagename) {
-        object.image = this.imagename;
-        this.addImageSubscription = this.objectService.uploadImage(this.imagesData).subscribe({
-          next: event => {
-            console.log(event);
-          },
-          error: (error: HttpErrorResponse) => {
-            this.toastr.error(error.message, "Server error", {
-              positionClass: "toast-bottom-center" 
-            })
-          }
-        })
-      }
+      object.image = this.pictureName;
       if (this.filesData !== undefined) {
-        object.fileToDownload = this.filename;
-        this.addFileSubscription = this.objectService.uploadFile(this.filesData).subscribe({
-          next: event => {
-            console.log(event);
-          },
-          error: (error: HttpErrorResponse) => {
-            this.toastr.error(error.message, "Server error", {
-              positionClass: "toast-bottom-center" 
-            })
-          }
-        })
-        this.addObjectSubscription = this.objectService.addObject(object).subscribe({
+        object.fileToDownload = this.fileName;
+        this.addObjectSubscription = this.objectService.addObject(object, this.filesData, this.picturesData).subscribe({
           next: (response: Object) => {
             this.addForm.reset();
             this.filesData = new FormData();
-            this.filename = "";
-            this.imagesData = new FormData();
-            this.imagename = "";
+            this.fileName = "";
+            this.picturesData = new FormData();
+            this.pictureName = "";
           }, 
           error: (error: HttpErrorResponse) => {
             this.toastr.error(error.message, "Server error", {
