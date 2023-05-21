@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'http://localhost:5000',
+  apiBaseUrl: 'https://plart-production.up.railway.app/',
   imagePath: './assets/images/'
 };
