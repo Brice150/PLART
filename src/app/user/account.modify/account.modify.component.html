@@ -8,7 +8,7 @@
         <span *ngIf="updateForm.get('nickname')!.hasError('required') && updateForm.get('nickname')!.touched">Nickname is required</span>
         <span *ngIf="updateForm.get('nickname')!.hasError('maxlength')">Nickname is too long</span>
         <span *ngIf="updateForm.get('nickname')!.hasError('minlength')">Nickname is too short</span>
-        <input type="password" class="user-form-text" placeholder="Password" formControlName="password">
+        <input type="password" class="user-form-text" placeholder="Old/New Password" formControlName="password">
         <span *ngIf="updateForm.get('password')!.hasError('required') && updateForm.get('password')!.touched">A password is required</span>
         <span *ngIf="updateForm.get('password')!.hasError('minlength')">Password is too short</span>
         <span *ngIf="updateForm.get('password')!.hasError('maxlength')">Password is too long</span>

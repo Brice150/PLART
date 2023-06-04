@@ -12,6 +12,7 @@ import { ConnectModule } from './connect/connect.module';
 import { AdminModule } from './admin/admin.module';
 import { ToastrModule } from 'ngx-toastr';
 import { MatDialogModule } from '@angular/material/dialog';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ToastrModule.forRoot()
   ],
   declarations: [AppComponent],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}]
 })
 export class AppModule { }
