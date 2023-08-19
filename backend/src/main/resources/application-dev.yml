@@ -1,6 +1,6 @@
 # Dev Configuration
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/pickme
+    url: jdbc:postgresql://localhost:5432/plart
     username: postgres
     password: root
