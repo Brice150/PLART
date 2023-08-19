@@ -1,0 +1,6 @@
+# Prod Configuration
+spring:
+  datasource:
+    url: jdbc:${MYSQL_URL}
+    username: ${MYSQLUSER}
+    password: ${MYSQLPASSWORD}
