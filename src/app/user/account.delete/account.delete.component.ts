@@ -1,20 +1,22 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DialogComponent } from 'src/app/dialog/dialog.component';
 import { UserService } from 'src/app/core/services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { User } from 'src/app/core/interfaces/user';
 
 @Component({
   selector: 'app-account-delete',
   templateUrl: './account.delete.component.html',
   styleUrls: ['./account.delete.component.css'],
 })
-export class AccountDeleteComponent implements OnInit, OnDestroy {
-  loggedInUserEmail: string | null = null;
+export class AccountDeleteComponent implements OnDestroy, OnInit {
+  loggedInUser!: User;
   deleteUserSubscription!: Subscription;
+  getLoggedInUserSubscription!: Subscription;
 
   constructor(
     private userService: UserService,
@@ -24,22 +26,33 @@ export class AccountDeleteComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    if (sessionStorage.getItem('loggedInUserEmail') === null) {
-      this.loggedInUserEmail = null;
-    } else {
-      this.loggedInUserEmail = JSON.parse(
-        sessionStorage.getItem('loggedInUserEmail') || '{}'
-      );
-    }
+    this.getLoggedInUser();
   }
 
   ngOnDestroy() {
     this.deleteUserSubscription && this.deleteUserSubscription.unsubscribe();
+    this.getLoggedInUserSubscription &&
+      this.getLoggedInUserSubscription.unsubscribe();
+  }
+
+  getLoggedInUser() {
+    this.getLoggedInUserSubscription = this.userService
+      .getConnectedUser()
+      .subscribe({
+        next: (response: User) => {
+          this.loggedInUser = response;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.message, 'Server error', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+      });
   }
 
   deleteUser() {
     this.deleteUserSubscription = this.userService
-      .deleteUser(this.loggedInUserEmail!)
+      .deleteUser(this.loggedInUser.email)
       .subscribe({
         next: (response: void) => {
           this.logout();
@@ -58,7 +71,7 @@ export class AccountDeleteComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    sessionStorage.removeItem('loggedInUserEmail');
+    sessionStorage.removeItem('role');
     this.router.navigate(['/connect']).then(() => {
       window.location.reload();
     });

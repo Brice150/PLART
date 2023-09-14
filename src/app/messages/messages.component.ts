@@ -16,7 +16,6 @@ import { Subscription } from 'rxjs/internal/Subscription';
   styleUrls: ['./messages.component.css'],
 })
 export class MessagesComponent implements OnInit, OnDestroy {
-  loggedInUserEmail!: string | null;
   isConnected!: boolean;
   loggedInUser!: User | null;
   users: User[] = [];
@@ -54,13 +53,9 @@ export class MessagesComponent implements OnInit, OnDestroy {
       ],
     });
 
-    if (sessionStorage.getItem('loggedInUserEmail') === null) {
-      this.loggedInUserEmail = null;
+    if (sessionStorage.getItem('role') === null) {
       this.isConnected = false;
     } else {
-      this.loggedInUserEmail = JSON.parse(
-        sessionStorage.getItem('loggedInUserEmail') || '{}'
-      );
       this.isConnected = true;
     }
 

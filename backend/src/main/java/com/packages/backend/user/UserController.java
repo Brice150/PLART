@@ -20,8 +20,8 @@ public class UserController {
   }
 
   @GetMapping("/login")
-  public String login() {
-    return "logged in successfully";
+  public ResponseEntity<UserDTO> login() {
+    return new ResponseEntity<>(userService.findConnectedUserDTO(), HttpStatus.OK);
   }
 
   @GetMapping("/user/all")

@@ -9,7 +9,7 @@ export class ObjectsComponent implements OnInit {
   isConnected!: boolean;
 
   ngOnInit() {
-    if (sessionStorage.getItem('loggedInUserEmail') === null) {
+    if (sessionStorage.getItem('role') === null) {
       this.isConnected = false;
     } else {
       this.isConnected = true;

@@ -13,7 +13,7 @@ export class UserComponent implements OnInit {
   isAddingObjects: boolean = false;
 
   ngOnInit() {
-    if (sessionStorage.getItem('loggedInUserEmail') === null) {
+    if (sessionStorage.getItem('role') === null) {
       this.isConnected = false;
     } else {
       this.isConnected = true;

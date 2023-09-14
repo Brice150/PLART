@@ -13,7 +13,7 @@ export class HeaderComponent {
   constructor(private router: Router) {}
 
   logout() {
-    sessionStorage.removeItem('loggedInUserEmail');
+    sessionStorage.removeItem('role');
     this.router.navigate(['/connect']).then(() => {
       window.location.reload();
     });

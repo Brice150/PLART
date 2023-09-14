@@ -47,8 +47,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginUser(user: User) {
     this.loginSubscription = this.connectService.login(user).subscribe({
-      next: (response: any) => {
-        sessionStorage.setItem('loggedInUserEmail', JSON.stringify(user.email));
+      next: (response: User) => {
+        sessionStorage.setItem('role', JSON.stringify(response.userRole));
         this.router.navigate(['/user']).then(() => {
           window.location.reload();
         });

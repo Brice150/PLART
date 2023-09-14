@@ -30,7 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
       sidebar.classList.toggle('active');
     };
 
-    if (sessionStorage.getItem('loggedInUserEmail') === null) {
+    if (sessionStorage.getItem('role') === null) {
       this.isConnected = false;
     } else {
       this.isConnected = true;
