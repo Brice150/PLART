@@ -13,6 +13,7 @@ import { AdminModule } from './admin/admin.module';
 import { ToastrModule } from 'ngx-toastr';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { ErrorPathComponent } from './error-path/error-path.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     MatDialogModule,
     ToastrModule.forRoot(),
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, ErrorPathComponent],
   bootstrap: [AppComponent],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
 })

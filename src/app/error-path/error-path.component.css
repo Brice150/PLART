@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.container span {
+  font-size: 20px;
+  font-weight: 700;
+  color: red;
+}

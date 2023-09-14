@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ObjectsComponent } from './objects/objects.component';
 import { UserComponent } from './user/user.component';
+import { ErrorPathComponent } from './error-path/error-path.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'connect', component: ConnectComponent },
   { path: 'logout', component: ConnectComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', component: ErrorPathComponent },
 ];
 
 export const appRouter = RouterModule.forRoot(routes);
