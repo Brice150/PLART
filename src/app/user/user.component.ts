@@ -3,20 +3,19 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  styleUrls: ['./user.component.css'],
 })
-export class UserComponent implements OnInit{
+export class UserComponent implements OnInit {
   isConnected!: boolean;
   isModifying: boolean = true;
   isModifyingObjects: boolean = false;
   isSeeingObjects: boolean = true;
-  isAddingObjects: boolean =false;
+  isAddingObjects: boolean = false;
 
   ngOnInit() {
-    if (sessionStorage.getItem('loggedInUserEmail')===null) {
+    if (sessionStorage.getItem('loggedInUserEmail') === null) {
       this.isConnected = false;
-    }
-    else {
+    } else {
       this.isConnected = true;
     }
   }
@@ -24,7 +23,7 @@ export class UserComponent implements OnInit{
   onModify() {
     this.isModifying = true;
   }
-  
+
   onDelete() {
     this.isModifying = false;
   }
@@ -34,7 +33,7 @@ export class UserComponent implements OnInit{
     this.isSeeingObjects = false;
     this.isAddingObjects = false;
   }
-  
+
   onObject() {
     this.isModifyingObjects = false;
     this.isSeeingObjects = true;

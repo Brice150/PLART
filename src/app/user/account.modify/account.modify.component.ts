@@ -9,9 +9,9 @@ import { UserService } from 'src/app/core/services/user.service';
 @Component({
   selector: 'app-account-modify',
   templateUrl: './account.modify.component.html',
-  styleUrls: ['./account.modify.component.css']
+  styleUrls: ['./account.modify.component.css'],
 })
-export class AccountModifyComponent implements OnInit, OnDestroy{
+export class AccountModifyComponent implements OnInit, OnDestroy {
   loggedInUser!: User | null;
   updateForm!: FormGroup;
   updateUserSubscription!: Subscription;
@@ -29,16 +29,31 @@ export class AccountModifyComponent implements OnInit, OnDestroy{
       userRole: [''],
       enabled: [''],
       locked: [''],
-      nickname: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(2)]],
-      password: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(5)]]
-    })
+      nickname: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.minLength(2),
+        ],
+      ],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.minLength(5),
+        ],
+      ],
+    });
 
     this.getLoggedInUser();
   }
 
   ngOnDestroy() {
     this.updateUserSubscription && this.updateUserSubscription.unsubscribe();
-    this.getLoggedInUserSubscription && this.getLoggedInUserSubscription.unsubscribe();
+    this.getLoggedInUserSubscription &&
+      this.getLoggedInUserSubscription.unsubscribe();
   }
 
   updateUser(user: User) {
@@ -47,28 +62,30 @@ export class AccountModifyComponent implements OnInit, OnDestroy{
         this.getLoggedInUser();
       },
       error: (error: HttpErrorResponse) => {
-        this.toastr.error(error.message, "Server error", {
-          positionClass: "toast-bottom-center" 
-        })
+        this.toastr.error(error.message, 'Server error', {
+          positionClass: 'toast-bottom-center',
+        });
       },
       complete: () => {
-        this.toastr.success("User updated", "User", {
-          positionClass: "toast-bottom-center" 
-        })
-      }
-    })
+        this.toastr.success('User updated', 'User', {
+          positionClass: 'toast-bottom-center',
+        });
+      },
+    });
   }
 
   getLoggedInUser() {
-    this.getLoggedInUserSubscription = this.userService.getConnectedUser().subscribe({
-      next: (response: User) => {
-        this.loggedInUser = response;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toastr.error(error.message, "Server error", {
-          positionClass: "toast-bottom-center" 
-        })
-      }
-    })
+    this.getLoggedInUserSubscription = this.userService
+      .getConnectedUser()
+      .subscribe({
+        next: (response: User) => {
+          this.loggedInUser = response;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.message, 'Server error', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+      });
   }
 }

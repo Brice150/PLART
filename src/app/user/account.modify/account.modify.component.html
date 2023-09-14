@@ -1,20 +1,90 @@
 <div class="account-container">
-    <form class="user-form" [formGroup]="updateForm" (ngSubmit)="updateUser(updateForm.value)">
-        <input class="user-form-text" type="hidden" formControlName="id" ngModel="{{loggedInUser?.id}}">
-        <input class="user-form-text" type="hidden" formControlName="userRole" ngModel="{{loggedInUser?.userRole}}">
-        <input class="user-form-text" type="hidden" formControlName="enabled" ngModel="{{loggedInUser?.enabled}}">
-        <input class="user-form-text" type="hidden" formControlName="locked" ngModel="{{loggedInUser?.locked}}">
-        <input class="user-form-text" placeholder="Nickname" formControlName="nickname" ngModel="{{loggedInUser?.nickname}}">
-        <span *ngIf="updateForm.get('nickname')!.hasError('required') && updateForm.get('nickname')!.touched">Nickname is required</span>
-        <span *ngIf="updateForm.get('nickname')!.hasError('maxlength')">Nickname is too long</span>
-        <span *ngIf="updateForm.get('nickname')!.hasError('minlength')">Nickname is too short</span>
-        <input type="password" class="user-form-text" placeholder="Old/New Password" formControlName="password">
-        <span *ngIf="updateForm.get('password')!.hasError('required') && updateForm.get('password')!.touched">A password is required</span>
-        <span *ngIf="updateForm.get('password')!.hasError('minlength')">Password is too short</span>
-        <span *ngIf="updateForm.get('password')!.hasError('maxlength')">Password is too long</span>
-        <div class="button-container">
-            <button class="invalidButton" title="invalid form" *ngIf="updateForm.invalid" [disabled]="updateForm.invalid" type="submit">Update</button>
-            <button class="validButton" title="register" *ngIf="updateForm.valid" [disabled]="updateForm.invalid" type="submit">Update</button>
-        </div>
-    </form>
+  <form
+    class="user-form"
+    [formGroup]="updateForm"
+    (ngSubmit)="updateUser(updateForm.value)"
+  >
+    <input
+      class="user-form-text"
+      type="hidden"
+      formControlName="id"
+      ngModel="{{ loggedInUser?.id }}"
+    />
+    <input
+      class="user-form-text"
+      type="hidden"
+      formControlName="userRole"
+      ngModel="{{ loggedInUser?.userRole }}"
+    />
+    <input
+      class="user-form-text"
+      type="hidden"
+      formControlName="enabled"
+      ngModel="{{ loggedInUser?.enabled }}"
+    />
+    <input
+      class="user-form-text"
+      type="hidden"
+      formControlName="locked"
+      ngModel="{{ loggedInUser?.locked }}"
+    />
+    <input
+      class="user-form-text"
+      placeholder="Nickname"
+      formControlName="nickname"
+      ngModel="{{ loggedInUser?.nickname }}"
+    />
+    <span
+      *ngIf="
+        updateForm.get('nickname')!.hasError('required') &&
+        updateForm.get('nickname')!.touched
+      "
+      >Nickname is required</span
+    >
+    <span *ngIf="updateForm.get('nickname')!.hasError('maxlength')"
+      >Nickname is too long</span
+    >
+    <span *ngIf="updateForm.get('nickname')!.hasError('minlength')"
+      >Nickname is too short</span
+    >
+    <input
+      type="password"
+      class="user-form-text"
+      placeholder="Old/New Password"
+      formControlName="password"
+    />
+    <span
+      *ngIf="
+        updateForm.get('password')!.hasError('required') &&
+        updateForm.get('password')!.touched
+      "
+      >A password is required</span
+    >
+    <span *ngIf="updateForm.get('password')!.hasError('minlength')"
+      >Password is too short</span
+    >
+    <span *ngIf="updateForm.get('password')!.hasError('maxlength')"
+      >Password is too long</span
+    >
+    <div class="button-container">
+      <button
+        class="invalidButton"
+        title="invalid form"
+        *ngIf="updateForm.invalid"
+        [disabled]="updateForm.invalid"
+        type="submit"
+      >
+        Update
+      </button>
+      <button
+        class="validButton"
+        title="register"
+        *ngIf="updateForm.valid"
+        [disabled]="updateForm.invalid"
+        type="submit"
+      >
+        Update
+      </button>
+    </div>
+  </form>
 </div>

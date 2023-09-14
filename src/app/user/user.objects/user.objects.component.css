@@ -1,105 +1,103 @@
 .container {
-    max-width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-top: 30px;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 30px;
 }
 
 .container .card-container {
-    position: relative;
-    width: 300px;
-    height: 300px;
-    margin: 10px;
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 10px;
 }
 
 .container .card {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: var(--secondarybis);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: visible;
-    transition: transform 1s;
-    transform-style: preserve-3d;
-    cursor: pointer;
-    border-radius: 20px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--secondarybis);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  border-radius: 20px;
 }
 
 .container .card:hover {
-    transform: perspective(600px) rotateY(180deg);
+  transform: perspective(600px) rotateY(180deg);
 }
 
 .container .card .front-content,
 .container .card .back-content {
-    text-align: center;
-    backface-visibility: hidden;
+  text-align: center;
+  backface-visibility: hidden;
 }
 
 .container .card .back-content {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-    width: 300px;
-    height: 300px;
-    background: var(--secondarybis);
-    transform: perspective(600px) rotateY(180deg);
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  width: 300px;
+  height: 300px;
+  background: var(--secondarybis);
+  transform: perspective(600px) rotateY(180deg);
 }
 
 .container .card .back-content h3 {
-    position: absolute;
-    top: 30px;
-    font-size: 1.5em;
-    font-weight: 800;
-    color: white;
-    letter-spacing: 1px;
+  position: absolute;
+  top: 30px;
+  font-size: 1.5em;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 1px;
 }
 
 .container .card .back-content .text-back {
-    position: absolute;
-    font-size: 1em;
-    color: var(--secondary);
-    font-weight: 700;
+  position: absolute;
+  font-size: 1em;
+  color: var(--secondary);
+  font-weight: 700;
 }
 
 .container .card .front-content h3 {
-    margin-top: 250px;
-    font-size: 1.5em;
-    font-weight: 800;
-    color: white;
-    letter-spacing: 1px;
+  margin-top: 250px;
+  font-size: 1.5em;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 1px;
 }
 
 .container .card .front-content img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: auto;
-    border-radius: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
 }
 
 .container .card .back-content .download {
-    position: absolute;
-    bottom: 20px;
-    color: var(--valid);
-    font-size: 30px;
-    padding: 5px;
-    border-radius: 15px;
-    transition: 0.5s;
-    cursor: pointer;
+  position: absolute;
+  bottom: 20px;
+  color: var(--valid);
+  font-size: 30px;
+  padding: 5px;
+  border-radius: 15px;
+  transition: 0.5s;
+  cursor: pointer;
 }
 
 .container .card .back-content .download:hover {
-    color: black;
-    background-color: var(--valid);
-    box-shadow: 0 0 5px var(--valid),
-    0 0 25px var(--valid),
-    0 0 50px var(--valid),
+  color: black;
+  background-color: var(--valid);
+  box-shadow: 0 0 5px var(--valid), 0 0 25px var(--valid), 0 0 50px var(--valid),
     0 0 100px var(--valid);
 }

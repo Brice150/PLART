@@ -1,87 +1,87 @@
 .slider-container {
-    width: 100%;
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 .slider-container swiper {
-    width: 80%;
-    height: fit-content;
+  width: 80%;
+  height: fit-content;
 }
 
 .slider-container swiper .swiper-wrapper .swiper-slide img {
-    width: 100%;
-    border-radius: 15px;
+  width: 100%;
+  border-radius: 15px;
 }
 
-.slider-container swiper .swiper-button-prev, .swiper-button-next {
-    color: var(--secondarybis);
-    padding: 10px;
-    border-radius: 50px;
-    transition: 0.5s;
+.slider-container swiper .swiper-button-prev,
+.swiper-button-next {
+  color: var(--secondarybis);
+  padding: 10px;
+  border-radius: 50px;
+  transition: 0.5s;
 }
 
-.slider-container swiper .swiper-button-prev:hover, .swiper-button-next:hover {
-    color: white;
-    background-color: var(--secondarybis);
-    box-shadow: 0 0 5px var(--secondarybis),
-    0 0 25px var(--secondarybis),
-    0 0 50px var(--secondarybis),
-    0 0 100px var(--secondarybis);
+.slider-container swiper .swiper-button-prev:hover,
+.swiper-button-next:hover {
+  color: white;
+  background-color: var(--secondarybis);
+  box-shadow: 0 0 5px var(--secondarybis), 0 0 25px var(--secondarybis),
+    0 0 50px var(--secondarybis), 0 0 100px var(--secondarybis);
 }
 
 .swiper-pagination {
-    margin: 10px;
+  margin: 10px;
 }
 
 .swiper-pagination >>> .swiper-pagination-bullet {
-    width: 10px;
-    height: 10px;
+  width: 10px;
+  height: 10px;
 }
 .swiper-pagination >>> .swiper-pagination-bullet-active {
-    background-color: var(--secondarybis);
-    width: 10px;
-    height: 10px;
+  background-color: var(--secondarybis);
+  width: 10px;
+  height: 10px;
 }
 
 .slider-container swiper .swiper-wrapper .swiper-slide p {
-    position: absolute;
-    text-align: center;
-    bottom: 10%;
-    left: 50%;
-    color: white;
-    font-size: 3vw;
-    font-weight: bold;
-    line-height: 40px;
-    background-color: var(--primarybis);
-    border-radius: 15px;
-    padding: 20px;
+  position: absolute;
+  text-align: center;
+  bottom: 10%;
+  left: 50%;
+  color: white;
+  font-size: 3vw;
+  font-weight: bold;
+  line-height: 40px;
+  background-color: var(--primarybis);
+  border-radius: 15px;
+  padding: 20px;
 }
 
 .slider-container swiper .swiper-wrapper .swiper-slide-active p {
-    animation-name: fade-in;
-    animation-duration: 1s;
-    animation-delay: 2s;
-    animation-fill-mode: both;
+  animation-name: fade-in;
+  animation-duration: 1s;
+  animation-delay: 2s;
+  animation-fill-mode: both;
 }
 
 @keyframes fade-in {
-    from {
-        opacity: 0;
-        transform: translateY(100px);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media only screen and (max-width: 400px) {
-    .slider-container swiper .swiper-wrapper .swiper-slide p {
-        display: none;
-    }
+  .slider-container swiper .swiper-wrapper .swiper-slide p {
+    display: none;
+  }
 }

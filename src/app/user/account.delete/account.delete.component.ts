@@ -10,9 +10,9 @@ import { Subscription } from 'rxjs/internal/Subscription';
 @Component({
   selector: 'app-account-delete',
   templateUrl: './account.delete.component.html',
-  styleUrls: ['./account.delete.component.css']
+  styleUrls: ['./account.delete.component.css'],
 })
-export class AccountDeleteComponent implements OnInit, OnDestroy{
+export class AccountDeleteComponent implements OnInit, OnDestroy {
   loggedInUserEmail: string | null = null;
   deleteUserSubscription!: Subscription;
 
@@ -24,11 +24,12 @@ export class AccountDeleteComponent implements OnInit, OnDestroy{
   ) {}
 
   ngOnInit() {
-    if (sessionStorage.getItem('loggedInUserEmail')===null) {
+    if (sessionStorage.getItem('loggedInUserEmail') === null) {
       this.loggedInUserEmail = null;
-    }
-    else {
-      this.loggedInUserEmail = JSON.parse(sessionStorage.getItem('loggedInUserEmail') || '{}');
+    } else {
+      this.loggedInUserEmail = JSON.parse(
+        sessionStorage.getItem('loggedInUserEmail') || '{}'
+      );
     }
   }
 
@@ -37,38 +38,39 @@ export class AccountDeleteComponent implements OnInit, OnDestroy{
   }
 
   deleteUser() {
-    this.deleteUserSubscription = this.userService.deleteUser(this.loggedInUserEmail!).subscribe({
-      next: (response: void) => {
-        this.logout();
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toastr.error(error.message, "Server error", {
-          positionClass: "toast-bottom-center" 
-        })
-      },
-      complete: () => {
-        this.toastr.success("Account deleted", "User", {
-          positionClass: "toast-bottom-center" 
-        })
-      }
-    })
+    this.deleteUserSubscription = this.userService
+      .deleteUser(this.loggedInUserEmail!)
+      .subscribe({
+        next: (response: void) => {
+          this.logout();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.message, 'Server error', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+        complete: () => {
+          this.toastr.success('Account deleted', 'User', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+      });
   }
 
   logout() {
     sessionStorage.removeItem('loggedInUserEmail');
-    this.router.navigate(['/connect'])
-    .then(() => {
+    this.router.navigate(['/connect']).then(() => {
       window.location.reload();
-    })
+    });
   }
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.deleteUser();
       }
-    })
+    });
   }
 }

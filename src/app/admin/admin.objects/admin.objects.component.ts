@@ -12,10 +12,10 @@ import { User } from 'src/app/core/interfaces/user';
 @Component({
   selector: 'app-admin-objects',
   templateUrl: './admin.objects.component.html',
-  styleUrls: ['./admin.objects.component.css']
+  styleUrls: ['./admin.objects.component.css'],
 })
-export class AdminObjectsComponent implements OnInit, OnDestroy{
-  objects: Object[]=[];
+export class AdminObjectsComponent implements OnInit, OnDestroy {
+  objects: Object[] = [];
   getObjectSubscription!: Subscription;
   deleteObjectSubscription!: Subscription;
   objectCreatorSubscription!: Subscription;
@@ -24,7 +24,8 @@ export class AdminObjectsComponent implements OnInit, OnDestroy{
     private objectService: ObjectService,
     private adminService: AdminService,
     public dialog: MatDialog,
-    private toastr: ToastrService) {}
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit() {
     this.getObjects();
@@ -32,10 +33,12 @@ export class AdminObjectsComponent implements OnInit, OnDestroy{
 
   ngOnDestroy() {
     this.getObjectSubscription && this.getObjectSubscription.unsubscribe();
-    this.deleteObjectSubscription && this.deleteObjectSubscription.unsubscribe();
-    this.objectCreatorSubscription && this.objectCreatorSubscription.unsubscribe();
+    this.deleteObjectSubscription &&
+      this.deleteObjectSubscription.unsubscribe();
+    this.objectCreatorSubscription &&
+      this.objectCreatorSubscription.unsubscribe();
   }
-  
+
   getObjects() {
     this.getObjectSubscription = this.objectService.getAllObjects().subscribe({
       next: (response: Object[]) => {
@@ -45,65 +48,71 @@ export class AdminObjectsComponent implements OnInit, OnDestroy{
         this.objects = response;
       },
       error: (error: HttpErrorResponse) => {
-        this.toastr.error(error.message, "Server error", {
-          positionClass: "toast-bottom-center" 
-        })
-      }
-    })
+        this.toastr.error(error.message, 'Server error', {
+          positionClass: 'toast-bottom-center',
+        });
+      },
+    });
   }
 
   getObjectCreator(object: Object) {
-    this.objectCreatorSubscription = this.objectService.getObjectCreator(object.id).subscribe({
-      next: (response: User) => {
-        object.nickname = response.nickname;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toastr.error(error.message, "Server error", {
-          positionClass: "toast-bottom-center" 
-        })
-      }
-    })
+    this.objectCreatorSubscription = this.objectService
+      .getObjectCreator(object.id)
+      .subscribe({
+        next: (response: User) => {
+          object.nickname = response.nickname;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.message, 'Server error', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+      });
   }
-  
+
   deleteObject(object: Object) {
-    this.deleteObjectSubscription = this.adminService.deleteObject(object.id).subscribe({
-      next: (response: void) => {
-        this.getObjects();
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toastr.error(error.message, "Server error", {
-          positionClass: "toast-bottom-center" 
-        })
-      },
-      complete: () => {
-        this.toastr.success("Object deleted", "Object", {
-          positionClass: "toast-bottom-center" 
-        })
-      }
-    })
+    this.deleteObjectSubscription = this.adminService
+      .deleteObject(object.id)
+      .subscribe({
+        next: (response: void) => {
+          this.getObjects();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.message, 'Server error', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+        complete: () => {
+          this.toastr.success('Object deleted', 'Object', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+      });
   }
 
   openDialog(object: Object) {
     const dialogRef = this.dialog.open(DialogComponent);
-  
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.deleteObject(object);
       }
-    })
+    });
   }
 
-  search(key: string){
+  search(key: string) {
     const results: Object[] = [];
     for (const object of this.objects) {
-      if (object.nickname?.toLowerCase().indexOf(key.toLowerCase())!== -1
-      || object.name?.toLowerCase().indexOf(key.toLowerCase())!== -1
-      || object.category?.toLowerCase().indexOf(key.toLowerCase())!== -1) {
+      if (
+        object.nickname?.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
+        object.name?.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
+        object.category?.toLowerCase().indexOf(key.toLowerCase()) !== -1
+      ) {
         results.push(object);
       }
     }
     this.objects = results;
-    if (results.length === 0 ||!key) {
+    if (results.length === 0 || !key) {
       this.getObjects();
     }
   }

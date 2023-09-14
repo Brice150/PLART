@@ -27,10 +27,10 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     BrowserAnimationsModule,
     HttpClientModule,
     MatDialogModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}]
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,7 +1,7 @@
 export interface Token {
-    id: number;
-    token: string;
-    createdAt: Date;
-    expiresAt: Date;
-    confirmedAt: Date;
+  id: number;
+  token: string;
+  createdAt: Date;
+  expiresAt: Date;
+  confirmedAt: Date;
 }

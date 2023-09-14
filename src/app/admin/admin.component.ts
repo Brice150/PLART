@@ -3,19 +3,18 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  styleUrls: ['./admin.component.css'],
 })
-export class AdminComponent implements OnInit{
+export class AdminComponent implements OnInit {
   isConnected!: boolean;
   activeObjects: boolean = false;
   activeUsers: boolean = true;
   activeMessages: boolean = false;
 
   ngOnInit() {
-    if (sessionStorage.getItem('loggedInUserEmail')===null) {
+    if (sessionStorage.getItem('loggedInUserEmail') === null) {
       this.isConnected = false;
-    }
-    else {
+    } else {
       this.isConnected = true;
     }
   }
@@ -25,7 +24,7 @@ export class AdminComponent implements OnInit{
     this.activeUsers = false;
     this.activeMessages = false;
   }
-  
+
   onUsers() {
     this.activeObjects = false;
     this.activeUsers = true;

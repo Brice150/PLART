@@ -1,29 +1,27 @@
 .account-container {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .account-container .delete {
-    text-decoration: none;
-    background-color: var(--primarybis);
-    color: var(--invalid);
-    padding: 15px 30px;
-    margin: 10px;
-    text-transform: uppercase;
-    font-weight: 600;
-    letter-spacing: 1px;
-    border-radius: 0.4em;
-    transition: 0.5s;
+  text-decoration: none;
+  background-color: var(--primarybis);
+  color: var(--invalid);
+  padding: 15px 30px;
+  margin: 10px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 0.4em;
+  transition: 0.5s;
 }
 
 .account-container .delete:hover {
-    background-color: var(--invalid);
-    color: black;
-    box-shadow: 0 0 5px var(--invalid),
-    0 0 25px var(--invalid),
-    0 0 50px var(--invalid),
-    0 0 100px var(--invalid);
-    cursor: pointer;
+  background-color: var(--invalid);
+  color: black;
+  box-shadow: 0 0 5px var(--invalid), 0 0 25px var(--invalid),
+    0 0 50px var(--invalid), 0 0 100px var(--invalid);
+  cursor: pointer;
 }

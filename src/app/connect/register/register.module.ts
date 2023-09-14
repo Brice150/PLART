@@ -3,14 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RegisterComponent } from './register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
-
 @NgModule({
   declarations: [RegisterComponent],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule
-  ],
-  exports : [RegisterComponent]
+  imports: [CommonModule, ReactiveFormsModule],
+  exports: [RegisterComponent],
 })
-export class RegisterModule { }
+export class RegisterModule {}

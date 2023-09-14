@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
   imagePath: string = environment.imagePath;
@@ -20,20 +20,19 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private toastr: ToastrService
-    ) {}
+  ) {}
 
   ngOnInit() {
-    let btn : any = document.querySelector("#btn");
-    let sidebar: any = document.querySelector(".sidebar");
+    let btn: any = document.querySelector('#btn');
+    let sidebar: any = document.querySelector('.sidebar');
 
     btn.onclick = function () {
-      sidebar.classList.toggle("active");
-    }
+      sidebar.classList.toggle('active');
+    };
 
-    if (sessionStorage.getItem('loggedInUserEmail')===null) {
+    if (sessionStorage.getItem('loggedInUserEmail') === null) {
       this.isConnected = false;
-    }
-    else {
+    } else {
       this.isConnected = true;
       this.getUserRole();
     }
@@ -44,20 +43,21 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   getUserRole() {
-    this.getUserRoleSubscription = this.userService.getConnectedUser().subscribe({
-      next: (response: User) => {
-        if (response.userRole === "ROLE_ADMIN") {
-          this.isAdmin = true;
-        }
-        else {
-          this.isAdmin = false;
-        }
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toastr.error(error.message, "Server error", {
-          positionClass: "toast-bottom-center" 
-        })
-      }
-    })
+    this.getUserRoleSubscription = this.userService
+      .getConnectedUser()
+      .subscribe({
+        next: (response: User) => {
+          if (response.userRole === 'ROLE_ADMIN') {
+            this.isAdmin = true;
+          } else {
+            this.isAdmin = false;
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.message, 'Server error', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+      });
   }
 }

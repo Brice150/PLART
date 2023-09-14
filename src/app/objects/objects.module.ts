@@ -4,15 +4,9 @@ import { ObjectsComponent } from './objects.component';
 import { CardsModule } from './cards/cards.module';
 import { HeaderModule } from '../header/header.module';
 
-
-
 @NgModule({
   declarations: [ObjectsComponent],
-  imports: [
-    CommonModule,
-    CardsModule,
-    HeaderModule
-  ],
-  exports: [ObjectsComponent]
+  imports: [CommonModule, CardsModule, HeaderModule],
+  exports: [ObjectsComponent],
 })
-export class ObjectsModule { }
+export class ObjectsModule {}

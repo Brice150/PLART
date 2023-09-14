@@ -7,9 +7,8 @@ import { StatsService } from 'src/app/core/services/stats.service';
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.component.html',
-  styleUrls: ['./stats.component.css']
+  styleUrls: ['./stats.component.css'],
 })
-
 export class StatsComponent implements OnInit, OnDestroy {
   @Input() isConnected!: boolean;
   usersNumber: number = 0;
@@ -22,7 +21,7 @@ export class StatsComponent implements OnInit, OnDestroy {
   constructor(
     private statsService: StatsService,
     private toastr: ToastrService
-    ) {}
+  ) {}
 
   ngOnInit() {
     this.getUsersNumber();
@@ -31,47 +30,56 @@ export class StatsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.getUsersNumberSubscription && this.getUsersNumberSubscription.unsubscribe();
-    this.getCreatersNumberSubscription && this.getCreatersNumberSubscription.unsubscribe();
-    this.getObjectsNumberSubscription && this.getObjectsNumberSubscription.unsubscribe();
+    this.getUsersNumberSubscription &&
+      this.getUsersNumberSubscription.unsubscribe();
+    this.getCreatersNumberSubscription &&
+      this.getCreatersNumberSubscription.unsubscribe();
+    this.getObjectsNumberSubscription &&
+      this.getObjectsNumberSubscription.unsubscribe();
   }
 
   getUsersNumber() {
-    this.getUsersNumberSubscription = this.statsService.getUsersNumber().subscribe({
-      next: (response: number) => {
-        this.usersNumber = response;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toastr.error(error.message, "Server error", {
-          positionClass: "toast-bottom-center" 
-        })
-      }
-    })
+    this.getUsersNumberSubscription = this.statsService
+      .getUsersNumber()
+      .subscribe({
+        next: (response: number) => {
+          this.usersNumber = response;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.message, 'Server error', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+      });
   }
 
   getCreatersNumber() {
-    this.getCreatersNumberSubscription = this.statsService.getCreatorsNumber().subscribe({
-      next: (response: number) => {
-        this.creatorsNumber = response;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toastr.error(error.message, "Server error", {
-          positionClass: "toast-bottom-center" 
-        })
-      }
-    })
+    this.getCreatersNumberSubscription = this.statsService
+      .getCreatorsNumber()
+      .subscribe({
+        next: (response: number) => {
+          this.creatorsNumber = response;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.message, 'Server error', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+      });
   }
 
   getObjectsNumber() {
-    this.getObjectsNumberSubscription = this.statsService.getObjectsNumber().subscribe({
-      next: (response: number) => {
-        this.objectsNumber = response;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toastr.error(error.message, "Server error", {
-          positionClass: "toast-bottom-center" 
-        })
-      }
-    })
+    this.getObjectsNumberSubscription = this.statsService
+      .getObjectsNumber()
+      .subscribe({
+        next: (response: number) => {
+          this.objectsNumber = response;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.message, 'Server error', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+      });
   }
 }

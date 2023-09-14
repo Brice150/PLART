@@ -1,63 +1,169 @@
-<app-header [title]="'Messages'" [isConnected]="isConnected" *ngIf="isConnected"></app-header>
+<app-header
+  [title]="'Messages'"
+  [isConnected]="isConnected"
+  *ngIf="isConnected"
+></app-header>
 
 <div class="container" *ngIf="isConnected">
-    <div class="selection-container">
-        <input type="search" (ngModelChange)="search(key.value)" #key="ngModel" ngModel name="key" class="text-research" placeholder="Search">
-        <div class="user-container" (click)="getSelectedUserMessages(user)" *ngFor="let user of users">
-            <a *ngIf="user === selectedUser" class="user selected">
-                <span>{{user.nickname}}</span>
-                <span *ngIf="user.messagesNumber !== 0">({{user.messagesNumber}})</span>
-            </a>
-            <a *ngIf="user !== selectedUser" class="user">
-                <span>{{user.nickname}}</span>
-                <span *ngIf="user.messagesNumber !== 0">({{user.messagesNumber}})</span>
-            </a>
-        </div>
+  <div class="selection-container">
+    <input
+      type="search"
+      (ngModelChange)="search(key.value)"
+      #key="ngModel"
+      ngModel
+      name="key"
+      class="text-research"
+      placeholder="Search"
+    />
+    <div
+      class="user-container"
+      (click)="getSelectedUserMessages(user)"
+      *ngFor="let user of users"
+    >
+      <a *ngIf="user === selectedUser" class="user selected">
+        <span>{{ user.nickname }}</span>
+        <span *ngIf="user.messagesNumber !== 0"
+          >({{ user.messagesNumber }})</span
+        >
+      </a>
+      <a *ngIf="user !== selectedUser" class="user">
+        <span>{{ user.nickname }}</span>
+        <span *ngIf="user.messagesNumber !== 0"
+          >({{ user.messagesNumber }})</span
+        >
+      </a>
     </div>
-    <div class="messages-container">
-        <div class="message-container" *ngFor="let message of messages">
-            <div class="contenu left" *ngIf="message.sender !== loggedInUser!.nickname">
-                <div class="message">
-                    <div class="header-message">
-                        <span class="from">{{message.sender}}</span>
-                        <span *ngIf="isToday(message)">{{message.date | date:"shortTime"}}</span>
-                        <span *ngIf="!isToday(message)">{{message.date | date:"shortDate"}}</span>
-                    </div>
-                    <span class="content">{{message?.content}}</span>
-                </div>
-            </div>
-            <div class="contenu right" *ngIf="message.sender === loggedInUser!.nickname">
-                <div class="message" title="modify" (click)="modifyMessage(message)">
-                    <div class="header-message">
-                        <span>{{message.sender}}</span>
-                        <span *ngIf="isToday(message)">{{message.date | date:"shortTime"}}</span>
-                        <span *ngIf="!isToday(message)">{{message.date | date:"shortDate"}}</span>
-                    </div>
-                    <span class="content">{{message?.content}}</span>
-                </div>
-                <a class="delete" title="delete" (click)="openDialog(message)"><i class='bx bx-message-square-x'></i></a>
-            </div>
+  </div>
+  <div class="messages-container">
+    <div class="message-container" *ngFor="let message of messages">
+      <div
+        class="contenu left"
+        *ngIf="message.sender !== loggedInUser!.nickname"
+      >
+        <div class="message">
+          <div class="header-message">
+            <span class="from">{{ message.sender }}</span>
+            <span *ngIf="isToday(message)">{{
+              message.date | date : "shortTime"
+            }}</span>
+            <span *ngIf="!isToday(message)">{{
+              message.date | date : "shortDate"
+            }}</span>
+          </div>
+          <span class="content">{{ message?.content }}</span>
         </div>
-        <form *ngIf="!isModifying" class="message-form" [formGroup]="messageForm" (ngSubmit)="sendMessage(messageForm.value)">
-            <textarea class="send-message" placeholder="Message" formControlName="content"></textarea>
-            <span *ngIf="messageForm.get('content')!.hasError('required') && messageForm.get('content')!.touched">Message is required</span>
-            <span *ngIf="messageForm.get('content')!.hasError('maxlength')">Message is too long</span>
-            <span *ngIf="messageForm.get('content')!.hasError('minlength')">Message is too short</span>
-            <div class="button-container">
-                <button class="invalidButton" title="invalid form" *ngIf="messageForm.invalid" [disabled]="messageForm.invalid" type="submit">Send</button>
-                <button class="validButton" title="send" *ngIf="messageForm.valid" [disabled]="messageForm.invalid" type="submit">Send</button>
-            </div>
-        </form>
-        <form *ngIf="isModifying" class="message-form" [formGroup]="messageForm" (ngSubmit)="updateMessage(messageForm.value)">
-            <textarea class="send-message" ngModel="{{updatedMessage?.content}}" formControlName="content"></textarea>
-            <span *ngIf="messageForm.get('content')!.hasError('required') && messageForm.get('content')!.touched">Message is required</span>
-            <span *ngIf="messageForm.get('content')!.hasError('maxlength')">Message is too long</span>
-            <span *ngIf="messageForm.get('content')!.hasError('minlength')">Message is too short</span>
-            <div class="button-container">
-                <button class="invalidButton" title="invalid form" *ngIf="messageForm.invalid" [disabled]="messageForm.invalid" type="submit">Update</button>
-                <button class="validButton" title="update" *ngIf="messageForm.valid" [disabled]="messageForm.invalid" type="submit">Update</button>
-                <a class="cancel" title="cancel" (click)="unmodifyMessage()">Cancel</a>
-            </div>
-        </form>
+      </div>
+      <div
+        class="contenu right"
+        *ngIf="message.sender === loggedInUser!.nickname"
+      >
+        <div class="message" title="modify" (click)="modifyMessage(message)">
+          <div class="header-message">
+            <span>{{ message.sender }}</span>
+            <span *ngIf="isToday(message)">{{
+              message.date | date : "shortTime"
+            }}</span>
+            <span *ngIf="!isToday(message)">{{
+              message.date | date : "shortDate"
+            }}</span>
+          </div>
+          <span class="content">{{ message?.content }}</span>
+        </div>
+        <a class="delete" title="delete" (click)="openDialog(message)"
+          ><i class="bx bx-message-square-x"></i
+        ></a>
+      </div>
     </div>
+    <form
+      *ngIf="!isModifying"
+      class="message-form"
+      [formGroup]="messageForm"
+      (ngSubmit)="sendMessage(messageForm.value)"
+    >
+      <textarea
+        class="send-message"
+        placeholder="Message"
+        formControlName="content"
+      ></textarea>
+      <span
+        *ngIf="
+          messageForm.get('content')!.hasError('required') &&
+          messageForm.get('content')!.touched
+        "
+        >Message is required</span
+      >
+      <span *ngIf="messageForm.get('content')!.hasError('maxlength')"
+        >Message is too long</span
+      >
+      <span *ngIf="messageForm.get('content')!.hasError('minlength')"
+        >Message is too short</span
+      >
+      <div class="button-container">
+        <button
+          class="invalidButton"
+          title="invalid form"
+          *ngIf="messageForm.invalid"
+          [disabled]="messageForm.invalid"
+          type="submit"
+        >
+          Send
+        </button>
+        <button
+          class="validButton"
+          title="send"
+          *ngIf="messageForm.valid"
+          [disabled]="messageForm.invalid"
+          type="submit"
+        >
+          Send
+        </button>
+      </div>
+    </form>
+    <form
+      *ngIf="isModifying"
+      class="message-form"
+      [formGroup]="messageForm"
+      (ngSubmit)="updateMessage(messageForm.value)"
+    >
+      <textarea
+        class="send-message"
+        ngModel="{{ updatedMessage?.content }}"
+        formControlName="content"
+      ></textarea>
+      <span
+        *ngIf="
+          messageForm.get('content')!.hasError('required') &&
+          messageForm.get('content')!.touched
+        "
+        >Message is required</span
+      >
+      <span *ngIf="messageForm.get('content')!.hasError('maxlength')"
+        >Message is too long</span
+      >
+      <span *ngIf="messageForm.get('content')!.hasError('minlength')"
+        >Message is too short</span
+      >
+      <div class="button-container">
+        <button
+          class="invalidButton"
+          title="invalid form"
+          *ngIf="messageForm.invalid"
+          [disabled]="messageForm.invalid"
+          type="submit"
+        >
+          Update
+        </button>
+        <button
+          class="validButton"
+          title="update"
+          *ngIf="messageForm.valid"
+          [disabled]="messageForm.invalid"
+          type="submit"
+        >
+          Update
+        </button>
+        <a class="cancel" title="cancel" (click)="unmodifyMessage()">Cancel</a>
+      </div>
+    </form>
+  </div>
 </div>

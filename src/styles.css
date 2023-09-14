@@ -1,19 +1,19 @@
 :root {
-    --invalid: #ff0000;
-    --valid: #0fff00;
-    --primary: #003785;
-    --secondary:#1779ff;
-    --primarybis: #11101d;
-    --secondarybis: #1d1b31;
-    --nav: #003785;
-    --background: #ffffff;
-    --scrollbar: #1779ff;
-    --header: #003785;
+  --invalid: #ff0000;
+  --valid: #0fff00;
+  --primary: #003785;
+  --secondary: #1779ff;
+  --primarybis: #11101d;
+  --secondarybis: #1d1b31;
+  --nav: #003785;
+  --background: #ffffff;
+  --scrollbar: #1779ff;
+  --header: #003785;
 }
 
-body { 
-    margin: 0; 
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Roboto, "Helvetica Neue", sans-serif; 
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }

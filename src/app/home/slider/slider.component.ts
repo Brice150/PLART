@@ -5,10 +5,9 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-slider',
   templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.css']
+  styleUrls: ['./slider.component.css'],
 })
-
-export class SliderComponent{
+export class SliderComponent {
   imagePath: string = environment.imagePath;
   @Input() images!: string[];
   @Input() texts!: string[];
@@ -20,15 +19,14 @@ export class SliderComponent{
     },
     speed: 1500,
     loop: true,
-    pagination: { 
-      el: '.swiper-pagination', 
-      clickable: true 
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
     },
     navigation: {
       nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
+      prevEl: '.swiper-button-prev',
     },
-    spaceBetween: 30
+    spaceBetween: 30,
   };
-
 }

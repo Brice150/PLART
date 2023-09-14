@@ -8,8 +8,6 @@ import { AccountDeleteModule } from './account.delete/account.delete.module';
 import { AccountModifyModule } from './account.modify/account.modify.module';
 import { HeaderModule } from '../header/header.module';
 
-
-
 @NgModule({
   declarations: [UserComponent],
   imports: [
@@ -19,8 +17,8 @@ import { HeaderModule } from '../header/header.module';
     UserObjectsModifyModule,
     AccountDeleteModule,
     AccountModifyModule,
-    HeaderModule
+    HeaderModule,
   ],
-  exports: [UserComponent]
+  exports: [UserComponent],
 })
-export class UserModule { }
+export class UserModule {}

@@ -1,19 +1,79 @@
-<form *ngIf="!successfulRegistration" class="user-form" [formGroup]="registerForm" (ngSubmit)="registerUser(registerForm.value)">
-  <input class="user-form-text" placeholder="Nickname" formControlName="nickname">
-  <span *ngIf="registerForm.get('nickname')!.hasError('required') && registerForm.get('nickname')!.touched">Nickname is required</span>
-  <span *ngIf="registerForm.get('nickname')!.hasError('maxlength')">Nickname is too long</span>
-  <span *ngIf="registerForm.get('nickname')!.hasError('minlength')">Nickname is too short</span>
-  <input class="user-form-text" placeholder="Email" formControlName="email">
-  <span *ngIf="registerForm.get('email')!.hasError('required') && registerForm.get('email')!.touched">Email is required</span>
-  <span *ngIf="registerForm.get('email')!.hasError('email')">Email is invalid</span>
-  <span *ngIf="registerForm.get('email')!.hasError('maxlength')">Email is too long</span>
-  <input type="password" class="user-form-text" placeholder="Password" formControlName="password">
-  <span *ngIf="registerForm.get('password')!.hasError('required') && registerForm.get('password')!.touched">Password is required</span>
-  <span *ngIf="registerForm.get('password')!.hasError('minlength')">Password is too short</span>
-  <span *ngIf="registerForm.get('password')!.hasError('maxlength')">Password is too long</span>
+<form
+  *ngIf="!successfulRegistration"
+  class="user-form"
+  [formGroup]="registerForm"
+  (ngSubmit)="registerUser(registerForm.value)"
+>
+  <input
+    class="user-form-text"
+    placeholder="Nickname"
+    formControlName="nickname"
+  />
+  <span
+    *ngIf="
+      registerForm.get('nickname')!.hasError('required') &&
+      registerForm.get('nickname')!.touched
+    "
+    >Nickname is required</span
+  >
+  <span *ngIf="registerForm.get('nickname')!.hasError('maxlength')"
+    >Nickname is too long</span
+  >
+  <span *ngIf="registerForm.get('nickname')!.hasError('minlength')"
+    >Nickname is too short</span
+  >
+  <input class="user-form-text" placeholder="Email" formControlName="email" />
+  <span
+    *ngIf="
+      registerForm.get('email')!.hasError('required') &&
+      registerForm.get('email')!.touched
+    "
+    >Email is required</span
+  >
+  <span *ngIf="registerForm.get('email')!.hasError('email')"
+    >Email is invalid</span
+  >
+  <span *ngIf="registerForm.get('email')!.hasError('maxlength')"
+    >Email is too long</span
+  >
+  <input
+    type="password"
+    class="user-form-text"
+    placeholder="Password"
+    formControlName="password"
+  />
+  <span
+    *ngIf="
+      registerForm.get('password')!.hasError('required') &&
+      registerForm.get('password')!.touched
+    "
+    >Password is required</span
+  >
+  <span *ngIf="registerForm.get('password')!.hasError('minlength')"
+    >Password is too short</span
+  >
+  <span *ngIf="registerForm.get('password')!.hasError('maxlength')"
+    >Password is too long</span
+  >
   <div class="button-container">
-      <button class="invalidButton" title="invalid form" *ngIf="registerForm.invalid" [disabled]="registerForm.invalid" type="submit">Register</button>
-      <button class="validButton" title="register" *ngIf="registerForm.valid" [disabled]="registerForm.invalid" type="submit">Register</button>
+    <button
+      class="invalidButton"
+      title="invalid form"
+      *ngIf="registerForm.invalid"
+      [disabled]="registerForm.invalid"
+      type="submit"
+    >
+      Register
+    </button>
+    <button
+      class="validButton"
+      title="register"
+      *ngIf="registerForm.valid"
+      [disabled]="registerForm.invalid"
+      type="submit"
+    >
+      Register
+    </button>
   </div>
 </form>
 

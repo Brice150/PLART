@@ -13,11 +13,11 @@ import { Subscription } from 'rxjs/internal/Subscription';
 @Component({
   selector: 'app-user-objects-modify',
   templateUrl: './user.objects.modify.component.html',
-  styleUrls: ['./user.objects.modify.component.css']
+  styleUrls: ['./user.objects.modify.component.css'],
 })
-export class UserObjectsModifyComponent implements OnInit, OnDestroy{
+export class UserObjectsModifyComponent implements OnInit, OnDestroy {
   loggedInUser!: User | null;
-  objects: Object[]=[];
+  objects: Object[] = [];
   object!: Object | null;
   updateForm!: FormGroup;
   getLoggedInUserSubscription!: Subscription;
@@ -30,56 +30,85 @@ export class UserObjectsModifyComponent implements OnInit, OnDestroy{
     private userService: UserService,
     public dialog: MatDialog,
     private fb: FormBuilder,
-    private toastr:ToastrService) {}
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit() {
     this.updateForm = this.fb.group({
-      name: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(2)]],
-      category: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(2)]],
-      description: ['', [Validators.required, Validators.maxLength(250), Validators.minLength(5)]]
-    })
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.minLength(2),
+        ],
+      ],
+      category: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.minLength(2),
+        ],
+      ],
+      description: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(250),
+          Validators.minLength(5),
+        ],
+      ],
+    });
 
     this.getLoggedInUser();
     this.getObjects();
   }
 
   ngOnDestroy() {
-    this.getLoggedInUserSubscription && this.getLoggedInUserSubscription.unsubscribe();
+    this.getLoggedInUserSubscription &&
+      this.getLoggedInUserSubscription.unsubscribe();
     this.getObjectsSubscription && this.getObjectsSubscription.unsubscribe();
-    this.updateObjectSubscription && this. updateObjectSubscription.unsubscribe();
-    this.deleteObjectSubscription && this.deleteObjectSubscription.unsubscribe();
+    this.updateObjectSubscription &&
+      this.updateObjectSubscription.unsubscribe();
+    this.deleteObjectSubscription &&
+      this.deleteObjectSubscription.unsubscribe();
   }
 
   getLoggedInUser() {
-    this.getLoggedInUserSubscription = this.userService.getConnectedUser().subscribe({
-      next: (response: User) => {
-        this.loggedInUser = response;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toastr.error(error.message, "Server error", {
-          positionClass: "toast-bottom-center" 
-        })
-      }
-    })
+    this.getLoggedInUserSubscription = this.userService
+      .getConnectedUser()
+      .subscribe({
+        next: (response: User) => {
+          this.loggedInUser = response;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.message, 'Server error', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+      });
   }
 
   getObjects() {
-    this.getObjectsSubscription = this.userService.getConnectedUser().subscribe({
-      next: (response: User) => {
-        if (response.objects.length !== 0) {
-          this.objects=response.objects!;
-        }
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toastr.error(error.message, "Server error", {
-          positionClass: "toast-bottom-center" 
-        })
-      }
-    })
+    this.getObjectsSubscription = this.userService
+      .getConnectedUser()
+      .subscribe({
+        next: (response: User) => {
+          if (response.objects.length !== 0) {
+            this.objects = response.objects!;
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.message, 'Server error', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+      });
   }
 
   modify(object: Object) {
-    this.object=object;
+    this.object = object;
   }
 
   unmodify() {
@@ -91,51 +120,55 @@ export class UserObjectsModifyComponent implements OnInit, OnDestroy{
     object.fileToDownload = this.object?.fileToDownload!;
     object.nickname = this.object?.nickname!;
     object.image = this.object?.image!;
-    object.fkUser = {"id": this.loggedInUser!.id};
-    this.updateObjectSubscription = this.objectService.updateObject(object).subscribe({
-      next: (response: Object) => {
-        this.getObjects();
-        this.unmodify();
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toastr.error(error.message, "Server error", {
-          positionClass: "toast-bottom-center" 
-        })
-      },
-      complete: () => {
-        this.toastr.success("Object updated", "Object", {
-          positionClass: "toast-bottom-center" 
-        })
-      }
-    })
+    object.fkUser = { id: this.loggedInUser!.id };
+    this.updateObjectSubscription = this.objectService
+      .updateObject(object)
+      .subscribe({
+        next: (response: Object) => {
+          this.getObjects();
+          this.unmodify();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.message, 'Server error', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+        complete: () => {
+          this.toastr.success('Object updated', 'Object', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+      });
   }
 
   deleteObject(object: Object) {
-    this.deleteObjectSubscription = this.objectService.deleteObject(object.id).subscribe({
-      next: (response: void) => {
-        this.getObjects();
-        this.unmodify();
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toastr.error(error.message, "Server error", {
-          positionClass: "toast-bottom-center" 
-        })
-      },
-      complete: () => {
-        this.toastr.success("Object deleted", "Object", {
-          positionClass: "toast-bottom-center" 
-        })
-      }
-    })
+    this.deleteObjectSubscription = this.objectService
+      .deleteObject(object.id)
+      .subscribe({
+        next: (response: void) => {
+          this.getObjects();
+          this.unmodify();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.toastr.error(error.message, 'Server error', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+        complete: () => {
+          this.toastr.success('Object deleted', 'Object', {
+            positionClass: 'toast-bottom-center',
+          });
+        },
+      });
   }
 
   openDialog(object: Object) {
     const dialogRef = this.dialog.open(DialogComponent);
-  
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.deleteObject(object);
       }
-    })
+    });
   }
 }

@@ -1,15 +1,39 @@
 <app-header [title]="'Connect'"></app-header>
 <div class="main-container">
-    <div class="container">
-        <div class="content">
-            <div class="btn-container">
-                <a *ngIf="isRegistering" (click)="onRegister()" title="register" class="active">Register</a>
-                <a *ngIf="!isRegistering" (click)="onRegister()" title="register" class="unactive">Register</a>
-                <a *ngIf="isRegistering" (click)="onLogin()" title="login" class="unactive">Login</a>
-                <a *ngIf="!isRegistering" (click)="onLogin()" title="login" class="active">Login</a>
-            </div>
-            <app-login *ngIf="!isRegistering"></app-login>
-            <app-register *ngIf="isRegistering"></app-register>
-        </div>
+  <div class="container">
+    <div class="content">
+      <div class="btn-container">
+        <a
+          *ngIf="isRegistering"
+          (click)="onRegister()"
+          title="register"
+          class="active"
+          >Register</a
+        >
+        <a
+          *ngIf="!isRegistering"
+          (click)="onRegister()"
+          title="register"
+          class="unactive"
+          >Register</a
+        >
+        <a
+          *ngIf="isRegistering"
+          (click)="onLogin()"
+          title="login"
+          class="unactive"
+          >Login</a
+        >
+        <a
+          *ngIf="!isRegistering"
+          (click)="onLogin()"
+          title="login"
+          class="active"
+          >Login</a
+        >
+      </div>
+      <app-login *ngIf="!isRegistering"></app-login>
+      <app-register *ngIf="isRegistering"></app-register>
     </div>
+  </div>
 </div>

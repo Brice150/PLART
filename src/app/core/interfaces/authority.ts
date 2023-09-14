@@ -1,3 +1,3 @@
 export interface Authority {
-    authority: string;
+  authority: string;
 }

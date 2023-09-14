@@ -1,15 +1,60 @@
-<form [className]="invalidLogin ? 'user-form invalidLogin' : 'user-form'" [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
-    <input class="user-form-text" placeholder="Email" formControlName="email">
-    <span *ngIf="loginForm.get('email')!.hasError('required') && loginForm.get('email')!.touched">Email is required</span>
-    <span *ngIf="loginForm.get('email')!.hasError('email')">Email is invalid</span>
-    <span *ngIf="loginForm.get('email')!.hasError('maxlength')">Email is too long</span>
-    <input type="password" class="user-form-text" placeholder="Password" formControlName="password">
-    <span *ngIf="loginForm.get('password')!.hasError('required') && loginForm.get('password')!.touched">Password is required</span>
-    <span *ngIf="loginForm.get('password')!.hasError('minlength')">Password is too short</span>
-    <span *ngIf="loginForm.get('password')!.hasError('maxlength')">Password is too long</span>
-    <span *ngIf="invalidLogin">Wrong Email or Password</span>
-    <div class="button-container">
-        <button class="invalidButton" title="invalid form" *ngIf="loginForm.invalid" [disabled]="loginForm.invalid" type="submit">Login</button>
-        <button class="validButton" title="login" *ngIf="loginForm.valid" [disabled]="loginForm.invalid" type="submit">Login</button>
-    </div>
+<form
+  [className]="invalidLogin ? 'user-form invalidLogin' : 'user-form'"
+  [formGroup]="loginForm"
+  (ngSubmit)="loginUser(loginForm.value)"
+>
+  <input class="user-form-text" placeholder="Email" formControlName="email" />
+  <span
+    *ngIf="
+      loginForm.get('email')!.hasError('required') &&
+      loginForm.get('email')!.touched
+    "
+    >Email is required</span
+  >
+  <span *ngIf="loginForm.get('email')!.hasError('email')"
+    >Email is invalid</span
+  >
+  <span *ngIf="loginForm.get('email')!.hasError('maxlength')"
+    >Email is too long</span
+  >
+  <input
+    type="password"
+    class="user-form-text"
+    placeholder="Password"
+    formControlName="password"
+  />
+  <span
+    *ngIf="
+      loginForm.get('password')!.hasError('required') &&
+      loginForm.get('password')!.touched
+    "
+    >Password is required</span
+  >
+  <span *ngIf="loginForm.get('password')!.hasError('minlength')"
+    >Password is too short</span
+  >
+  <span *ngIf="loginForm.get('password')!.hasError('maxlength')"
+    >Password is too long</span
+  >
+  <span *ngIf="invalidLogin">Wrong Email or Password</span>
+  <div class="button-container">
+    <button
+      class="invalidButton"
+      title="invalid form"
+      *ngIf="loginForm.invalid"
+      [disabled]="loginForm.invalid"
+      type="submit"
+    >
+      Login
+    </button>
+    <button
+      class="validButton"
+      title="login"
+      *ngIf="loginForm.valid"
+      [disabled]="loginForm.invalid"
+      type="submit"
+    >
+      Login
+    </button>
+  </div>
 </form>

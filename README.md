@@ -11,72 +11,73 @@ Backend : Spring Boot
 <details>
   <summary>Pages Features</summary>
 
-  ### Home
+### Home
 
-  - Images swiper with dynamic descriptions
-  - Animated website stats with go to connect, user or objects pages when clicked
+- Images swiper with dynamic descriptions
+- Animated website stats with go to connect, user or objects pages when clicked
 
-  ### Objects
+### Objects
 
-  - Search object or filter objects by category
-  - See objects with a rotating card animation
-  - Download the 3D printable file of any object 
+- Search object or filter objects by category
+- See objects with a rotating card animation
+- Download the 3D printable file of any object
 
-  ### Connect
+### Connect
 
-  - Register with email confirmation
-  - Login with form control and failure animation
-  - Logout is available on any page once logged in
+- Register with email confirmation
+- Login with form control and failure animation
+- Logout is available on any page once logged in
 
-  ### User
+### User
 
-  - Login needed to view this page
-  - Modify or delete your account (delete needs confirmation)
-  - See your objects and download them
-  - Add an object with a file and optionnal image
-  - Modify or delete your objects (delete needs confirmation)
+- Login needed to view this page
+- Modify or delete your account (delete needs confirmation)
+- See your objects and download them
+- Add an object with a file and optionnal image
+- Modify or delete your objects (delete needs confirmation)
 
-  ### Messages
+### Messages
 
-  - Login needed to view this page
-  - Search user
-  - See messages and messages number per user
-  - Send, modify or delete a message
+- Login needed to view this page
+- Search user
+- See messages and messages number per user
+- Send, modify or delete a message
 
-  ### Admin
+### Admin
 
-  - Admin role needed to view this page
-  - Search user, object or message
-  - See all users, objects or messages
-  - Delete user, object or message
+- Admin role needed to view this page
+- Search user, object or message
+- See all users, objects or messages
+- Delete user, object or message
 
 </details>
 
 <details>
   <summary>Run Locally</summary>
 
-  ### Clone the project
+### Clone the project
 
-  ```bash
-    git clone https://github.com/Brice150/PLART.git
-  ```
+```bash
+  git clone https://github.com/Brice150/PLART.git
+```
 
-  ### Go to backend directory 
+### Go to backend directory
+
     --> Run application on Intellij
 
-  ### Install dependencies
+### Install dependencies
 
-  ```bash
-    npm install
-  ```
+```bash
+  npm install
+```
 
-  ### Start the server
+### Start the server
 
-  ```bash
-    ng serve -o
-  ```
+```bash
+  ng serve -o
+```
 
-</details>  
+</details>
 
 <details>
   <summary>API Reference</summary>
@@ -86,211 +87,211 @@ Backend : Spring Boot
   <details>
   <summary>Connection</summary>
 
-  ### Register
+### Register
 
-  ```http
-    POST /registration
-  ```
+```http
+  POST /registration
+```
 
-  ### Confirm email
+### Confirm email
 
-  ```http
-    GET /registration/confirm
-  ```
+```http
+  GET /registration/confirm
+```
 
-  ### Login
+### Login
 
-  ```http
-    GET /login
-  ```
+```http
+  GET /login
+```
 
-  ### Logout
+### Logout
 
-  ```http
-    GET /logout
-  ```
+```http
+  GET /logout
+```
 
-  </details> 
+  </details>
 
   <details>
   <summary>Admin</summary>
 
-  ### Get all users
+### Get all users
 
-  ```http
-    GET /admin/user/all
-  ```
+```http
+  GET /admin/user/all
+```
 
-  ### Delete user
+### Delete user
 
-  ```http
-    DELETE /admin/user/${email}
-  ```
+```http
+  DELETE /admin/user/${email}
+```
 
-  ### Get all messages
+### Get all messages
 
-  ```http
-    GET /admin/message/all
-  ```
+```http
+  GET /admin/message/all
+```
 
-  ### Delete message
+### Delete message
 
-  ```http
-    DELETE /admin/message/${messageId}
-  ```
+```http
+  DELETE /admin/message/${messageId}
+```
 
-  ### Delete object
+### Delete object
 
-  ```http
-    DELETE /admin/object/${messageId}
-  ```
+```http
+  DELETE /admin/object/${messageId}
+```
 
-  </details> 
+  </details>
 
   <details>
   <summary>User</summary>
 
-  ### Get all users
+### Get all users
 
-  ```http
-    GET /user/all
-  ```
+```http
+  GET /user/all
+```
 
-  ### Get connected user
+### Get connected user
 
-  ```http
-    GET /user
-  ```
+```http
+  GET /user
+```
 
-  ### Get user by id
+### Get user by id
 
-  ```http
-    GET /user/${userId}
-  ```
+```http
+  GET /user/${userId}
+```
 
-  ### Update user
+### Update user
 
-  ```http
-    PUT /user
-  ```
+```http
+  PUT /user
+```
 
-  ### Delete user
+### Delete user
 
-  ```http
-    DELETE /user/${email}
-  ```
+```http
+  DELETE /user/${email}
+```
 
-  </details> 
+  </details>
 
   <details>
   <summary>Message</summary>
 
-  ### Get message by id
+### Get message by id
 
-  ```http
-    GET /message/${messageId}
-  ```
+```http
+  GET /message/${messageId}
+```
 
-  ### Add message
+### Add message
 
-  ```http
-    POST /message
-  ```
+```http
+  POST /message
+```
 
-  ### Update message
+### Update message
 
-  ```http
-    PUT /message
-  ```
+```http
+  PUT /message
+```
 
-  ### Delete message
+### Delete message
 
-  ```http
-    DELETE /message/${messageId}
-  ```
+```http
+  DELETE /message/${messageId}
+```
 
-  </details> 
+  </details>
 
   <details>
   <summary>Object</summary>
 
-  ### Get all objects
+### Get all objects
 
-  ```http
-    GET /object/all
-  ```
+```http
+  GET /object/all
+```
 
-  ### Get object by id
+### Get object by id
 
-  ```http
-    GET /object/${objectId}
-  ```
+```http
+  GET /object/${objectId}
+```
 
-  ### Add object
+### Add object
 
-  ```http
-    POST /object
-  ```
+```http
+  POST /object
+```
 
-  ### Update object
+### Update object
 
-  ```http
-    PUT /object
-  ```
+```http
+  PUT /object
+```
 
-  ### Delete object
+### Delete object
 
-  ```http
-    DELETE /object/${objectId}
-  ```
+```http
+  DELETE /object/${objectId}
+```
 
-  ### Upload object image
+### Upload object image
 
-  ```http
-    POST /object/image
-  ```
+```http
+  POST /object/image
+```
 
-  ### Get object image
+### Get object image
 
-  ```http
-    GET /object/image/${imageName}
-  ```
+```http
+  GET /object/image/${imageName}
+```
 
-  ### Upload object file
+### Upload object file
 
-  ```http
-    POST /object/file
-  ```
+```http
+  POST /object/file
+```
 
-  ### Get object file
+### Get object file
 
-  ```http
-    GET /object/file/${fileName}
-  ```
+```http
+  GET /object/file/${fileName}
+```
 
-  </details> 
+  </details>
 
   <details>
   <summary>Stats</summary>
 
-  ### Get users number
+### Get users number
 
-  ```http
-    GET /stats/users
-  ```
+```http
+  GET /stats/users
+```
 
-  ### Get creaters number
+### Get creaters number
 
-  ```http
-    GET /stats/creaters
-  ```
+```http
+  GET /stats/creaters
+```
 
-  ### Get objects number
+### Get objects number
 
-  ```http
-    GET /stats/objects
-  ```
+```http
+  GET /stats/objects
+```
 
-  </details> 
+  </details>
 
-</details> 
+</details>

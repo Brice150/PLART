@@ -1,29 +1,97 @@
-<app-header [title]="'User'" [isConnected]="isConnected" *ngIf="isConnected"></app-header>
+<app-header
+  [title]="'User'"
+  [isConnected]="isConnected"
+  *ngIf="isConnected"
+></app-header>
 <div class="info" *ngIf="isConnected">
-    <h2>You are connected !</h2>
+  <h2>You are connected !</h2>
 </div>
 <div class="main-container" *ngIf="isConnected">
-    <div class="container">
-        <div class="content">
-            <div class="btn-container">
-                <a *ngIf="isModifying" (click)="onModify()" title="modify" class="active">Modify Account</a>
-                <a *ngIf="!isModifying" (click)="onModify()" title="modify" class="unactive">Modify Account</a>
-                <a *ngIf="isModifying" (click)="onDelete()" title="delete" class="unactive">Delete Account</a>
-                <a *ngIf="!isModifying" (click)="onDelete()" title="delete" class="active">Delete Account</a>
-            </div>
-            <app-account-modify *ngIf="isModifying"></app-account-modify>
-            <app-account-delete *ngIf="!isModifying"></app-account-delete>
-        </div>
+  <div class="container">
+    <div class="content">
+      <div class="btn-container">
+        <a
+          *ngIf="isModifying"
+          (click)="onModify()"
+          title="modify"
+          class="active"
+          >Modify Account</a
+        >
+        <a
+          *ngIf="!isModifying"
+          (click)="onModify()"
+          title="modify"
+          class="unactive"
+          >Modify Account</a
+        >
+        <a
+          *ngIf="isModifying"
+          (click)="onDelete()"
+          title="delete"
+          class="unactive"
+          >Delete Account</a
+        >
+        <a
+          *ngIf="!isModifying"
+          (click)="onDelete()"
+          title="delete"
+          class="active"
+          >Delete Account</a
+        >
+      </div>
+      <app-account-modify *ngIf="isModifying"></app-account-modify>
+      <app-account-delete *ngIf="!isModifying"></app-account-delete>
     </div>
-    <div class="btn-container-objects">
-        <a *ngIf="isModifyingObjects" (click)="onObjectModify()" title="modify" class="active">Modify Mode</a>
-        <a *ngIf="!isModifyingObjects" (click)="onObjectModify()" title="modify" class="unactive">Modify Mode</a>
-        <a *ngIf="isSeeingObjects" (click)="onObject()" title="objects" class="active">Your Objects</a>
-        <a *ngIf="!isSeeingObjects" (click)="onObject()" title="objects" class="unactive">Your Objects</a>
-        <a *ngIf="isAddingObjects" (click)="onObjectAdd()" title="add" class="active">Add Mode</a>
-        <a *ngIf="!isAddingObjects" (click)="onObjectAdd()" title="add" class="unactive">Add Mode</a>
-    </div>
+  </div>
+  <div class="btn-container-objects">
+    <a
+      *ngIf="isModifyingObjects"
+      (click)="onObjectModify()"
+      title="modify"
+      class="active"
+      >Modify Mode</a
+    >
+    <a
+      *ngIf="!isModifyingObjects"
+      (click)="onObjectModify()"
+      title="modify"
+      class="unactive"
+      >Modify Mode</a
+    >
+    <a
+      *ngIf="isSeeingObjects"
+      (click)="onObject()"
+      title="objects"
+      class="active"
+      >Your Objects</a
+    >
+    <a
+      *ngIf="!isSeeingObjects"
+      (click)="onObject()"
+      title="objects"
+      class="unactive"
+      >Your Objects</a
+    >
+    <a
+      *ngIf="isAddingObjects"
+      (click)="onObjectAdd()"
+      title="add"
+      class="active"
+      >Add Mode</a
+    >
+    <a
+      *ngIf="!isAddingObjects"
+      (click)="onObjectAdd()"
+      title="add"
+      class="unactive"
+      >Add Mode</a
+    >
+  </div>
 </div>
-<app-user-objects-modify *ngIf="isModifyingObjects && isConnected"></app-user-objects-modify>
+<app-user-objects-modify
+  *ngIf="isModifyingObjects && isConnected"
+></app-user-objects-modify>
 <app-user-objects *ngIf="isSeeingObjects && isConnected"></app-user-objects>
-<app-user-objects-add *ngIf="isAddingObjects && isConnected"></app-user-objects-add>
+<app-user-objects-add
+  *ngIf="isAddingObjects && isConnected"
+></app-user-objects-add>

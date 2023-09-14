@@ -6,8 +6,6 @@ import { AdminObjectsModule } from './admin.objects/admin.objects.module';
 import { AdminMessagesModule } from './admin.messages/admin.messages.module';
 import { HeaderModule } from '../header/header.module';
 
-
-
 @NgModule({
   declarations: [AdminComponent],
   imports: [
@@ -15,8 +13,8 @@ import { HeaderModule } from '../header/header.module';
     AdminUsersModule,
     AdminObjectsModule,
     AdminMessagesModule,
-    HeaderModule
+    HeaderModule,
   ],
-  exports : [AdminComponent]
+  exports: [AdminComponent],
 })
-export class AdminModule { }
+export class AdminModule {}

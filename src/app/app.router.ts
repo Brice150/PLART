@@ -6,16 +6,15 @@ import { MessagesComponent } from './messages/messages.component';
 import { ObjectsComponent } from './objects/objects.component';
 import { UserComponent } from './user/user.component';
 
-
 const routes: Routes = [
-    {path: 'home', component: HomeComponent},
-    {path: 'objects', component: ObjectsComponent},
-    {path: 'user', component: UserComponent},
-    {path: 'messages', component: MessagesComponent},
-    {path: 'admin', component: AdminComponent},
-    {path: 'connect', component: ConnectComponent},
-    {path: 'logout', component: ConnectComponent},
-    {path: '', redirectTo: '/home', pathMatch: 'full'},
-  ];
+  { path: 'home', component: HomeComponent },
+  { path: 'objects', component: ObjectsComponent },
+  { path: 'user', component: UserComponent },
+  { path: 'messages', component: MessagesComponent },
+  { path: 'admin', component: AdminComponent },
+  { path: 'connect', component: ConnectComponent },
+  { path: 'logout', component: ConnectComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+];
 
-export const appRouter = RouterModule.forRoot(routes)
+export const appRouter = RouterModule.forRoot(routes);
