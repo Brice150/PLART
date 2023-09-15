@@ -13,6 +13,9 @@ export class SliderComponent {
   @Input() texts!: string[];
 
   config: SwiperOptions = {
+    mousewheel: {},
+    keyboard: {},
+    grabCursor: true,
     autoplay: {
       delay: 4000,
       disableOnInteraction: false,
@@ -22,6 +25,7 @@ export class SliderComponent {
     pagination: {
       el: '.swiper-pagination',
       clickable: true,
+      dynamicBullets: true,
     },
     navigation: {
       nextEl: '.swiper-button-next',
