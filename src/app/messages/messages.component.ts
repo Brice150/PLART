@@ -188,6 +188,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
       .deleteMessage(messageId)
       .subscribe({
         next: (response: void) => {
+          this.unmodifyMessage();
           this.getMessages();
         },
         error: (error: HttpErrorResponse) => {
