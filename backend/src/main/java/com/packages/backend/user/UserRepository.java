@@ -33,6 +33,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query("DELETE FROM User u WHERE u.email = :email")
   void deleteUserByEmail(@Param("email") String email);
 
-  @Query("SELECT m FROM Message m WHERE m.fkSender.id = :fkUser OR m.fkReceiver.id = :fkUser")
+  @Query("SELECT m FROM Message m WHERE m.fkSender.id = :fkUser")
   List<Message> findAllMessagesByFk(@Param("fkUser") Long fkUser);
 }

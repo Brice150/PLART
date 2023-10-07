@@ -14,8 +14,7 @@ public class UserDTOMapper implements Function<User, UserDTO> {
       user.getEmail(),
       user.getUserRole(),
       user.getObjects(),
-      user.getMessagesSent(),
-      user.getMessagesReceived()
+      user.getMessagesSent()
     );
   }
 }

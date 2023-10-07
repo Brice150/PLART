@@ -19,18 +19,14 @@ public class Message implements Serializable {
   @ManyToOne(optional = false)
   @JsonBackReference(value = "messagesSent")
   private User fkSender;
-  @ManyToOne(optional = false)
-  @JsonBackReference(value = "messagesReceived")
-  private User fkReceiver;
 
   public Message() {
   }
 
-  public Message(String content, Date date, User fkSender, User fkReceiver) {
+  public Message(String content, Date date, User fkSender) {
     this.content = content;
     this.date = date;
     this.fkSender = fkSender;
-    this.fkReceiver = fkReceiver;
   }
 
   public Long getId() {
@@ -63,14 +59,6 @@ public class Message implements Serializable {
 
   public void setFkSender(User fkSender) {
     this.fkSender = fkSender;
-  }
-
-  public User getFkReceiver() {
-    return fkReceiver;
-  }
-
-  public void setFkReceiver(User fkReceiver) {
-    this.fkReceiver = fkReceiver;
   }
 }
 

@@ -11,23 +11,15 @@ export class MessageService {
 
   constructor(private http: HttpClient) {}
 
-  public getAllUserMessages(fkUser: number): Observable<Message[]> {
-    return this.http.get<Message[]>(
-      `${this.apiServerUrl}/message/all/${fkUser}`,
-      { withCredentials: true }
-    );
+  public getAllMessages(): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.apiServerUrl}/message/all`, {
+      withCredentials: true,
+    });
   }
 
   public getMessageSender(messageId: number): Observable<User> {
     return this.http.get<User>(
       `${this.apiServerUrl}/message/sender/${messageId}`,
-      { withCredentials: true }
-    );
-  }
-
-  public getUserMessagesNumber(fkUser: number): Observable<number> {
-    return this.http.get<number>(
-      `${this.apiServerUrl}/message/all/number/${fkUser}`,
       { withCredentials: true }
     );
   }

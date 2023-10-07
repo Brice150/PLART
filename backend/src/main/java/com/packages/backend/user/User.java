@@ -32,9 +32,6 @@ public class User implements UserDetails {
   @OneToMany(mappedBy = "fkSender", cascade = CascadeType.ALL)
   @JsonManagedReference(value = "messagesSent")
   private List<Message> messagesSent;
-  @OneToMany(mappedBy = "fkReceiver", cascade = CascadeType.ALL)
-  @JsonManagedReference(value = "messagesReceived")
-  private List<Message> messagesReceived;
 
   public User() {
   }
@@ -132,13 +129,5 @@ public class User implements UserDetails {
 
   public void setMessagesSent(List<Message> messagesSent) {
     this.messagesSent = messagesSent;
-  }
-
-  public List<Message> getMessagesReceived() {
-    return messagesReceived;
-  }
-
-  public void setMessagesReceived(List<Message> messagesReceived) {
-    this.messagesReceived = messagesReceived;
   }
 }

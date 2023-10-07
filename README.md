@@ -39,8 +39,8 @@ Backend : Spring Boot
 ### Messages
 
 - Login needed to view this page
-- Search user
-- See messages and messages number per user
+- Search messages content or sender
+- See messages
 - Send, modify or delete a message
 
 ### Admin

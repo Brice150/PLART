@@ -18,13 +18,11 @@ import { Subscription } from 'rxjs/internal/Subscription';
 export class MessagesComponent implements OnInit, OnDestroy {
   isConnected!: boolean;
   loggedInUser!: User | null;
-  users: User[] = [];
   messages: Message[] = [];
-  selectedUser!: User | null;
   messageForm!: FormGroup;
   isModifying: boolean = false;
   updatedMessage!: Message | null;
-  getUsersSubscription!: Subscription;
+  getMessagesSubscription!: Subscription;
   getLoggedInUserSubscription!: Subscription;
   sendMessageSubscription!: Subscription;
   updateMessageSubscription!: Subscription;
@@ -60,11 +58,11 @@ export class MessagesComponent implements OnInit, OnDestroy {
     }
 
     this.getLoggedInUser();
-    this.getUsers();
+    this.getMessages();
   }
 
   ngOnDestroy() {
-    this.getUsersSubscription && this.getUsersSubscription.unsubscribe();
+    this.getMessagesSubscription && this.getMessagesSubscription.unsubscribe();
     this.getLoggedInUserSubscription &&
       this.getLoggedInUserSubscription.unsubscribe();
     this.sendMessageSubscription && this.sendMessageSubscription.unsubscribe();
@@ -80,51 +78,15 @@ export class MessagesComponent implements OnInit, OnDestroy {
       this.getMessageSenderSubscription.unsubscribe();
   }
 
-  getUsers() {
-    this.getUsersSubscription = this.userService.getAllUsers().subscribe({
-      next: (response: User[]) => {
-        this.users = response;
-        if (this.users.length !== 0 && !this.selectedUser) {
-          this.selectedUser = this.users[0];
-        }
-        this.getSelectedUserMessages(this.selectedUser!);
-        for (let user of this.users) {
-          this.getUserMessagesNumber(user);
-        }
-      },
-      error: (error: HttpErrorResponse) => {
-        this.toastr.error(error.message, 'Server error', {
-          positionClass: 'toast-bottom-center',
-        });
-      },
-    });
-  }
-
-  getUserMessagesNumber(user: User) {
-    this.getUserMessagesNumberSubscription = this.messageService
-      .getUserMessagesNumber(user.id)
-      .subscribe({
-        next: (response: number) => {
-          user.messagesNumber = response;
-        },
-        error: (error: HttpErrorResponse) => {
-          this.toastr.error(error.message, 'Server error', {
-            positionClass: 'toast-bottom-center',
-          });
-        },
-      });
-  }
-
-  getSelectedUserMessages(user: User) {
-    this.getSelectedUserMessagesSubscription = this.messageService
-      .getAllUserMessages(user.id)
+  getMessages() {
+    this.getMessagesSubscription = this.messageService
+      .getAllMessages()
       .subscribe({
         next: (response: Message[]) => {
           this.messages = response;
           for (let message of this.messages) {
             this.getMessageSender(message);
           }
-          this.selectedUser = user;
         },
         error: (error: HttpErrorResponse) => {
           this.toastr.error(error.message, 'Server error', {
@@ -164,25 +126,14 @@ export class MessagesComponent implements OnInit, OnDestroy {
       });
   }
 
-  isToday(message: Message): boolean {
-    let today: Date = new Date();
-    let messageDate: Date = new Date(message.date);
-    let isToday: boolean =
-      messageDate.getFullYear() === today.getFullYear() &&
-      messageDate.getMonth() === today.getMonth() &&
-      messageDate.getDate() === today.getDate();
-    return isToday;
-  }
-
   sendMessage(message: Message) {
-    message.fkReceiver = { id: this.selectedUser?.id };
     message.fkSender = { id: this.loggedInUser?.id };
     this.sendMessageSubscription = this.messageService
       .addMessage(message)
       .subscribe({
         next: (response: Message) => {
           this.messageForm.get('content')?.reset();
-          this.getUsers();
+          this.getMessages();
         },
         error: (error: HttpErrorResponse) => {
           this.toastr.error(error.message, 'Server error', {
@@ -210,7 +161,6 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
   updateMessage(message: Message) {
     message.id = this.updatedMessage?.id!;
-    message.fkReceiver = { id: this.selectedUser?.id };
     message.fkSender = { id: this.loggedInUser?.id };
     message.date = this.updatedMessage?.date!;
     this.updateMessageSubscription = this.messageService
@@ -218,7 +168,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response: Message) => {
           this.unmodifyMessage();
-          this.getUsers();
+          this.getMessages();
         },
         error: (error: HttpErrorResponse) => {
           this.toastr.error(error.message, 'Server error', {
@@ -233,12 +183,12 @@ export class MessagesComponent implements OnInit, OnDestroy {
       });
   }
 
-  deleteMessage(message: Message) {
+  deleteMessage(messageId: number) {
     this.deleteMessageSubscription = this.messageService
-      .deleteMessage(message.id)
+      .deleteMessage(messageId)
       .subscribe({
         next: (response: void) => {
-          this.getUsers();
+          this.getMessages();
         },
         error: (error: HttpErrorResponse) => {
           this.toastr.error(error.message, 'Server error', {
@@ -253,30 +203,29 @@ export class MessagesComponent implements OnInit, OnDestroy {
       });
   }
 
-  openDialog(message: Message) {
+  openDialog(messageId: number) {
     const dialogRef = this.dialog.open(DialogComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.deleteMessage(message);
+        this.deleteMessage(messageId);
       }
     });
   }
 
   search(key: string) {
-    const results: User[] = [];
-    for (const user of this.users) {
+    const results: Message[] = [];
+    for (const message of this.messages) {
       if (
-        user.nickname?.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
-        user.email?.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
-        user.userRole?.toLowerCase().indexOf(key.toLowerCase()) !== -1
+        message.sender?.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
+        message.content?.toLowerCase().indexOf(key.toLowerCase()) !== -1
       ) {
-        results.push(user);
+        results.push(message);
       }
     }
-    this.users = results;
+    this.messages = results;
     if (results.length === 0 || !key) {
-      this.getUsers();
+      this.getMessages();
     }
   }
 }

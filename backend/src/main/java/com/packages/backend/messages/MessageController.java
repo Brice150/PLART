@@ -19,20 +19,15 @@ public class MessageController {
     this.messageService = messageService;
   }
 
-  @GetMapping("/all/{fkUser}")
-  public ResponseEntity<List<Message>> getAllUserMessages(@PathVariable("fkUser") Long fkUser) {
-    return new ResponseEntity<>(messageService.findAllMessagesByFk(fkUser), HttpStatus.OK);
+  @GetMapping("/all")
+  public ResponseEntity<List<Message>> getAllMessages() {
+    return new ResponseEntity<>(messageService.findAllMessages(), HttpStatus.OK);
   }
 
   @GetMapping("/sender/{id}")
   public ResponseEntity<RestrictedUserDTO> getMessageSender(@PathVariable("id") Long id) {
     Optional<RestrictedUserDTO> messageSender = messageService.findMessageSender(id);
     return messageSender.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.FORBIDDEN));
-  }
-
-  @GetMapping("/all/number/{fkUser}")
-  public ResponseEntity<Integer> getUserMessagesNumber(@PathVariable("fkUser") Long fkUser) {
-    return new ResponseEntity<>(messageService.findUserMessagesNumber(fkUser), HttpStatus.OK);
   }
 
   @PostMapping()

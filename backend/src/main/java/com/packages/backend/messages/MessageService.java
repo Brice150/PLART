@@ -25,8 +25,7 @@ public class MessageService {
 
   public Optional<Message> addMessage(Message message) {
     User connectedUser = userService.findConnectedUser();
-    if (connectedUser.getId().equals(message.getFkSender().getId())
-      && !connectedUser.getId().equals(message.getFkReceiver().getId())) {
+    if (connectedUser.getId().equals(message.getFkSender().getId())) {
       message.setDate(new Date());
       Message newMessage = messageRepository.save(message);
       return Optional.of(newMessage);
@@ -36,24 +35,13 @@ public class MessageService {
   }
 
   public Optional<RestrictedUserDTO> findMessageSender(Long id) {
-    User connectedUser = userService.findConnectedUser();
     Message message = findMessageById(id);
-    if (!Objects.equals(message.getFkSender().getId(), connectedUser.getId())
-      && !Objects.equals(message.getFkReceiver().getId(), connectedUser.getId())) {
-      return Optional.empty();
-    }
     User messageSender = message.getFkSender();
     return Optional.of(messageSender).map(restrictedUserDTOMapper);
   }
 
-  public Integer findUserMessagesNumber(Long fkUser) {
-    User connectedUser = userService.findConnectedUser();
-    return messageRepository.findUserMessagesNumber(fkUser, connectedUser.getId());
-  }
-
-  public List<Message> findAllMessagesByFk(Long fkUser) {
-    User connectedUser = userService.findConnectedUser();
-    List<Message> messages = messageRepository.findAllMessagesByFk(fkUser, connectedUser.getId());
+  public List<Message> findAllMessages() {
+    List<Message> messages = messageRepository.findAll();
     Comparator<Message> messagesSort = Comparator
       .comparing(Message::getDate, Date::compareTo);
     messages.sort(messagesSort);

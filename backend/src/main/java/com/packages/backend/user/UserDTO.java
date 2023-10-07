@@ -11,7 +11,6 @@ public record UserDTO(
   String email,
   UserRole userRole,
   List<Object> objects,
-  List<Message> messagesSent,
-  List<Message> messagesReceived
+  List<Message> messagesSent
 ) {
 }
