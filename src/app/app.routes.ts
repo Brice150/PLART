@@ -1,12 +1,11 @@
 import { RouterModule, Routes } from '@angular/router';
+import { AdminComponent } from './admin/admin.component';
 import { ConnectComponent } from './connect/connect.component';
-import { HomeComponent } from './home/home.component';
-import { ErrorPathComponent } from './error-path/error-path.component';
 import { AuthGuard } from './core/auth.guard';
+import { HomeComponent } from './home/home.component';
+import { MessagesComponent } from './messages/messages.component';
 import { ObjectsComponent } from './objects/objects.component';
 import { UserComponent } from './user/user.component';
-import { MessagesComponent } from './messages/messages.component';
-import { AdminComponent } from './admin/admin.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -29,7 +28,7 @@ const routes: Routes = [
   { path: 'connect', component: ConnectComponent },
   { path: 'logout', component: ConnectComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', component: ErrorPathComponent },
+  { path: '**', component: HomeComponent },
 ];
 
 export const appRouter = RouterModule.forRoot(routes);

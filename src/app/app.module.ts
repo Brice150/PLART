@@ -1,18 +1,17 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { appRouter } from './app.routes';
-import { UserModule } from './user/user.module';
-import { ObjectsModule } from './objects/objects.module';
-import { MessagesModule } from './messages/messages.module';
-import { HomeModule } from './home/home.module';
-import { ConnectModule } from './connect/connect.module';
-import { AdminModule } from './admin/admin.module';
-import { ToastrModule } from 'ngx-toastr';
+import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ErrorPathComponent } from './error-path/error-path.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { AdminModule } from './admin/admin.module';
+import { AppComponent } from './app.component';
+import { appRouter } from './app.routes';
+import { ConnectModule } from './connect/connect.module';
+import { HomeModule } from './home/home.module';
+import { MessagesModule } from './messages/messages.module';
+import { ObjectsModule } from './objects/objects.module';
+import { UserModule } from './user/user.module';
 
 @NgModule({
   imports: [
@@ -29,7 +28,7 @@ import { ErrorPathComponent } from './error-path/error-path.component';
     MatDialogModule,
     ToastrModule.forRoot(),
   ],
-  declarations: [AppComponent, ErrorPathComponent],
+  declarations: [AppComponent],
   bootstrap: [AppComponent],
   providers: [],
 })
