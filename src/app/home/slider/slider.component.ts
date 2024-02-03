@@ -13,9 +13,9 @@ export class SliderComponent {
   @Input() texts!: string[];
 
   config: SwiperOptions = {
-    mousewheel: {},
-    keyboard: {},
-    grabCursor: true,
+    mousewheel: true,
+    keyboard: true,
+    simulateTouch: false,
     autoplay: {
       delay: 4000,
       disableOnInteraction: false,
