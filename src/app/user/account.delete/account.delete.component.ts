@@ -51,23 +51,21 @@ export class AccountDeleteComponent implements OnDestroy, OnInit {
   }
 
   deleteUser() {
-    this.deleteUserSubscription = this.userService
-      .deleteUser(this.loggedInUser.email)
-      .subscribe({
-        next: (response: void) => {
-          this.logout();
-        },
-        error: (error: HttpErrorResponse) => {
-          this.toastr.error(error.message, 'Server error', {
-            positionClass: 'toast-bottom-center',
-          });
-        },
-        complete: () => {
-          this.toastr.success('Account deleted', 'User', {
-            positionClass: 'toast-bottom-center',
-          });
-        },
-      });
+    this.deleteUserSubscription = this.userService.deleteUser().subscribe({
+      next: (response: void) => {
+        this.logout();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toastr.error(error.message, 'Server error', {
+          positionClass: 'toast-bottom-center',
+        });
+      },
+      complete: () => {
+        this.toastr.success('Account deleted', 'User', {
+          positionClass: 'toast-bottom-center',
+        });
+      },
+    });
   }
 
   logout() {
